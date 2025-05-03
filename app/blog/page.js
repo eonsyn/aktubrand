@@ -5,11 +5,12 @@ import Link from 'next/link';
 async function Page() {
   const res = await fetch(`${process.env.HOST_URL}/api/blog/save-article`, {
     method: 'GET',
-    cache: 'no-store',
+    next: { revalidate: 60 },
   });
 
   const data = await res.json();
   const articles = data.articles || [];
+  console.log(data);
 
   return (
     <div className="min-h-screen px-6 py-8  ">

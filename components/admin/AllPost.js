@@ -3,12 +3,14 @@ import React from 'react';
 import Link from 'next/link';
 
 async function AllPost() {
-  const res = await fetch('http://localhost:3000/api/blog/save-article', {
+  const res = await fetch(`${process.env.HOST_URL}/api/blog/save-article`, {
     method: 'GET',
-    cache: 'no-store',
+    next: { revalidate: 60 },
   });
 
+
   const data = await res.json();
+  
   const articles = data.articles || [];
 
   return (
