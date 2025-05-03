@@ -2,7 +2,7 @@
 
 export default function ResourceInfo() {
   return (
-    <section className="bg-gradient-to-br from-yellow-50 to-orange-100 p-8 rounded-3xl shadow-2xl my-12">
+    <section className="  p-8 rounded-3xl  my-12">
       <div className="text-center mb-8">
         <h2 className="text-4xl font-extrabold text-amber-700">📚 What You'll Find Here</h2>
         <p className="text-lg text-gray-700 mt-2 max-w-2xl mx-auto">
