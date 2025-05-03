@@ -60,7 +60,10 @@ export default async function BlogPage({ params }) {
   const res = await fetch(`${process.env.HOST_URL}/api/blog/${slug}`, {
     next: { revalidate: 60 }, // ✅ Enable ISR, revalidate every 60 seconds
   });
-  if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+  if (!res.ok) {
+    console.error(`Fetch failed: ${res.status}`);
+    return <div>Article not found</div>; // or return nothing
+  }
   const post = await res.json();
   const article = post.article;
   if (!article) {

@@ -7,7 +7,10 @@ async function Page() {
     method: 'GET',
     next: { revalidate: 60 },
   });
-  if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+  if (!res.ok) {
+    console.error(`Fetch failed: ${res.status}`);
+    return <div>Article not found</div>; // or return nothing
+  }
   const data = await res.json();
   const articles = data.articles || [];
   
