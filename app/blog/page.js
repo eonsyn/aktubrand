@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 
 async function Page() {
-  const res = await fetch('http://localhost:3000/api/blog/save-article', {
+  const res = await fetch(`${process.env.HOST_URL}/api/blog/save-article`, {
     method: 'GET',
     cache: 'no-store',
   });

@@ -21,7 +21,7 @@ const [tags, settags] = useState([]);
         const fetchArticle = async () => {
             const { slug } = await params;
           try {
-            const res = await fetch(`http://localhost:3000/api/blog/${slug}`);
+            const res = await fetch(`${process.env.HOST_URL}/api/blog/${slug}`);
             const post = await res.json();
       
             const article = post.article;
