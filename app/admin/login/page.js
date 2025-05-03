@@ -20,7 +20,8 @@ export default function LoginPage() {
 
     if (res.ok) {
       toast.success('Login successful');
-      router.push('/admin/dashboard');
+      window.location.href = '/admin/dashboard';
+
     }
     else setError('Invalid login');
   };
