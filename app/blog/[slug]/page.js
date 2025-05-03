@@ -1,10 +1,58 @@
 // app/blog/[slug]/page.jsx
 export async function generateMetadata({ params }) {
-  const { slug } = await params; // ✅ required
-  const formattedTitle = slug.replaceAll('-', ' ');
-  return {
-    title: `${formattedTitle || 'Blog'} | aktu brand`,
-  };
+  const { slug } = params;
+
+  try {
+    const res = await fetch(`https://aktubrand.vercel.app/api/blog/${slug}`, {
+      next: { revalidate: 60 * 60 * 10 },
+    });
+
+    const { article } = await res.json();
+
+    if (!article) {
+      return {
+        title: 'Blog Not Found | aktu brand',
+        description: 'This blog post does not exist or has been removed.',
+      };
+    }
+
+    const formattedTitle = article.title || slug.replaceAll('-', ' ');
+    const description =
+      article.content?.find((b) => b.type === 'paragraph')?.value.slice(0, 160) || 
+      'Read the latest article on aktu brand.';
+    const image = article.thumbnailUrl || 'https://aktubrand.vercel.app/default-thumbnail.jpg';
+
+    return {
+      title: `${formattedTitle} | aktu brand`,
+      description,
+      openGraph: {
+        title: `${formattedTitle} | aktu brand`,
+        description,
+        url: `https://aktubrand.vercel.app/blog/${slug}`,
+        images: [
+          {
+            url: image,
+            width: 1200,
+            height: 630,
+            alt: formattedTitle,
+          },
+        ],
+        type: 'article',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${formattedTitle} | aktu brand`,
+        description,
+        images: [image],
+      },
+    };
+  } catch (error) {
+    console.error('Metadata generation error:', error);
+    return {
+      title: 'Blog | aktu brand',
+      description: 'Read the latest blog posts on aktu brand.',
+    };
+  }
 }
 
 export default async function BlogPage({ params }) {

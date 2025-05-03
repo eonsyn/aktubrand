@@ -65,3 +65,33 @@ export async function PUT(req) {
     return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 });
   }
 }
+
+export async function DELETE(req) {
+  try {
+    await connectDB();
+    const { _id } = await req.json(); // expects a JSON body with _id
+
+    if (!_id) {
+      return NextResponse.json({ success: false, message: 'Article ID is required' }, { status: 400 });
+    }
+
+    const deleted = await Article.findByIdAndDelete(_id);
+
+    if (!deleted) {
+      return NextResponse.json({ success: false, message: 'Article not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, message: 'Article deleted successfully' }, { status: 200 });
+  } catch (error) {
+    console.error('Delete Article Error:', error);
+    return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 });
+  }
+}
+
+
+
+
+
+
+
+

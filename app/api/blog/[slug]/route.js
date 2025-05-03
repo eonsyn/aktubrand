@@ -7,7 +7,7 @@ export async function GET(req, context) {
   const { slug } = await params; // ✅ Proper way
 
   await connectDB();
-  console.log(slug);
+   
   const article = await Article.findOne({ slug });
 
   if (!article) {

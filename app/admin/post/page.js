@@ -2,9 +2,14 @@
 import { useEffect, useRef, useState } from 'react';
 import BlockEditor from '@/components/blog/BlockEditor';
 import BlockRenderer from '@/components/blog/BlockRenderer';
+import SubmitPopup from '@/components/admin/SubmitPopup';
 const emptyBlock = [{ type: 'paragraph', value: '', level: 1, items: [] }];
 
 function Page() {
+    const [showPopup, setShowPopup] = useState(false);
+const [thumbnailUrl, setThumbnailUrl] = useState('');
+const [tags, setTags] = useState([]);
+
     const [title, setTitle] = useState('');
     const [blocks, setBlocks] = useState([...emptyBlock]);
     const [editIndex, setEditIndex] = useState(null);
@@ -15,7 +20,7 @@ function Page() {
  
 
     useEffect(() => {
-        console.log(blocks)
+        
         isOpenRef.current = isopitonOpen;
     }, [isopitonOpen]);
 
@@ -82,35 +87,47 @@ function Page() {
     
       
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         if (!title.trim() || blocks.length === 0) {
             alert('Title and content cannot be empty!');
             return;
         }
+    
+        const firstImageBlock = blocks.find(block => block.type === 'image' && block.value);
+        if (firstImageBlock) {
+            setThumbnailUrl(firstImageBlock.value);
+        }
+    
+        setShowPopup(true); // Show metadata modal
+    };
+    
+    
+    const submitWithMetadata = async () => {
         const cleanedBlocks = blocks.filter(block => {
             if (!block.value || block.value.trim() === '') return false;
             if (block.type === 'list' && (!block.items || block.items.length === 0)) return false;
             return true;
         });
-
+    
         if (cleanedBlocks.length === 0) {
             alert('All content blocks are empty or invalid!');
             return;
         }
-
+    
         const payload = {
             title,
-            slug: title.toLowerCase().replace(/ /g, '-'),
+            slug: title.trim().toLowerCase().replace(/\s+/g, '-'),
             author: 'Admin',
-            tags: [],
-            thumbnailUrl: '',
-            content: cleanedBlocks,
+            tags,
 
+
+            thumbnailUrl,
+            content: cleanedBlocks,
             createdAt: new Date(),
             updatedAt: new Date(),
             isPublished: false,
         };
-
+    
         try {
             const res = await fetch('/api/blog/save-article', {
                 method: 'POST',
@@ -119,11 +136,12 @@ function Page() {
                 },
                 body: JSON.stringify(payload),
             });
-
+    
             const result = await res.json();
-
+    
             if (result.success) {
                 alert('Article saved successfully!');
+                setShowPopup(false); // close popup
             } else {
                 alert('Failed to save article.');
             }
@@ -132,11 +150,21 @@ function Page() {
             alert('Error submitting article.');
         }
     };
-
+    
 
     return (
         <div className="max-w-3xl min-h-screen mx-auto px-4 py-6">
-
+  {showPopup && (
+        <SubmitPopup
+        show={showPopup}
+        onClose={() => setShowPopup(false)}
+        onSubmit={submitWithMetadata} 
+        thumbnailUrl={thumbnailUrl}
+        setThumbnailUrl={setThumbnailUrl}
+        tags={tags}
+        setTags={setTags}
+      />
+      )}
             <input
                 className="text-4xl font-bold w-full mb-6 outline-none"
                 placeholder="Enter title..."

@@ -1,44 +1,89 @@
-// app/blogs/page.jsx
-import React from 'react';
+"use client";
+
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { FaRegEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { toast } from 'react-toastify';
 
-async function AllPost() {
-  const res = await fetch(`${process.env.HOST_URL}/api/blog/save-article`, {
-    method: 'GET',
-    next: { revalidate: 60 },
-  });
+function AllPost() {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch articles
+  const fetchArticles = async () => {
+    setLoading(true);
+    const res = await fetch('/api/blog/save-article', {
+      method: 'GET',
+      cache: 'no-store'
+    });
+    const data = await res.json();
+    setArticles(data.articles || []);
+    setLoading(false);
+  };
 
-  const data = await res.json();
+  // On component mount
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  // Delete handler
+  const deleteArticle = async (_id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this article?");
+    if (!confirmed) return;
   
-  const articles = data.articles || [];
-
+    const res = await fetch('/api/blog/save-article', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ _id }),
+    });
+  
+    const result = await res.json();
+    if (result.success) {
+      toast.success('Article deleted');
+      setArticles((prevArticles) =>
+        prevArticles.filter((article) => article._id !== _id)
+      );
+    } else {
+      toast.error(`Delete failed: ${result.message}`);
+    }
+  };
+  
   return (
-    <div className="min-h-screen px-6   ">
-      
-      {articles.length > 0 ? (
+    <div className="min-h-screen px-6">
+      {loading ? (
+        <p className="text-center text-gray-500">Loading...</p>
+      ) : articles.length > 0 ? (
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article,idx) => (
-            <Link key={idx} href={`/admin/edit-article/${article.slug}`}>
-              <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-                {article.thumbnailUrl && (
-                  <img
-                    src={article.thumbnailUrl}
-                    alt={article.title}
-                    className="h-48 w-full object-cover"
-                  />
-                )}
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold text-gray-800">{article.title}</h2>
-                  <p className="text-gray-600 text-sm mt-1 mb-2 line-clamp-2">
-                    {article.tags?.slice(0, 3).join(', ')}
-                  </p>
-                  <span className="text-xs text-gray-400">
-                    {new Date(article.createdAt).toLocaleDateString()}
+          {articles.map((article) => (
+            <div key={article._id} className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+              {article.thumbnailUrl && (
+                <img
+                  src={article.thumbnailUrl}
+                  alt={article.title}
+                  className="h-48 w-full object-cover"
+                />
+              )}
+              <div className="p-4">
+                <h2 className="text-xl font-semibold text-gray-800">{article.title}</h2>
+                <p className="text-gray-600 text-sm mt-1 mb-2 line-clamp-2">
+                  {article.tags?.slice(0, 3).join(', ')}
+                </p>
+                <span className="text-xs text-gray-400">
+                  {new Date(article.createdAt).toLocaleDateString()}
+                </span>
+                <div className='flex items-center w-full justify-between mt-2'>
+                  <Link href={`/admin/edit-article/${article.slug}`}>
+                    <span className="text-blue-600 hover:underline"><FaRegEdit /></span>
+                  </Link>
+                  <span onClick={() => deleteArticle(article._id)} className="text-red-600 cursor-pointer">
+                    <MdDelete />
                   </span>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       ) : (

@@ -10,7 +10,7 @@ async function Page() {
 
   const data = await res.json();
   const articles = data.articles || [];
-  console.log(data);
+  
 
   return (
     <div className="min-h-screen px-6 py-8  ">
