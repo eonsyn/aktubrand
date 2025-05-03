@@ -58,7 +58,7 @@ export async function generateMetadata({ params }) {
 export default async function BlogPage({ params }) {
   const { slug } = await params; // ✅ required
   const res = await fetch(`${process.env.HOST_URL}/api/blog/${slug}`, {
-    next: { revalidate: 60*60*10 }, // ✅ Enable ISR, revalidate every 60 seconds
+    next: { revalidate: 60 }, // ✅ Enable ISR, revalidate every 60 seconds
   });
 
   const post = await res.json();
