@@ -1,7 +1,7 @@
 import SubjectCard from '@/components/cards/SubjectCard';
 import connectDB from '@/utils/db';
 import Subject from '@/models/Subject';
-
+import ResourceInfo from '@/components/seo/ResourceInfo';
 // Static params for branches (CSE, Mechanical, etc.)
 export async function generateStaticParams() {
   const branches = [
@@ -29,7 +29,7 @@ export default async function BranchPage({ params, searchParams }) {
   }
 
   // Fetch subjects based on query (branch + search term)
-  const subjects = await Subject.find(query).limit(20); // Adjust limit as needed
+  const subjects = await Subject.find(query).limit(20).lean(); // Adjust limit as needed
 
   return (
     <div className="p-6">
@@ -52,6 +52,15 @@ export default async function BranchPage({ params, searchParams }) {
           <SubjectCard key={index} subject={subject} index={index} />
         ))}
       </div>
+      <ResourceInfo/>
     </div>
   );
+}
+
+//metadata
+export async function generateMetadata() {
+  
+  return {
+    title: " cse and mech quantum",
+  };
 }

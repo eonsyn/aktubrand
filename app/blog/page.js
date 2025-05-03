@@ -7,7 +7,7 @@ async function Page() {
     method: 'GET',
     next: { revalidate: 60 },
   });
-
+  if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
   const data = await res.json();
   const articles = data.articles || [];
   
