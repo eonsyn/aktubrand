@@ -1,5 +1,7 @@
 // app/sitemap.js
 
+export const dynamic = 'force-dynamic'; // ⬅️ Add this line
+
 import connectDB from '@/utils/db';
 import Article from '@/models/Article';
 
