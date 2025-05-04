@@ -3,60 +3,116 @@ import connectDB from '@/utils/db';
 import Subject from '@/models/Subject';
 import ResourceInfo from '@/components/seo/ResourceInfo';
 import SecondYearQuantum from '@/components/seo/SecondYearQuantum';
+import Link from 'next/link';
+
 // Static params for branches (CSE, Mechanical, etc.)
 export async function generateStaticParams() {
   const branches = [
     { id: "cse" },
     { id: "mechanical" },
   ];
-  
+
   return branches.map((branch) => ({
     slug: branch.id.toString(),
   }));
 }
 
-// Fetch subjects data inside the component for static generation
 export default async function BranchPage({ params, searchParams }) {
-  const { slug } = params; // Get branch name from URL
-  const search = searchParams?.search || ''; // Get search term from query params
+  const { slug } = params;
+  const search = searchParams?.search || '';
+  const filter = searchParams?.filter || 'both';
 
   await connectDB();
 
-  // Build query with branch filtering and optional search term
   let query = { branch: new RegExp(`^${slug}$`, 'i') };
 
   if (search) {
-    query.subjectName = new RegExp(search, 'i'); // Case-insensitive search
+    query.subjectName = new RegExp(search, 'i');
   }
 
-  // Fetch subjects based on query (branch + search term)
-  const subjects = await Subject.find(query).limit(20).lean(); // Adjust limit as needed
+  // Apply filter for type
+  if (filter !== 'both') {
+    query.type = filter;
+  }
+
+  const subjects = await Subject.find(query).limit(20).lean();
+
+  const getFilterLink = (type) => {
+    const queryParams = new URLSearchParams();
+    if (search) queryParams.set('search', search);
+    if (type !== 'both') queryParams.set('filter', type);
+    return `?${queryParams.toString()}`;
+  };
 
   return (
     <div className="p-6">
-      <h1 className="text-4xl font-bold mb-4 capitalize">{slug} Branch</h1>
+    <h1 className="text-4xl font-bold mb-4 capitalize">{slug} Branch</h1>
+  <div>
 
-      {/* Search form */}
-      <form method="GET" className="mb-6 max-w-md mx-auto flex">
+  
+    {/* Sticky Search + Filters */}
+
+    <div className="sticky top-14 justify-between md:flex z-10 py-1 items-center ">
+      {/* Search Form */}
+      <form method="GET" className=" max-w-md p-1 rounded-xl bg-white/20 backdrop-blur-2xl  flex gap-2">
         <input
           type="text"
           name="search"
           defaultValue={search}
           placeholder="Search subjects..."
-          className="w-full border border-gray-300 rounded-lg py-3 px-4 shadow-sm"
+          className="w-full border bg-white border-gray-300 rounded-lg py-3 px-4 shadow-sm"
         />
-        <button className='p-2 rounded-md cursor-pointer bg-blue-500 text-white' type='submit'>Search </button>
+        <button
+          className="px-4 py-2 rounded-md bg-blue-500 text-white"
+          type="submit"
+        >
+          Search
+        </button>
       </form>
-
-      {/* Display subjects */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        {subjects.map((subject, index) => (
-          <SubjectCard key={index} subject={subject} index={index} />
-        ))}
+  
+      {/* Filter Buttons */}
+      <div className="flex justify-center p-1 rounded-xl bg-white/20 backdrop-blur-2xl  gap-4">
+        <Link href={getFilterLink('quantum')}>
+          <button
+            className={`px-4 py-2 rounded-md ${
+              filter === 'quantum' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+            }`}
+          >
+            Quantum Only
+          </button>
+        </Link>
+        <Link href={getFilterLink('notes')}>
+          <button
+            className={`px-4 py-2 rounded-md ${
+              filter === 'notes' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+            }`}
+          >
+            Notes Only
+          </button>
+        </Link>
+        <Link href={getFilterLink('both')}>
+          <button
+            className={`px-4 py-2 rounded-md ${
+              filter === 'both' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+            }`}
+          >
+            Show Both
+          </button>
+        </Link>
       </div>
-      <ResourceInfo/>
-      <SecondYearQuantum/>
     </div>
+  
+    {/* Subjects Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+      {subjects.map((subject, index) => (
+        <SubjectCard key={index} subject={subject} index={index} />
+      ))}
+    </div>
+  </div>
+    <ResourceInfo />
+    <SecondYearQuantum />
+  </div>
+  
   );
 }
 

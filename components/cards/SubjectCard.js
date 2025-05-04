@@ -38,6 +38,7 @@ function SubjectCard({ subject, index }) {
                     alt={subject.subjectName}
                     className="w-full h-48 object-cover rounded-lg mb-6 border-2 border-amber-300"
                 />
+                
 
                 <h2 title={subject.subjectName} className="text-2xl w-full font-bold text-amber-800 mb-2 tracking-tight transition-colors duration-300 hover:text-amber-600">
                     {truncatedSubjectName}
