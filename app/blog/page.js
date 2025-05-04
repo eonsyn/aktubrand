@@ -11,9 +11,10 @@ async function Page() {
     console.error(`Fetch failed: ${res.status}`);
     return <div>Article not found</div>; // or return nothing
   }
+
   const data = await res.json();
   const articles = data.articles || [];
-  
+  console.log(data.articles)
 
   return (
     <div className="min-h-screen px-6 py-8  ">

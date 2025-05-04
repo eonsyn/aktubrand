@@ -22,6 +22,7 @@ function Page() {
   const altInputRef = useRef(null);
   const [showPopup, setShowPopup] = useState(false);
   const params = useParams();
+  const [isPublish, setIsPublish] = useState(false)
   let slug = params?.slug;
   const tagInputValue = tags.join(', ');
 
@@ -53,6 +54,7 @@ function Page() {
         setBlocks(article.content);
         setThumbnailUrl(article.thumbnailUrl);
         setTags(article.tags);
+        setIsPublish(article.isPublished);
       } catch (err) {
         console.error('Error fetching article:', err);
         setNotFound(true);
@@ -157,7 +159,7 @@ function Page() {
       _id: id,
       createdAt: new Date(),
       updatedAt: new Date(),
-      isPublished: false,
+      isPublished: isPublish,
     };
 
     try {
@@ -197,6 +199,8 @@ function Page() {
         thumbnailUrl={thumbnailUrl}
         setThumbnailUrl={setThumbnailUrl}
         tags={tags}
+        setIsPublish={setIsPublish}
+        isPublish={isPublish}
         setTags={setTags}
       />
       )}

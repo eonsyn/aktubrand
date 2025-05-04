@@ -4,7 +4,7 @@ export async function generateMetadata({ params }) {
   const { slug } = params;
 
   try {
-    const res = await fetch(`https://aktubrand.vercel.app/api/blog/${slug}`, {
+    const res = await fetch(`${process.env.HOST_URL}/api/blog/${slug}`, {
       next: { revalidate: 60 * 60  },
     });
 

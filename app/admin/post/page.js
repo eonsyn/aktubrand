@@ -7,9 +7,9 @@ const emptyBlock = [{ type: 'paragraph', value: '', level: 1, items: [] }];
 
 function Page() {
     const [showPopup, setShowPopup] = useState(false);
-const [thumbnailUrl, setThumbnailUrl] = useState('');
-const [tags, setTags] = useState([]);
-
+    const [thumbnailUrl, setThumbnailUrl] = useState('');
+    const [tags, setTags] = useState([]);
+const [isPublish, setIsPublish] = useState(false)
     const [title, setTitle] = useState('');
     const [blocks, setBlocks] = useState([...emptyBlock]);
     const [editIndex, setEditIndex] = useState(null);
@@ -17,10 +17,10 @@ const [tags, setTags] = useState([]);
     const [isopitonOpen, setisopitonOpen] = useState(false);
     const isOpenRef = useRef(isopitonOpen);
     const altInputRef = useRef(null);
- 
+
 
     useEffect(() => {
-        
+
         isOpenRef.current = isopitonOpen;
     }, [isopitonOpen]);
 
@@ -44,76 +44,76 @@ const [tags, setTags] = useState([]);
         };
     }, []);
 
-  
-     
-     
-     
-      
+
+
+
+
+
     const renderBlock = (block, index) => {
         const isEditing = editIndex === index;
         const shouldAutoFocus = autoFocusField === index;
 
         if (isEditing) {
             return (
-              <BlockEditor
-                block={block}
-                index={index}
-                emptyBlock={emptyBlock}
-                blocks={blocks}
-                setBlocks={setBlocks}
-                isEditing={isEditing}
-                autoFocusField={autoFocusField}
-                setEditIndex={setEditIndex}
-                setisopitonOpen={setisopitonOpen}
-                isopitonOpen={isopitonOpen}
-                setAutoFocusField={setAutoFocusField}
-                altInputRef={altInputRef}
-                
-              />
+                <BlockEditor
+                    block={block}
+                    index={index}
+                    emptyBlock={emptyBlock}
+                    blocks={blocks}
+                    setBlocks={setBlocks}
+                    isEditing={isEditing}
+                    autoFocusField={autoFocusField}
+                    setEditIndex={setEditIndex}
+                    setisopitonOpen={setisopitonOpen}
+                    isopitonOpen={isopitonOpen}
+                    setAutoFocusField={setAutoFocusField}
+                    altInputRef={altInputRef}
+
+                />
             );
-          }
-          
+        }
+
 
         // Preview mode (non-editing)
         return (
             <BlockRenderer
-              block={block}
-              index={index}
-              setEditIndex={setEditIndex}
+                block={block}
+                index={index}
+                setEditIndex={setEditIndex}
             />
-          );
-          
+        );
+
     };
-    
-      
+
+
 
     const handleSubmit = () => {
         if (!title.trim() || blocks.length === 0) {
             alert('Title and content cannot be empty!');
             return;
         }
-    
+
         const firstImageBlock = blocks.find(block => block.type === 'image' && block.value);
         if (firstImageBlock) {
             setThumbnailUrl(firstImageBlock.value);
         }
-    
+
         setShowPopup(true); // Show metadata modal
     };
-    
-    
+
+
     const submitWithMetadata = async () => {
         const cleanedBlocks = blocks.filter(block => {
             if (!block.value || block.value.trim() === '') return false;
             if (block.type === 'list' && (!block.items || block.items.length === 0)) return false;
             return true;
         });
-    
+
         if (cleanedBlocks.length === 0) {
             alert('All content blocks are empty or invalid!');
             return;
         }
-    
+
         const payload = {
             title,
             slug: title.trim().toLowerCase().replace(/\s+/g, '-'),
@@ -125,9 +125,9 @@ const [tags, setTags] = useState([]);
             content: cleanedBlocks,
             createdAt: new Date(),
             updatedAt: new Date(),
-            isPublished: false,
+            isPublished: isPublish,
         };
-    
+
         try {
             const res = await fetch('/api/blog/save-article', {
                 method: 'POST',
@@ -136,9 +136,9 @@ const [tags, setTags] = useState([]);
                 },
                 body: JSON.stringify(payload),
             });
-    
+
             const result = await res.json();
-    
+
             if (result.success) {
                 alert('Article saved successfully!');
                 setShowPopup(false); // close popup
@@ -150,21 +150,23 @@ const [tags, setTags] = useState([]);
             alert('Error submitting article.');
         }
     };
-    
+
 
     return (
         <div className="max-w-3xl min-h-screen mx-auto px-4 py-6">
-  {showPopup && (
-        <SubmitPopup
-        show={showPopup}
-        onClose={() => setShowPopup(false)}
-        onSubmit={submitWithMetadata} 
-        thumbnailUrl={thumbnailUrl}
-        setThumbnailUrl={setThumbnailUrl}
-        tags={tags}
-        setTags={setTags}
-      />
-      )}
+            {showPopup && (
+                <SubmitPopup
+                    show={showPopup}
+                    onClose={() => setShowPopup(false)}
+                    onSubmit={submitWithMetadata}
+                    thumbnailUrl={thumbnailUrl}
+                    setThumbnailUrl={setThumbnailUrl}
+                    tags={tags}
+                    isPublish={isPublish}
+                    setIsPublish={setIsPublish}
+                    setTags={setTags}
+                />
+            )}
             <input
                 className="text-4xl font-bold w-full mb-6 outline-none"
                 placeholder="Enter title..."

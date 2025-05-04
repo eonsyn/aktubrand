@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
+import { Check, X } from 'lucide-react';
 
-const SubmitPopup = ({ show, onClose, onSubmit, thumbnailUrl, setThumbnailUrl, tags, setTags }) => {
+const SubmitPopup = ({ show, isPublish, setIsPublish, onClose, onSubmit, thumbnailUrl, setThumbnailUrl, tags, setTags }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (e) => {
@@ -71,7 +72,14 @@ const SubmitPopup = ({ show, onClose, onSubmit, thumbnailUrl, setThumbnailUrl, t
             />
           </div>
         </label>
-
+        <button
+          onClick={() => setIsPublish(prev => !prev)}
+          className={`flex items-center gap-2 px-4 py-2 rounded-2xl shadow-md text-white transition-all
+        ${isPublish ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}
+        >
+          {isPublish ? <Check size={18} /> : <X size={18} />}
+          {isPublish ? 'Published' : 'Unpublished'}
+        </button>
         <div className="flex justify-end space-x-2">
           <button
             onClick={onClose}

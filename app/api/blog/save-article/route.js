@@ -18,8 +18,8 @@ export async function GET(req) {
   try {
     await connectDB();
 
-    // Only select specific fields
-    const articles = await Article.find({}, 'slug title thumbnailUrl author');
+    // Only select specific fields 
+    const articles = await Article.find({ isPublished: true }).select('slug title thumbnailUrl author ');
 
     return NextResponse.json({ success: true, articles });
   } catch (error) {

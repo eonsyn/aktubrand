@@ -13,7 +13,7 @@ function AllPost() {
   // Fetch articles
   const fetchArticles = async () => {
     setLoading(true);
-    const res = await fetch('/api/blog/save-article', {
+    const res = await fetch('/api/admin/save-article', {
       method: 'GET',
       cache: 'no-store'
     });
@@ -78,6 +78,14 @@ function AllPost() {
                   <Link href={`/admin/edit-article/${article.slug}`}>
                     <span className="text-blue-600 hover:underline"><FaRegEdit /></span>
                   </Link>
+                  <span
+  className={`text-xs text-white rounded-md px-2 py-1 ${
+    article.isPublished ? 'bg-green-500' : 'bg-slate-400'
+  }`}
+>
+  {article.isPublished ? 'Published' : 'Unpublished'}
+</span>
+
                   <span onClick={() => deleteArticle(article._id)} className="text-red-600 cursor-pointer">
                     <MdDelete />
                   </span>
