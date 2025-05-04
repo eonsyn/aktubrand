@@ -20,7 +20,7 @@ function Navbar() {
 
         {/* Desktop Nav Links */}
         <div className="hidden md:flex gap-6 text-black font-bold items-center">
-          <Link href="#quantum" className="hover:text-blue-600">Quantum</Link>
+          <Link href="/branch/cse" className="hover:text-blue-600">Cse Quantum & Notes</Link>
           <Link href="/blog" className="hover:text-blue-600">Blogs</Link>
           <Link href="#privacy" className="hover:text-blue-600">Privacy Policy</Link>
           <Link href="#contact" className="hover:text-blue-600">Contact</Link>
@@ -40,7 +40,7 @@ function Navbar() {
       {/* Mobile Dropdown Menu */}
       {isMobileMenuOpen && (
         <div className="flex flex-col px-4 pb-4 md:hidden text-black font-medium gap-2 bg-white/70 backdrop-blur-md">
-          <Link href="#quantum" className="hover:text-blue-600" onClick={() => setIsMobileMenuOpen(false)}>Quantum</Link>
+          <Link href="/branch/cse" className="hover:text-blue-600" onClick={() => setIsMobileMenuOpen(false)}>Cse Quantum & Notes</Link>
           <Link href="/blog" className="hover:text-blue-600" onClick={() => setIsMobileMenuOpen(false)}>Blogs</Link>
           <Link href="#privacy" className="hover:text-blue-600" onClick={() => setIsMobileMenuOpen(false)}>Privacy Policy</Link>
           <Link href="#contact" className="hover:text-blue-600" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
