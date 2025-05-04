@@ -1,18 +1,65 @@
 'use client';
+import Link from "next/link";
+export default function BlockRenderer({ block, index, setEditIndex ,loading }) {
 
-export default function BlockRenderer({ block, index, setEditIndex }) {
+     
+
+    function renderTextWithLinks(text) {
+        if (!text || typeof text !== 'string') return null;
+    
+        const regex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+        const parts = [];
+        let lastIndex = 0;
+        let match;
+    
+        while ((match = regex.exec(text)) !== null) {
+            if (match.index > lastIndex) {
+                parts.push(text.slice(lastIndex, match.index));
+            }
+            parts.push(
+                <Link
+                    key={match[2] + match.index}
+                    href={match[2]}
+                    title={"link"}
+                    className="text-blue-500 font-bold mx-1 hover:text-blue-600 font-sans tracking-tighter underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {match[1]}
+                </Link>
+            );
+            lastIndex = regex.lastIndex;
+        }
+    
+        if (lastIndex < text.length) {
+            parts.push(text.slice(lastIndex));
+        }
+    
+        return parts;
+    }
+    
+    
+
   switch (block.type) {
     case 'heading': {
         const HeadingTag = `h${block.level || 1}`;
+        const levelClasses = {
+            1: 'text-4xl',
+            2: 'text-3xl',
+            3: 'text-2xl',
+        };
+        const headingClass = levelClasses[block.level] || 'text-xl';
+    
         return (
             <HeadingTag
-                className={`my-2 font-bold cursor-pointer text-${block.level === 1 ? '4xl' : block.level === 2 ? '3xl' : '2xl'}`}
+                className={`my-2 font-bold cursor-pointer ${headingClass}`}
                 onClick={() => setEditIndex(index)}
             >
-                {block.value || `Heading (H${block.level || 1})`}
+                {renderTextWithLinks(block.value) || `Heading (H${block.level || 1})`}
             </HeadingTag>
         );
     }
+    
     case 'code':
         return (
             <pre
@@ -58,7 +105,7 @@ export default function BlockRenderer({ block, index, setEditIndex }) {
                 className="text-lg my-2 cursor-pointer"
                 onClick={() => setEditIndex(index)}
             >
-                {block.value || 'Write a paragraph...'}
+                {renderTextWithLinks(block.value) || 'Write a paragraph...'}
             </p>
         );
 }

@@ -5,7 +5,7 @@ const emptyBlock = [{ type: 'paragraph', value: '', level: 1, items: [] }];
 
 export default function BlockEditor({
     block, index, isEditing, autoFocusField,
-      setEditIndex,
+    setEditIndex,
     blocks, setBlocks, setisopitonOpen,
     isopitonOpen, setAutoFocusField, altInputRef
 }) {

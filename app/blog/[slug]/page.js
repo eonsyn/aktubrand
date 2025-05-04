@@ -1,10 +1,11 @@
 // app/blog/[slug]/page.jsx
+import Link from "next/link";
 export async function generateMetadata({ params }) {
   const { slug } = params;
 
   try {
     const res = await fetch(`https://aktubrand.vercel.app/api/blog/${slug}`, {
-      next: { revalidate: 60 * 60 * 10 },
+      next: { revalidate: 60 * 60  },
     });
 
     const { article } = await res.json();
@@ -25,6 +26,8 @@ export async function generateMetadata({ params }) {
     return {
       title: `${formattedTitle} | aktu brand`,
       description,
+      keywords: article.tags?.join(', '), 
+      
       openGraph: {
         title: `${formattedTitle} | aktu brand`,
         description,
@@ -70,6 +73,40 @@ export default async function BlogPage({ params }) {
     return <div className="min-h-screen">Article not found</div>;
   }
 
+  function renderTextWithLinks(text) {
+    if (!text || typeof text !== 'string') return null;
+
+    const regex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+        if (match.index > lastIndex) {
+            parts.push(text.slice(lastIndex, match.index));
+        }
+        parts.push(
+           <Link
+                               key={match[2] + match.index}
+                               href={match[2]}
+                               title={"link"}
+                               className="text-blue-500 font-bold mx-1 hover:text-blue-600 font-sans tracking-tighter underline"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                           >
+                               {match[1]}
+                           </Link>
+        );
+        lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex < text.length) {
+        parts.push(text.slice(lastIndex));
+    }
+
+    return parts;
+}
+
   return (
     <main className="min-h-screen max-w-3xl mx-auto px-4 py-8 text-gray-800">
       <h1 className="text-4xl font-bold mb-4">{article.title}</h1>
@@ -90,10 +127,10 @@ export default async function BlogPage({ params }) {
         switch (block.type) {
           case 'heading': {
             const HeadingTag = `h${block.level || 1}`;
-            return <HeadingTag key={index} className="text-2xl font-semibold mt-3 mb-1">{block.value}</HeadingTag>;
+            return <HeadingTag key={index} className="text-2xl font-semibold mt-3 mb-1">{renderTextWithLinks(block.value)}</HeadingTag>;
           }
           case 'paragraph':
-            return <p key={index} className="text-base leading-relaxed mb-4">{block.value}</p>;
+            return <p key={index} className="text-base leading-relaxed mb-4">{renderTextWithLinks(block.value)}</p>;
           case 'code':
             return (
               <pre key={index} className="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto mb-4">
