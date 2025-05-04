@@ -9,26 +9,29 @@ function SubjectCard({ subject, index }) {
         ? `${subject.subjectName.slice(0, 17)}..`
         : subject.subjectName;
 
-    useEffect(() => {
-        let timer;
-        if (countdown > 0) {
-            timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-        } else if (countdown === 0) {
-            setDownloadReady(true);
-        }
-        return () => clearTimeout(timer);
-    }, [countdown]);
-
-    useEffect(() => {
-        if (downloadReady) {
-            window.open(subject.pdfUrl, '_blank');
-            setDownloadReady(false);
-        }
-    }, [downloadReady, subject.pdfUrl]);
-
+     
     const handleDownload = () => {
-        setCountdown(5);
+        let seconds = 5;
+        setCountdown(seconds);
+    
+        const interval = setInterval(() => {
+            seconds--;
+            setCountdown(seconds);
+            if (seconds <= 0) {
+                clearInterval(interval);
+    
+                // Create and click a temporary link to bypass popup block
+                const link = document.createElement('a');
+                link.href = subject.pdfUrl;
+               
+                link.rel = 'noopener noreferrer';
+                link.click();
+    
+                setCountdown(null);
+            }
+        }, 1000);
     };
+    
 
     return (
         <div key={index} title={subject.subjectName} className="bg-white rounded-2xl shadow-lg overflow-hidden p-3 mb-6 hover:shadow-xl transition duration-300 transform">
