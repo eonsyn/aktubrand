@@ -1,28 +1,31 @@
-// app/blogs/page.jsx
+export const revalidate = 60;
+
 import React from 'react';
 import Link from 'next/link';
 
 async function Page() {
-  const res = await fetch(`${process.env.HOST_URL}/api/blog/save-article`, {
+  const host = process.env.HOST_URL || 'http://localhost:3000'; // fallback for dev
+
+  const res = await fetch(`${host}/api/blog/save-article`, {
     method: 'GET',
-    next: { revalidate: 60 },
+    cache: 'force-cache',
   });
+
   if (!res.ok) {
     console.error(`Fetch failed: ${res.status}`);
-    return <div>Article not found</div>; // or return nothing
+    return <div>Article not found</div>;
   }
 
   const data = await res.json();
   const articles = data.articles || [];
-  console.log(data.articles)
 
   return (
-    <div className="min-h-screen px-6 py-8  ">
+    <div className="min-h-screen px-6 py-8">
       <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Explore Our Latest Blogs</h1>
 
       {articles.length > 0 ? (
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article,idx) => (
+          {articles.map((article, idx) => (
             <Link key={idx} href={`/blog/${article.slug}`}>
               <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer">
                 {article.thumbnailUrl && (

@@ -58,10 +58,23 @@ export async function generateMetadata({ params }) {
   }
 }
 
+export async function generateStaticParams() {
+  const host = process.env.HOST_URL || 'http://localhost:3000';
+  const res = await fetch(`${host}/api/blog/save-article`);
+  const data = await res.json();
+  const articles = data.articles || [];
+
+  return articles.map((article) => ({
+    slug: article.slug,
+  }));
+}
+
+
 export default async function BlogPage({ params }) {
   const { slug } = await params; // ✅ required
-  const res = await fetch(`${process.env.HOST_URL}/api/blog/${slug}`, {
-    next: { revalidate: 60 }, // ✅ Enable ISR, revalidate every 60 seconds
+  const host = process.env.HOST_URL || 'http://localhost:3000';
+  const res = await fetch(`${host}/api/blog/${slug}`, {
+    next: { revalidate: 60 }, // Enables ISR
   });
   if (!res.ok) {
     console.error(`Fetch failed: ${res.status}`);
