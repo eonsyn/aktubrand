@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { IoMdClose, IoMdSearch } from "react-icons/io";
 
 function MobileBar({ filter, search }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const filterOptions = [
     { label: 'Quantum', value: 'quantum' },
