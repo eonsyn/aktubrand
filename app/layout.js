@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Your Site Title",
-  description: "Your site description",
+  title: "Aktu Brand",
+  description: "Get free quantum for the aktu exam - Quantum Series -Aktu Brand",
   verification: {
     google: "a519RGXXnU8_HDFGvb_9NLkro6BAy_BnCXPq8fhFTkY",
   },
