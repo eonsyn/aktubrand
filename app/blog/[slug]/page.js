@@ -1,6 +1,5 @@
 // app/blog/[slug]/page.jsx
 import Link from "next/link";
-import { notFound } from 'next/navigation';
 export async function generateMetadata({ params }) {
   const { slug } = params;
 
@@ -58,7 +57,6 @@ export async function generateMetadata({ params }) {
     };
   }
 }
-export const revalidate = 10;
 
 export async function generateStaticParams() {
   const host = process.env.HOST_URL || 'http://localhost:3000';
@@ -73,16 +71,20 @@ export async function generateStaticParams() {
 
 
 export default async function BlogPage({ params }) {
-  const { slug } =  params; 
-  const res = await fetch(`${process.env.HOST_URL}/api/blog/${slug}`)
-
+  const { slug } = await params; // ✅ required
+  const host = process.env.HOST_URL || 'http://localhost:3000';
+  const res = await fetch(`${host}/api/blog/${slug}`, {
+    next: { revalidate: 60 }, // Enables ISR
+  });
   if (!res.ok) {
     console.error(`Fetch failed: ${res.status}`);
     return <div>Article not found</div>; // or return nothing
   }
   const post = await res.json();
   const article = post.article;
-  if (!article) return notFound();
+  if (!article) {
+    return <div className="min-h-screen">Article not found</div>;
+  }
 
   function renderTextWithLinks(text) {
     if (!text || typeof text !== 'string') return null;
