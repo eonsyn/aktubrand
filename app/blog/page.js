@@ -1,4 +1,6 @@
-export const revalidate = 60;
+// app/blog/page.jsx
+
+export const revalidate = 60; // ⏱ Revalidate every 60 seconds (ISR)
 
 import React from 'react';
 import Link from 'next/link';
@@ -7,8 +9,7 @@ async function Page() {
   const host = process.env.HOST_URL || 'http://localhost:3000'; // fallback for dev
 
   const res = await fetch(`${host}/api/blog/save-article`, {
-    method: 'GET',
-    cache: 'force-cache',
+    next: { revalidate: 60 }, // 👈 This is required for ISR
   });
 
   if (!res.ok) {
