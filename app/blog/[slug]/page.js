@@ -57,25 +57,35 @@ export async function generateMetadata({ params }) {
     };
   }
 }
+export const revalidate = 5;
 
 export async function generateStaticParams() {
   const host = process.env.HOST_URL || 'http://localhost:3000';
-  const res = await fetch(`${host}/api/blog/save-article`);
-  const data = await res.json();
-  const articles = data.articles || [];
 
-  return articles.map((article) => ({
-    slug: article.slug,
-  }));
+  try {
+    const res = await fetch(`${host}/api/blog/save-article`);
+    if (!res.ok) {
+      console.error(`Failed to fetch articles: ${res.status} ${res.statusText}`);
+      return [];
+    }
+
+    const data = await res.json();
+    const articles = data.articles || [];
+
+    return articles.map((article) => ({
+      slug: article.slug,
+    }));
+  } catch (error) {
+    console.error('generateStaticParams error:', error);
+    return [];
+  }
 }
 
 
 export default async function BlogPage({ params }) {
-  const { slug } = await params; // ✅ required
+  const { slug } =   params; // ✅ required
   const host = process.env.HOST_URL || 'http://localhost:3000';
-  const res = await fetch(`${host}/api/blog/${slug}`, {
-    next: { revalidate: 60 }, // Enables ISR
-  });
+  const res = await fetch(`${host}/api/blog/${slug}`);
   if (!res.ok) {
     console.error(`Fetch failed: ${res.status}`);
     return <div>Article not found</div>; // or return nothing
