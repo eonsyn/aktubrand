@@ -1,6 +1,7 @@
 'use client';
 import { MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
+import { useState } from "react";
 const emptyBlock = [{ type: 'paragraph', value: '', level: 1, items: [] }];
 
 export default function BlockEditor({
@@ -9,6 +10,10 @@ export default function BlockEditor({
     blocks, setBlocks, setisopitonOpen,
     isopitonOpen, setAutoFocusField, altInputRef
 }) {
+
+
+    const [isUpload, setIsUpload] = useState(false);
+    const [loading, setloading] = useState(false)
     const handleChange = (index, value) => {
         const updated = [...blocks];
         updated[index].value = value;
@@ -46,27 +51,39 @@ export default function BlockEditor({
         }
     };
 
-    const handlePaste = (e, index) => {
+    const handlePaste = async (e, index) => {
         e.preventDefault();
-        const text = e.clipboardData.getData('text/plain');
 
-        // Split into lines and trim
-        const lines = text.split('\n').map(line => line.trim()).filter(Boolean);
+        const items = e.clipboardData.items;
+        for (const item of items) {
+            if (item.type.indexOf("image") === 0) {
+                const file = item.getAsFile();
+                const data = await uploadImage(file);
+                const imageUrl = data.secure_url;
 
+                const newBlocks = [...blocks];
+                newBlocks.splice(index + 1, 0, {
+                    type: "image",
+                    value: imageUrl,
+                    alt: "",
+                    items: [],
+                });
+                setBlocks(newBlocks);
+                return;
+            }
+        }
+
+        // Existing logic for pasting text (markdown, code, etc.)
+        const text = e.clipboardData.getData("text/plain");
+        const lines = text.split("\n").map(line => line.trim()).filter(Boolean);
         const newBlocks = [];
-        let listBuffer = [];
-        let codeBuffer = [];
+        let listBuffer = [], codeBuffer = [];
         let inCodeBlock = false;
 
         lines.forEach(line => {
-            if (line.startsWith('```')) {
-                // Toggle code block
+            if (line.startsWith("```")) {
                 if (inCodeBlock) {
-                    newBlocks.push({
-                        type: 'code',
-                        value: codeBuffer.join('\n'),
-                        items: []
-                    });
+                    newBlocks.push({ type: "code", value: codeBuffer.join("\n"), items: [] });
                     codeBuffer = [];
                     inCodeBlock = false;
                 } else {
@@ -77,68 +94,59 @@ export default function BlockEditor({
 
             if (inCodeBlock) {
                 codeBuffer.push(line);
-                return;
-            }
-
-            if (/^#{1,6}\s/.test(line)) {
-                // Markdown heading (e.g. ## Heading)
+            } else if (/^#{1,6}\s/.test(line)) {
                 const level = line.match(/^#+/)[0].length;
-                newBlocks.push({
-                    type: 'heading',
-                    level,
-                    value: line.replace(/^#{1,6}\s/, ''),
-                    items: []
-                });
+                newBlocks.push({ type: "heading", level, value: line.replace(/^#{1,6}\s/, ""), items: [] });
             } else if (/^[-*+]\s+/.test(line)) {
-                // List item
-                listBuffer.push(line.replace(/^[-*+]\s+/, ''));
+                listBuffer.push(line.replace(/^[-*+]\s+/, ""));
             } else {
-                // If list buffer is filled and a non-list line comes, flush it
                 if (listBuffer.length > 0) {
-                    newBlocks.push({
-                        type: 'list',
-                        value: listBuffer.join('\n'),
-                        items: [...listBuffer]
-                    });
+                    newBlocks.push({ type: "list", value: listBuffer.join("\n"), items: [...listBuffer] });
                     listBuffer = [];
                 }
-
-                // Otherwise treat it as a paragraph
-                newBlocks.push({
-                    type: 'paragraph',
-                    value: line,
-                    items: []
-                });
+                newBlocks.push({ type: "paragraph", value: line, items: [] });
             }
         });
 
-        // Flush any remaining buffers
-        if (listBuffer.length > 0) {
-            newBlocks.push({
-                type: 'list',
-                value: listBuffer.join('\n'),
-                items: [...listBuffer]
-            });
-        }
+        if (listBuffer.length > 0) newBlocks.push({ type: "list", value: listBuffer.join("\n"), items: [...listBuffer] });
+        if (codeBuffer.length > 0) newBlocks.push({ type: "code", value: codeBuffer.join("\n"), items: [] });
 
-        if (codeBuffer.length > 0) {
-            newBlocks.push({
-                type: 'code',
-                value: codeBuffer.join('\n'),
-                items: []
-            });
-        }
-
-        // Update blocks by replacing current index block with the new ones
         const updated = [...blocks];
         updated.splice(index, 1, ...newBlocks);
         setBlocks(updated);
     };
+
     const handleAltChange = (index, altText) => {
         const updated = [...blocks];
         updated[index].alt = altText;
         setBlocks(updated);
     };
+    const uploadImage = async (file) => {
+        const res = await fetch("/api/cloudanary/cloudinary-signature");
+        const { timestamp, signature, apiKey, cloudName, folder } = await res.json();
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("api_key", apiKey);
+        formData.append("timestamp", timestamp);
+        formData.append("signature", signature);
+        if (folder) formData.append("folder", folder);
+
+        const cloudinaryUpload = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
+            method: "POST",
+            body: formData,
+        });
+
+        const data = await cloudinaryUpload.json();
+        return data;
+    };
+    function extractPublicId(url) {
+        const parts = url.split('/');
+        const fileName = parts[parts.length - 1];
+        return fileName.split('.')[0]; // removes extension like .jpg
+    }
+
+
     return (
         <div className='transition-all ease-in-out h-fit duration-100' >
             <div className="mb-1    items-center h-full flex">
@@ -237,15 +245,78 @@ export default function BlockEditor({
 
             {block.type === 'image' && (
                 <>
+
                     <input
                         type="text"
-                        placeholder="Paste image URL"
+                        placeholder="Paste image URL, paste image, or drop image"
                         className="border p-2 w-full my-2"
                         value={block.value}
                         onChange={(e) => handleChange(index, e.target.value)}
+                        onPaste={async (e) => {
+                            const items = e.clipboardData?.items;
+                            if (!items) {
+                                setIsUpload(false);
+                                return
+                            };
 
+                            for (const item of items) {
+                                if (item.type.startsWith("image/")) {
+                                    const file = item.getAsFile();
+                                    if (file) {
+                                        setIsUpload(true);
+                                        setloading(true);
+                                        const data = await uploadImage(file);
+                                        const updated = [...blocks];
+                                        updated[index].value = data.secure_url;
+                                        setBlocks(updated);
+                                        setloading(false);
+                                    }
+                                }
+                            }
+                        }}
+                        onDrop={async (e) => {
+                            e.preventDefault();
+                            const file = e.dataTransfer?.files[0];
+                            if (file && file.type.startsWith("image/")) {
+                                setIsUpload(true);
+                                setloading(true);
+                                const data = await uploadImage(file);
+                                const updated = [...blocks];
+                                updated[index].value = data.secure_url;
+                                setBlocks(updated);
+                                setloading(false);
+                            }
+                        }}
+                        
+                        onDragOver={(e) => e.preventDefault()}
                         autoFocus={shouldAutoFocus}
                     />
+
+{loading && <p className="text-blue-500">Uploading image...</p>}
+
+                    {isUpload && !loading && (
+                        <button
+                            onClick={async () => {
+                                if (!block.value) return;
+
+                                const publicId = extractPublicId(block.value);
+                                await fetch('/api/cloudanary/delete-image', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ public_id: publicId }),
+                                });
+
+                                const updated = [...blocks];
+                                updated[index].value = '';
+                                setBlocks(updated);
+                                setIsUpload(false);
+                            }}
+                            className="bg-red-500 text-white px-3 py-1 cursor-pointer rounded"
+                        >
+                            Delete
+                        </button>
+                    )}
+
 
                     <input
                         type="text"
