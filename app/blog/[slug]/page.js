@@ -1,5 +1,7 @@
 // app/blog/[slug]/page.jsx
 import Link from "next/link";
+import ArticleCard from "@/components/cards/ArticleCard";
+import ImageComponent from "@/components/blog/ImageComponent";
 export async function generateMetadata({ params }) {
   const { slug } = params;
 
@@ -81,19 +83,42 @@ export async function generateStaticParams() {
   }
 }
 
-
 export default async function BlogPage({ params }) {
-  const { slug } =   params; // ✅ required
+  const { slug } = params;
   const host = process.env.HOST_URL || 'http://localhost:3000';
-  const res = await fetch(`${host}/api/blog/${slug}`);
+
+  const res = await fetch(`${host}/api/blog/${slug}`, { cache: 'no-store' });
   if (!res.ok) {
-    console.error(`Fetch failed: ${res.status}`);
-    return <div>Article not found</div>; // or return nothing
+    return <div>Article not found</div>;
   }
+
   const post = await res.json();
   const article = post.article;
+
   if (!article) {
     return <div className="min-h-screen">Article not found</div>;
+  }
+
+  // ⬇️ Fetch blog suggestions based on tags
+  let suggestions = [];
+  if (article.tags?.length > 0) {
+    try {
+      const suggestionRes = await fetch(`${host}/api/blog/blog-suggestion`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tags: article.tags }),
+        cache: 'no-store',
+      });
+
+      const suggestionData = await suggestionRes.json();
+      if (suggestionRes.ok) {
+        suggestions = suggestionData.suggestions || [];
+      }
+    } catch (err) {
+      console.error('Error fetching suggestions:', err);
+    }
   }
 
   function renderTextWithLinks(text) {
@@ -105,35 +130,34 @@ export default async function BlogPage({ params }) {
     let match;
 
     while ((match = regex.exec(text)) !== null) {
-        if (match.index > lastIndex) {
-            parts.push(text.slice(lastIndex, match.index));
-        }
-        parts.push(
-           <Link
-                               key={match[2] + match.index}
-                               href={match[2]}
-                               title={"link"}
-                               className="text-blue-500 font-bold mx-1 hover:text-blue-600 font-sans tracking-tighter underline"
-                               target="_blank"
-                               rel="noopener noreferrer"
-                           >
-                               {match[1]}
-                           </Link>
-        );
-        lastIndex = regex.lastIndex;
+      if (match.index > lastIndex) {
+        parts.push(text.slice(lastIndex, match.index));
+      }
+      parts.push(
+        <Link
+          key={match[2] + match.index}
+          href={match[2]}
+          className="text-blue-500 font-bold mx-1 hover:text-blue-600 underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {match[1]}
+        </Link>
+      );
+      lastIndex = regex.lastIndex;
     }
 
     if (lastIndex < text.length) {
-        parts.push(text.slice(lastIndex));
+      parts.push(text.slice(lastIndex));
     }
 
     return parts;
-}
+  }
 
   return (
     <main className="min-h-screen max-w-3xl mx-auto px-4 py-8 text-gray-800">
       <h1 className="text-4xl font-bold mb-4">{article.title}</h1>
-      <p className="text-sm text-gray-500 ">By {article.author}</p>
+      <p className="text-sm text-gray-500">By {article.author}</p>
       <span className="text-sm text-gray-500 mb-6 block">
         {new Date(article.createdAt).toLocaleString('en-US', {
           day: 'numeric',
@@ -148,10 +172,9 @@ export default async function BlogPage({ params }) {
 
       {article.content.map((block, index) => {
         switch (block.type) {
-          case 'heading': {
+          case 'heading':
             const HeadingTag = `h${block.level || 1}`;
             return <HeadingTag key={index} className="text-2xl font-semibold mt-3 mb-1">{renderTextWithLinks(block.value)}</HeadingTag>;
-          }
           case 'paragraph':
             return <p key={index} className="text-base leading-relaxed mb-4">{renderTextWithLinks(block.value)}</p>;
           case 'code':
@@ -162,8 +185,9 @@ export default async function BlogPage({ params }) {
             );
           case 'image':
             return (
-              <div key={index} className="flex items-center flex-col h-[40vh]">
-                <img title={block.alt} src={block.value} className="rounded-lg h-[90%]" alt={block.alt} />
+              <div key={index} className="flex items-center flex-col py-3 h-[40vh]">
+                
+                <ImageComponent imageUrl={block.value} alt={block.alt}  />
                 <span className="italic">{block.alt}</span>
               </div>
             );
@@ -187,6 +211,17 @@ export default async function BlogPage({ params }) {
           </span>
         ))}
       </div>
+
+      {suggestions.length > 0 && (
+        <section className="mt-10">
+          <h2 className="text-2xl font-bold mb-4">You may also like</h2>
+          <div className="grid gap-6 grid-cols-1      lg:grid-cols-2">
+            {suggestions.map((suggested, i) => (
+           <ArticleCard key={i} article={suggested} />
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 }
