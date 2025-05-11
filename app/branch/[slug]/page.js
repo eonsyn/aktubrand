@@ -5,7 +5,8 @@ import ResourceInfo from '@/components/seo/ResourceInfo';
 import SecondYearQuantum from '@/components/seo/SecondYearQuantum';
 import Link from 'next/link';
 import MobileBar from '@/components/branch/MobileBar';
-
+import Image from 'next/image';
+import quantumImage from '@/public/assets/quantum/devinequantum.png'
 // Static params for branches (CSE, Mechanical, etc.)
 export async function generateStaticParams() {
   const branches = [
@@ -51,22 +52,32 @@ export default async function BranchPage({ params, searchParams }) {
   };
 
   return (
-    <div className="px-6">
-      <div className='mb-4'>
-        <h1 className="text-6xl leading-12 font-bold  capitalize">Quantum Series for <span className="text-highlight">
-          {slug === 'cse'
-            ? 'Computer Science '
-            : slug === 'me'
-              ? 'Mechanical Engineering '
-              : slug}
-        </span>
-          Student </h1>
-        <p className='pt-1'>
-          Get Free Quantum from here and Boost your Score in Aktu Examination by Aktu Brand.
-        </p>
-      </div>
+    <div className="px-6  ">
+      <header className='flex pb-4   border-b-1  '>
+        <div className=' w-full md:w-1/2'>
+          <h1 className="text-7xl lg:text-8xl leading-[3.8rem]  md:leading-[5rem] font-bold  capitalize">Quantum Series for <span className="text-highlight">
+            {slug === 'cse'
+              ? 'Computer Science '
+              : slug === 'me'
+                ? 'Mechanical Engineering '
+                : slug}
+          </span>
+            Student </h1>
+            <div className='w-full py-1  md:hidden h-[48vh] overflow-hidden rounded-2xl'>
+            <Image src={quantumImage} className='   object-cover h-full' />
+          </div>
+          <p className='pt-1 text-xl'>
+            Get Free Quantum from here and Boost your Score in Aktu Examination by Aktu Brand.
+          </p>
+          
+        </div>
+        <div className='w-1/2  hidden md:block h-[88vh] overflow-hidden rounded-2xl'>
+          <Image src={quantumImage} className='   object-cover h-full' />
+        </div>
+      </header>
 
-      <div>
+
+      <div className='pt-2'>
 
 
         {/* Sticky Search + Filters */}
@@ -91,7 +102,7 @@ export default async function BranchPage({ params, searchParams }) {
 
           {/* Filter Buttons */}
           <div className="  justify-center hidden md:flex p-1 rounded-xl bg-white/20 backdrop-blur-2xl  gap-4">
-            {filterOptions.map((option,index) => (
+            {filterOptions.map((option, index) => (
               <Link key={index} href={getFilterLink(option.value)}>
                 <button
                   className={`px-4 py-2 rounded-md ${filter === option.value ? 'bg-blue-600 text-white' : 'bg-gray-200'
@@ -105,10 +116,10 @@ export default async function BranchPage({ params, searchParams }) {
 
 
           {/* mobile search nav */}
-          <MobileBar 
-        search={search}
-          filter={filter}
- 
+          <MobileBar
+            search={search}
+            filter={filter}
+
           />
 
 

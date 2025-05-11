@@ -59,7 +59,7 @@ export async function generateMetadata({ params }) {
     };
   }
 }
-export const revalidate = 5;
+export const revalidate = 60*2;
 
 export async function generateStaticParams() {
   const host = process.env.HOST_URL || 'http://localhost:3000';
@@ -87,7 +87,8 @@ export default async function BlogPage({ params }) {
   const { slug } = params;
   const host = process.env.HOST_URL || 'http://localhost:3000';
 
-  const res = await fetch(`${host}/api/blog/${slug}`, { cache: 'no-store' });
+const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 60*60*2 } });
+
   if (!res.ok) {
     return <div>Article not found</div>;
   }
@@ -109,7 +110,7 @@ export default async function BlogPage({ params }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ tags: article.tags }),
-        cache: 'no-store',
+          next: { revalidate: 600 },
       });
 
       const suggestionData = await suggestionRes.json();
