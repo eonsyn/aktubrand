@@ -87,7 +87,7 @@ export default async function BlogPage({ params }) {
   const { slug } = params;
   const host = process.env.HOST_URL || 'http://localhost:3000';
 
-const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 60*60*2 } });
+const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 72000 } });
 
   if (!res.ok) {
     return <div>Article not found</div>;
