@@ -5,40 +5,49 @@ export default function BlockRenderer({ block, index, setEditIndex ,loading }) {
      
 
     function renderTextWithLinks(text) {
-        if (!text || typeof text !== 'string') return null;
-    
-        const regex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
-        const parts = [];
-        let lastIndex = 0;
-        let match;
-    
-        while ((match = regex.exec(text)) !== null) {
-            if (match.index > lastIndex) {
-                parts.push(text.slice(lastIndex, match.index));
-            }
-            parts.push(
-                <Link
-                    key={match[2] + match.index}
-                    href={match[2]}
-                    title={"link"}
-                    className="text-blue-500 font-bold mx-1 hover:text-blue-600 font-sans tracking-tighter underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    {match[1]}
-                </Link>
-            );
-            lastIndex = regex.lastIndex;
-        }
-    
-        if (lastIndex < text.length) {
-            parts.push(text.slice(lastIndex));
-        }
-    
-        return parts;
+  if (!text || typeof text !== 'string') return null;
+
+  // Regex to match [label](url), **bold**, and *italic*
+  const regex = /(\[([^\]]+)\]\((https?:\/\/[^\s)]+)\))|(\*\*([^*]+)\*\*)|(\*([^*]+)\*)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
     }
-    
-    
+
+    if (match[1]) {
+      // Link match
+      parts.push(
+        <Link
+          key={match[3] + match.index}
+          href={match[3]}
+          className="text-blue-500 font-bold mx-1 hover:text-blue-600 underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {match[2]}
+        </Link>
+      );
+    } else if (match[4]) {
+      // Bold match (**text**)
+      parts.push(<strong key={'b' + match.index}>{match[5]}</strong>);
+    } else if (match[6]) {
+      // Italic match (*text*)
+      parts.push(<em key={'i' + match.index}>{match[7]}</em>);
+    }
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+}
 
   switch (block.type) {
     case 'heading': {

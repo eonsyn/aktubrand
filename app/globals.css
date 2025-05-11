@@ -1,26 +1,61 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fffbeb;
-    --foreground: #171717;
-    --highlight:#C05454;
+  /* === 60%: Base === */
+  --background: #F5F5F5;           /* Soft Light Gray */
+  --surface: #FFFFFF;              /* Card/Section Background */
+
+  /* === 30%: Text === */
+  --text-primary: #212121;         /* For Headings & Main Text */
+  --text-secondary: #666666;       /* For Paragraphs, Labels, Subtext */
+
+  /* === 10%: Accent === */
+  --highlight: #B22222;            /* AKTU Red - For highlights, buttons, links */
+
+  /* === Feedback / Utility (Used minimally) === */
+  --link: #0056D2;                 /* Link/CTA */
+  --success: #4CAF50;
+  --warning: #FF9800;
+  --error: #F44336;
 }
+
+
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-highlight: var(--highlight);
-
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-link: var(--link);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-surface: var(--surface);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-/* @media (prefers-color-scheme: dark) {
+ @media (prefers-color-scheme: dark) {
   :root {
-    --background: rgb(47, 17, 17);
-    --foreground: #ffff;
+    /* === 60%: Base === */
+    --background: #121212;          /* True dark */
+    --surface: #1E1E1E;             /* Surface/cards */
+
+    /* === 30%: Text === */
+    --text-primary: #F5F5F5;        /* Bright for headings */
+    --text-secondary: #B0B0B0;      /* Muted for paragraphs */
+
+    /* === 10%: Accent === */
+    --highlight: #FF6B6B;           /* Soft red for highlights/CTA */
+
+    /* === Feedback / Utility === */
+    --link: #82B1FF;
+    --success: #81C784;
+    --warning: #FFB74D;
+    --error: #EF5350;
   }
-} */
+} 
 
 body {
   background: var(--background);

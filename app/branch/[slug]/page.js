@@ -53,9 +53,9 @@ export default async function BranchPage({ params, searchParams }) {
 
   return (
     <div className="px-6  ">
-      <header className='flex pb-4   border-b-1  '>
+      <header className='flex pb-4   '>
         <div className=' w-full md:w-1/2'>
-          <h1 className="text-7xl lg:text-8xl leading-[3.8rem]  md:leading-[5rem] font-bold  capitalize">Quantum Series for <span className="text-highlight">
+          <h1 className="text-6xl lg:text-8xl leading-[3rem]  md:leading-[5rem] font-bold  capitalize">Quantum Series for <span className="text-highlight">
             {slug === 'cse'
               ? 'Computer Science '
               : slug === 'me'
@@ -63,8 +63,8 @@ export default async function BranchPage({ params, searchParams }) {
                 : slug}
           </span>
             Student </h1>
-            <div className='w-full py-1  md:hidden h-[48vh] overflow-hidden rounded-2xl'>
-            <Image src={quantumImage} className='   object-cover h-full' />
+            <div className='w-full py-2  md:hidden h-[48vh] overflow-hidden rounded-2xl'>
+            <Image src={quantumImage} className='   object-cover h-full' alt='quantum image' />
           </div>
           <p className='pt-1 text-xl'>
             Get Free Quantum from here and Boost your Score in Aktu Examination by Aktu Brand.
@@ -84,7 +84,7 @@ export default async function BranchPage({ params, searchParams }) {
 
         <div className="sticky top-14 justify-between md:flex z-10 py-1 items-center ">
           {/* Search Form */}
-          <form method="GET" className="hidden md:flex max-w-md p-1 rounded-xl bg-white/20 backdrop-blur-2xl    gap-2">
+          <form method="GET" className="hidden md:flex w-[60vw] p-1 rounded-xl bg-white/20 backdrop-blur-2xl    gap-2">
             <input
               type="text"
               name="search"
@@ -93,7 +93,7 @@ export default async function BranchPage({ params, searchParams }) {
               className="w-full border bg-white border-gray-300 rounded-lg py-3 px-4 shadow-sm"
             />
             <button
-              className="px-4 py-2 rounded-md bg-blue-500 text-white"
+              className="px-4 py-2 rounded-md bg-highlight text-white"
               type="submit"
             >
               Search
@@ -101,11 +101,11 @@ export default async function BranchPage({ params, searchParams }) {
           </form>
 
           {/* Filter Buttons */}
-          <div className="  justify-center hidden md:flex p-1 rounded-xl bg-white/20 backdrop-blur-2xl  gap-4">
+          <div className="bg-white/20   justify-center hidden md:flex p-1 rounded-xl  h-[56px] backdrop-blur-2xl  gap-4">
             {filterOptions.map((option, index) => (
               <Link key={index} href={getFilterLink(option.value)}>
                 <button
-                  className={`px-4 py-2 rounded-md ${filter === option.value ? 'bg-blue-600 text-white' : 'bg-gray-200'
+                  className={`px-4 py-2 h-full rounded-md ${filter === option.value ? 'bg-highlight text-white' : 'bg-gray-200'
                     }`}
                 >
                   {option.label}

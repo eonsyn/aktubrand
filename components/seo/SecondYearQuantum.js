@@ -1,83 +1,81 @@
-'use client';
+import React from "react";
 
 export default function SecondYearQuantum() {
+  const cards = [
+    {
+      title: "Understanding AKTU Quantum Series",
+      content: `The AKTU Quantum Series is a collection of essential study materials for B.Tech students, compiled for each semester. These PDFs cover various topics in Mathematics, Computer Science, Engineering, and more, making it easier to grasp complex concepts and ace exams.`,
+    },
+    {
+      title: "Why Use AKTU Quantum PDFs?",
+      content: `The Quantum PDFs offer concise explanations, step-by-step solutions, and exam-focused content. Whether you're struggling with a subject or need a quick revision guide, Quantum PDFs are your go-to resource.`,
+    },
+    {
+      title: "Subjects Covered in 2nd Year",
+      content: (
+        <ul className="list-disc pl-5 mt-2 space-y-1">
+          <li>Mathematics-IV</li>
+          <li>Technical Communication</li>
+          <li>Python Programming</li>
+          <li>Cyber Security</li>
+          <li>Mechanics of Solids</li>
+          <li>Energy Mechanics</li>
+        </ul>
+      ),
+    },
+    {
+      title: "How to Maximize Your Learning",
+      content: (
+        <ul className="list-disc pl-5 mt-2 space-y-1">
+          <li>Skim topics to get a general overview.</li>
+          <li>Understand concepts via solved examples.</li>
+          <li>Make notes of formulas and key points.</li>
+          <li>Practice frequently to retain knowledge.</li>
+          <li>Focus on topics often asked in exams.</li>
+        </ul>
+      ),
+    },
+    {
+      title: "Where to Find Quantum PDFs",
+      content: `Find resources from senior students, educational forums, or academic websites. Many platforms offer free and categorized PDF downloads for each branch and semester.`,
+    },
+    {
+      title: "Top Tips for Second-Year Students",
+      content: (
+        <ul className="list-disc pl-5 mt-2 space-y-1">
+          <li>Create a study plan and stick to it.</li>
+          <li>Study in short sessions to stay focused.</li>
+          <li>Use past papers for practice.</li>
+          <li>Avoid last-minute cramming.</li>
+          <li>Group study for tough subjects helps!</li>
+        </ul>
+      ),
+    },
+  ];
+
   return (
-    <section className=" p-8 rounded-3xl my-12">
-      <div className="text-center mb-8">
-        <h2 className="text-4xl font-extrabold text-blue-700">📘 AKTU Second Year Quantum Resources</h2>
-        <p className="text-lg text-gray-700 mt-2 max-w-2xl mx-auto">
-          Are you a second-year B.Tech student at AKTU? Here, we provide essential information about the AKTU Quantum Series for all branches, helping you access study materials, notes, and PDFs to boost your academic performance and prepare for exams effectively.
+    <section className="p-6 sm:p-8 md:p-12   my-12">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-highlight">AKTU Quantum Resources</h2>
+        <p className="text-lg text-gray-700 mt-4 max-w-3xl mx-auto leading-relaxed">
+          Are you a second-year B.Tech student at AKTU? Explore essential Quantum Series study resources for every branch—helping you access PDFs, notes, and quick revision tools for exam success.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
-          <h3 className="text-xl font-semibold text-blue-800">Understanding AKTU Quantum Series</h3>
-          <p className="text-sm text-gray-600 mt-2">
-            The AKTU Quantum Series is a collection of essential study materials for B.Tech students, compiled for each semester. These PDFs cover various topics in Mathematics, Computer Science, Engineering, and more, making it easier to grasp complex concepts and ace exams.
-          </p>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
-          <h3 className="text-xl font-semibold text-blue-800">Why Should You Use AKTU Quantum PDFs?</h3>
-          <p className="text-sm text-gray-600 mt-2">
-            The Quantum PDFs offer concise explanations, step-by-step solutions, and exam-focused content. They are created to help students study effectively, saving time while covering all important topics. Whether you're struggling with a subject or need a quick revision guide, Quantum PDFs can be your go-to resource.
-          </p>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
-          <h3 className="text-xl font-semibold text-blue-800">Essential Subjects Covered in 2nd Year</h3>
-          <p className="text-sm text-gray-600 mt-2">
-            Some of the key subjects in the second year that you can find in the AKTU Quantum PDFs include:
-            <ul className="list-disc pl-5 mt-2">
-              <li>Mathematics-IV</li>
-              <li>Technical Communication</li>
-              <li>Python Programming</li>
-              <li>Cyber Security</li>
-              <li>Mechanics of Solids</li>
-              <li>Energy Mechanics</li>
-            </ul>
-          </p>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
-          <h3 className="text-xl font-semibold text-blue-800">How to Utilize Quantum PDFs for Maximum Benefit</h3>
-          <p className="text-sm text-gray-600 mt-2">
-            To make the most out of the AKTU Quantum PDFs, follow these steps:
-            <ul className="list-disc pl-5 mt-2">
-              <li>Start by reading through the entire topic to get a broad understanding.</li>
-              <li>Use the solved examples to understand the application of theories.</li>
-              <li>Make notes of key points and formulas for quick revisions before exams.</li>
-              <li>Practice problems regularly to reinforce your learning.</li>
-              <li>Focus on the most important topics frequently asked in exams.</li>
-            </ul>
-          </p>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
-          <h3 className="text-xl font-semibold text-blue-800">Where to Find AKTU Quantum PDFs</h3>
-          <p className="text-sm text-gray-600 mt-2">
-            Finding high-quality study resources and Quantum PDFs can be overwhelming. Look for websites, forums, and communities where senior students share their study materials. Many educational portals also offer free downloads of these PDFs, ensuring easy access to essential study resources.
-          </p>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
-          <h3 className="text-xl font-semibold text-blue-800">Tips for Second-Year AKTU Students</h3>
-          <p className="text-sm text-gray-600 mt-2">
-            As a second-year B.Tech student, managing your time effectively is key. Use the following tips:
-            <ul className="list-disc pl-5 mt-2">
-              <li>Create a study schedule and stick to it.</li>
-              <li>Break your study sessions into smaller chunks to avoid burnout.</li>
-              <li>Regularly revise and test your knowledge with practice papers.</li>
-              <li>Stay consistent and avoid last-minute cramming.</li>
-              <li>Engage in group studies for difficult subjects.</li>
-            </ul>
-          </p>
-        </div>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {cards.map((card, index) => (
+          <div
+            key={index}
+            className="bg-white rounded-2xl p-6 border border-gray-100 shadow-md hover:shadow-lg transition duration-200"
+          >
+            <h3 className="text-xl font-bold text-highlight mb-2">{card.title}</h3>
+            <div className="text-sm text-gray-600 leading-relaxed">{card.content}</div>
+          </div>
+        ))}
       </div>
 
-      <p className="mt-8 text-center text-sm text-gray-600 max-w-xl mx-auto">
-        The AKTU Quantum Series is a valuable resource for students aiming to achieve academic excellence in their second year. Keep exploring, stay consistent, and make the most of these free study materials for better preparation.
+      <p className="mt-12 text-center text-sm text-gray-600 max-w-xl mx-auto leading-relaxed">
+        The AKTU Quantum Series is your shortcut to smart learning. Stay focused, revise regularly, and use these resources wisely for your academic growth. ✨
       </p>
     </section>
   );
