@@ -8,6 +8,8 @@ import Link from 'next/link';
 import MobileBar from '@/components/branch/MobileBar';
 import Image from 'next/image';
 import quantumImage from '@/public/assets/quantum/devinequantum.png'
+import AdBanner300x250 from '@/components/ads/AdBanner300x250';
+
 // Static params for branches (CSE, Mechanical, etc.)
 export async function generateStaticParams() {
   const branches = [
@@ -150,6 +152,8 @@ export default async function BranchPage({ params, searchParams }) {
 
         </div>
       </div>
+
+      <AdBanner300x250/>
       <ResourceInfo />
       <SecondYearQuantum />
     </div>
