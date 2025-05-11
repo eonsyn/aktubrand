@@ -110,7 +110,7 @@ const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 60*60*
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ tags: article.tags }),
-          next: { revalidate: 600 },
+          cache: 'no-store', // use this for POST
       });
 
       const suggestionData = await suggestionRes.json();
