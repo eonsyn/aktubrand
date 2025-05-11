@@ -19,10 +19,10 @@ export const metadata = {
   title: "Aktu Brand",
   description: "Get free quantum for the aktu exam - Quantum Series -Aktu Brand",
   verification: {
-    google: "a519RGXXnU8_HDFGvb_9NLkro6BAy_BnCXPq8fhFTkY",
+    google: "l447jfQ4xxcrmN2Q_Cq8q3aeuLvLAJo6cVNv35IA96Y",
   },
 };
-
+{/* <meta name="google-site-verification" a519RGXXnU8_HDFGvb_9NLkro6BAy_BnCXPq8fhFTkY  content="l447jfQ4xxcrmN2Q_Cq8q3aeuLvLAJo6cVNv35IA96Y" /> */}
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
