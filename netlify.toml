@@ -1,5 +1,5 @@
 [build]
-command = "node scripts/netlify-redirect-check.js && next build"
+command = "next build"
 publish = ".next"
 
 [context.production.environment]
