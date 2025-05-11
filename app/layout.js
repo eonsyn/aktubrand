@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import Script from "next/script";
+import { redirect } from 'next/navigation';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +25,10 @@ export const metadata = {
 };
 {/* <meta name="google-site-verification" a519RGXXnU8_HDFGvb_9NLkro6BAy_BnCXPq8fhFTkY  content="l447jfQ4xxcrmN2Q_Cq8q3aeuLvLAJo6cVNv35IA96Y" /> */}
 export default function RootLayout({ children }) {
+   const shouldRedirect = process.env.REDIRECT === 'true';
+if (shouldRedirect) {
+    redirect('https://aktubrand.vercel.app');
+  }
   return (
     <html lang="en">
       <head>
