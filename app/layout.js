@@ -54,7 +54,7 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-X3T9Z80F2W');
           `}
         </Script>
-        <script type='text/javascript' src='//compassionunsuccessful.com/a1/3c/a3/a13ca34f5cd77bb10efab9952ec9a25a.js'></script>
+        {/* <script type='text/javascript' src='//compassionunsuccessful.com/a1/3c/a3/a13ca34f5cd77bb10efab9952ec9a25a.js'></script> */}
       </body>
     </html>
   );

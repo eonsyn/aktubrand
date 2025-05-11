@@ -4,6 +4,7 @@ import Subject from '@/models/Subject';
 import ResourceInfo from '@/components/seo/ResourceInfo';
 import SecondYearQuantum from '@/components/seo/SecondYearQuantum';
 import Link from 'next/link';
+ import ButtonBounce from '@/components/branch/ButtonBounce';
 import MobileBar from '@/components/branch/MobileBar';
 import Image from 'next/image';
 import quantumImage from '@/public/assets/quantum/devinequantum.png'
@@ -52,32 +53,36 @@ export default async function BranchPage({ params, searchParams }) {
   };
 
   return (
-    <div className="px-2  ">
+    <div className="px-2 md:px-6  ">
       <header className='flex pb-4   '>
         <div className=' w-full md:w-1/2'>
-          <h1 className="text-6xl lg:text-8xl leading-[3rem]  md:leading-[5rem] font-bold  capitalize">Quantum Series for <span className="text-highlight">
+          <h1 className="text-6xl lg:text-8xl leading-[3rem]  md:leading-[5rem] font-bold  capitalize">Quantum Series for <span className="block text-highlight">AKTU</span>
+             {/* <span className="text-highlight">
             {slug === 'cse'
               ? 'Computer Science '
               : slug === 'me'
                 ? 'Mechanical Engineering '
                 : slug}
-          </span>
+          </span> */}
             Student </h1>
-            <div className='w-full my-1  md:hidden h-[45vh] overflow-hidden rounded-2xl'>
+          <div className='w-full my-1  md:hidden h-[45vh] overflow-hidden rounded-2xl'>
             <Image src={quantumImage} className='   object-cover h-full' alt='quantum image' />
           </div>
           <p className='pt-1 tracking-wide text-md'>
             Get Free Quantum from here and Boost your Score in Aktu Examination by Aktu Brand.
           </p>
-          
+               <div>
+                <ButtonBounce/>
+               </div>
         </div>
         <div className='w-1/2  hidden md:block h-[88vh] overflow-hidden rounded-2xl'>
           <Image src={quantumImage} className='   object-cover h-full' />
         </div>
+
       </header>
 
 
-      <div className='pt-2'>
+      <div id='quantum' className='pt-2'>
 
 
         {/* Sticky Search + Filters */}
@@ -127,21 +132,21 @@ export default async function BranchPage({ params, searchParams }) {
 
         {/* Subjects Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4 mt-6">
-         {subjects.map((subject, index) => {
-  // Convert the subject object to a plain object with only the necessary fields
-  const plainSubject = {
-    subjectName: subject.subjectName,
-    branch: subject.branch,
-    type: subject.type,
-    tags: subject.tags,
-    pdfUrl: subject.pdfUrl,
-    cardImageUrl: subject.cardImageUrl,
-    description: subject.description,
-    subjectCode: subject.subjectCode,
-  };
+          {subjects.map((subject, index) => {
+            // Convert the subject object to a plain object with only the necessary fields
+            const plainSubject = {
+              subjectName: subject.subjectName,
+              branch: subject.branch,
+              type: subject.type,
+              tags: subject.tags,
+              pdfUrl: subject.pdfUrl,
+              cardImageUrl: subject.cardImageUrl,
+              description: subject.description,
+              subjectCode: subject.subjectCode,
+            };
 
-  return <SubjectCard key={index} subject={plainSubject} index={index} />;
-})}
+            return <SubjectCard key={index} subject={plainSubject} index={index} />;
+          })}
 
         </div>
       </div>
