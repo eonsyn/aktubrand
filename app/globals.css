@@ -39,21 +39,21 @@
  @media (prefers-color-scheme: dark) {
   :root {
     /* === 60%: Base === */
-    --background: #121212;          /* True dark */
-    --surface: #1E1E1E;             /* Surface/cards */
+   /*--background: #121212;          /* True dark */
+    /*--surface: #1E1E1E;             /* Surface/cards */
 
     /* === 30%: Text === */
-    --text-primary: #F5F5F5;        /* Bright for headings */
-    --text-secondary: #B0B0B0;      /* Muted for paragraphs */
+  /*  --text-primary: #F5F5F5;        /* Bright for headings */
+    /*--text-secondary: #B0B0B0;      /* Muted for paragraphs */
 
     /* === 10%: Accent === */
-    --highlight: #FF6B6B;           /* Soft red for highlights/CTA */
+   /* --highlight: #FF6B6B;           /* Soft red for highlights/CTA */
 
     /* === Feedback / Utility === */
-    --link: #82B1FF;
+   /* --link: #82B1FF;
     --success: #81C784;
     --warning: #FFB74D;
-    --error: #EF5350;
+    --error: #EF5350;*/
   }
 } 
 
