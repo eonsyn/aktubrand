@@ -59,7 +59,7 @@ export async function generateMetadata({ params }) {
     };
   }
 }
-export const revalidate = 60*2;
+export const revalidate = 7200;
 
 export async function generateStaticParams() {
   const host = process.env.HOST_URL || 'http://localhost:3000';
