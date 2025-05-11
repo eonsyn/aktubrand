@@ -3,17 +3,23 @@ import { NextResponse } from "next/server";
 
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
+  const isAdminRoute = pathname.startsWith("/admin");
 
-  // Allow login and signup pages to be accessed without authentication
+  // ✅ Handle non-admin route redirection
+  const REDIRECT = process.env.REDIRECT === "true";
+  if (!isAdminRoute && REDIRECT) {
+    const redirectUrl = new URL(`https://aktubrand.vercel.app${pathname}`);
+    return NextResponse.redirect(redirectUrl, 301);
+  }
+
+  // ✅ Allow login/signup without token
   if (pathname.startsWith("/admin/login") || pathname.startsWith("/admin/signup")) {
     return NextResponse.next();
   }
 
-  // Check for token
+  // ✅ Auth check for admin routes
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-
-  // If token is missing, redirect to login
-  if (!token) {
+  if (isAdminRoute && !token) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 
@@ -21,5 +27,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/:path*"], // ✅ Match all routes now (not just /admin)
 };
