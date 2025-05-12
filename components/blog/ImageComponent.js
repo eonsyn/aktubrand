@@ -23,12 +23,12 @@ function ImageComponent({ imageUrl, alt }) {
       {/* Thumbnail */}
       <div
         onClick={() => setIsOpen(true)}
-        className="cursor-zoom-in transition-transform duration-300 ease-in-out hover:scale-105 inline-block"
+        className="cursor-zoom-in transition-transform duration-300 ease-in-out  inline-block"
       >
         <img
           src={imageUrl}
           alt={alt}
-          className="h-48 w-auto object-cover rounded-md shadow"
+          className="h-48 w-auto  rounded-md shadow"
         />
       </div>
 

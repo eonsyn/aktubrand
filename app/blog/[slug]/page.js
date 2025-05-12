@@ -1,8 +1,7 @@
 // app/blog/[slug]/page.jsx
 import Link from "next/link";
 import BlogSuggestions from '@/components/blog/BlogSuggestions';
-
-import ArticleCard from "@/components/cards/ArticleCard";
+import UserBlogRender from "@/components/blog/UserBlogRender";
 import ImageComponent from "@/components/blog/ImageComponent";
 export async function generateMetadata({ params }) {
   const { slug } = params;
@@ -150,53 +149,8 @@ export default async function BlogPage({ params }) {
 
   return (
     <main className="min-h-screen max-w-3xl mx-auto px-4 py-8 text-gray-800">
-      <h1 className="text-4xl font-bold mb-4">{article.title}</h1>
-      <p className="text-sm text-gray-500">By {article.author}</p>
-      <span className="text-sm text-gray-500 mb-6 block">
-        {new Date(article.createdAt).toLocaleString('en-US', {
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit',
-          hour12: true
-        })}
-      </span>
-      <hr />
-
-      {article.content.map((block, index) => {
-        switch (block.type) {
-          case 'heading':
-            const HeadingTag = `h${block.level || 1}`;
-            return <HeadingTag key={index} className="text-2xl font-semibold mt-3 mb-1">{renderTextWithLinks(block.value)}</HeadingTag>;
-          case 'paragraph':
-            return <p key={index} className="text-base leading-relaxed mb-4">{renderTextWithLinks(block.value)}</p>;
-          case 'code':
-            return (
-              <pre key={index} className="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto mb-4">
-                <code>{block.value}</code>
-              </pre>
-            );
-          case 'image':
-            return (
-              <div key={index} className="flex items-center flex-col py-3 h-[40vh]">
-
-                <ImageComponent imageUrl={block.value} alt={block.alt} />
-                <span className="italic">{block.alt}</span>
-              </div>
-            );
-          case 'list':
-            return (
-              <ul key={index} className="list-disc list-inside mb-4">
-                {block.value.split('\n').map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            );
-          default:
-            return null;
-        }
-      })}
+      <UserBlogRender article={article} />
+       
 
       <div className="mt-8 text-sm text-gray-500">
         Tags: {article.tags?.map((tag, i) => (
