@@ -80,7 +80,7 @@ export default async function BranchPage({ params, searchParams }) {
                </div>
         </div>
         <div className='w-1/2  hidden md:block h-[88vh] overflow-hidden rounded-2xl'>
-          <Image src={quantumImage} className='   object-cover h-full' />
+          <Image alt='quantum image' src={quantumImage} className='   object-cover h-full' />
         </div>
 
       </header>
