@@ -27,6 +27,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2404358914933411"
+     crossorigin="anonymous"></script>
+     
         {/* Popunder script inserted before ads </head> */}
         {/* <Script
           src="//compassionunsuccessful.com/f0/55/3b/f0553bb8ac6b09b905707e3d635a8a1a.js"
