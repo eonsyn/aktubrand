@@ -60,7 +60,7 @@ export async function generateMetadata({ params }) {
     };
   }
 }
-export const revalidate = 7200;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const host = process.env.HOST_URL || 'http://localhost:3000';
@@ -88,9 +88,10 @@ export default async function BlogPage({ params }) {
   const { slug } = params;
   const host = process.env.HOST_URL || 'http://localhost:3000';
 
-  const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 72000 } });
+  const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 3600 } });
 
   if (!res.ok) {
+    console.log(res)
     return <div>Article not found</div>;
   }
 
