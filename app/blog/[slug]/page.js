@@ -1,5 +1,7 @@
 // app/blog/[slug]/page.jsx
 import Link from "next/link";
+import BlogSuggestions from '@/components/blog/BlogSuggestions';
+
 import ArticleCard from "@/components/cards/ArticleCard";
 import ImageComponent from "@/components/blog/ImageComponent";
 export async function generateMetadata({ params }) {
@@ -7,7 +9,7 @@ export async function generateMetadata({ params }) {
 
   try {
     const res = await fetch(`${process.env.HOST_URL}/api/blog/${slug}`, {
-      next: { revalidate: 60 * 60  },
+      next: { revalidate: 60 * 60 },
     });
 
     const { article } = await res.json();
@@ -21,15 +23,15 @@ export async function generateMetadata({ params }) {
 
     const formattedTitle = article.title || slug.replaceAll('-', ' ');
     const description =
-      article.content?.find((b) => b.type === 'paragraph')?.value.slice(0, 160) || 
+      article.content?.find((b) => b.type === 'paragraph')?.value.slice(0, 160) ||
       'Read the latest article on aktu brand.';
     const image = article.thumbnailUrl || 'https://aktubrand.vercel.app/default-thumbnail.jpg';
 
     return {
       title: `${formattedTitle} | aktu brand`,
       description,
-      keywords: article.tags?.join(', '), 
-      
+      keywords: article.tags?.join(', '),
+
       openGraph: {
         title: `${formattedTitle} | aktu brand`,
         description,
@@ -87,7 +89,7 @@ export default async function BlogPage({ params }) {
   const { slug } = params;
   const host = process.env.HOST_URL || 'http://localhost:3000';
 
-const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 72000 } });
+  const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 72000 } });
 
   if (!res.ok) {
     return <div>Article not found</div>;
@@ -99,73 +101,52 @@ const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 72000 
   if (!article) {
     return <div className="min-h-screen">Article not found</div>;
   }
+ 
 
-  // ⬇️ Fetch blog suggestions based on tags
-  let suggestions = [];
-  if (article.tags?.length > 0) {
-    try {
-      const suggestionRes = await fetch(`${host}/api/blog/blog-suggestion`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ tags: article.tags }),
-          cache: 'no-store', // use this for POST
-      });
+  function renderTextWithLinks(text) {
+    if (!text || typeof text !== 'string') return null;
 
-      const suggestionData = await suggestionRes.json();
-      if (suggestionRes.ok) {
-        suggestions = suggestionData.suggestions || [];
+    // Regex to match [label](url), **bold**, and *italic*
+    const regex = /(\[([^\]]+)\]\((https?:\/\/[^\s)]+)\))|(\*\*([^*]+)\*\*)|(\*([^*]+)\*)/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(text.slice(lastIndex, match.index));
       }
-    } catch (err) {
-      console.error('Error fetching suggestions:', err);
-    }
-  }
 
-function renderTextWithLinks(text) {
-  if (!text || typeof text !== 'string') return null;
+      if (match[1]) {
+        // Link match
+        parts.push(
+          <Link
+            key={match[3] + match.index}
+            href={match[3]}
+            className="text-blue-500 font-bold mx-1 hover:text-blue-600 underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {match[2]}
+          </Link>
+        );
+      } else if (match[4]) {
+        // Bold match (**text**)
+        parts.push(<strong key={'b' + match.index}>{match[5]}</strong>);
+      } else if (match[6]) {
+        // Italic match (*text*)
+        parts.push(<em key={'i' + match.index}>{match[7]}</em>);
+      }
 
-  // Regex to match [label](url), **bold**, and *italic*
-  const regex = /(\[([^\]]+)\]\((https?:\/\/[^\s)]+)\))|(\*\*([^*]+)\*\*)|(\*([^*]+)\*)/g;
-  const parts = [];
-  let lastIndex = 0;
-  let match;
-
-  while ((match = regex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
-    }
-
-    if (match[1]) {
-      // Link match
-      parts.push(
-        <Link
-          key={match[3] + match.index}
-          href={match[3]}
-          className="text-blue-500 font-bold mx-1 hover:text-blue-600 underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {match[2]}
-        </Link>
-      );
-    } else if (match[4]) {
-      // Bold match (**text**)
-      parts.push(<strong key={'b' + match.index}>{match[5]}</strong>);
-    } else if (match[6]) {
-      // Italic match (*text*)
-      parts.push(<em key={'i' + match.index}>{match[7]}</em>);
+      lastIndex = regex.lastIndex;
     }
 
-    lastIndex = regex.lastIndex;
-  }
+    if (lastIndex < text.length) {
+      parts.push(text.slice(lastIndex));
+    }
 
-  if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
+    return parts;
   }
-
-  return parts;
-}
 
   return (
     <main className="min-h-screen max-w-3xl mx-auto px-4 py-8 text-gray-800">
@@ -199,8 +180,8 @@ function renderTextWithLinks(text) {
           case 'image':
             return (
               <div key={index} className="flex items-center flex-col py-3 h-[40vh]">
-                
-                <ImageComponent imageUrl={block.value} alt={block.alt}  />
+
+                <ImageComponent imageUrl={block.value} alt={block.alt} />
                 <span className="italic">{block.alt}</span>
               </div>
             );
@@ -225,16 +206,7 @@ function renderTextWithLinks(text) {
         ))}
       </div>
 
-      {suggestions.length > 0 && (
-        <section className="mt-10">
-          <h2 className="text-2xl font-bold mb-4">You may also like</h2>
-          <div className="grid gap-6 grid-cols-1      lg:grid-cols-2">
-            {suggestions.map((suggested, i) => (
-           <ArticleCard key={i} article={suggested} />
-            ))}
-          </div>
-        </section>
-      )}
+    <BlogSuggestions tags={article.tags} slug={article.slug} />
     </main>
   );
 }
