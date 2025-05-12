@@ -1,3 +1,5 @@
+export const revalidate = 600; // Regenerate every 60 seconds
+
 import SubjectCard from '@/components/cards/SubjectCard';
 import connectDB from '@/utils/db';
 import Subject from '@/models/Subject';

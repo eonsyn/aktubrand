@@ -45,8 +45,8 @@ export default function RootLayout({ children }) {
         <Footer />
 
         {/* Google Analytics Script */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-X3T9Z80F2W"
+         <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-1W81KSW14R"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -54,7 +54,7 @@ export default function RootLayout({ children }) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-X3T9Z80F2W');
+            gtag('config', 'G-1W81KSW14R');
           `}
         </Script>
         {/* <script type='text/javascript' src='//compassionunsuccessful.com/a1/3c/a3/a13ca34f5cd77bb10efab9952ec9a25a.js'></script> */}
