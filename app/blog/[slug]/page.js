@@ -90,10 +90,17 @@ export default async function BlogPage({ params }) {
 
   const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 3600 } });
 
-  if (!res.ok) {
-    console.log(res)
-    return <div>Article not found</div>;
-  }
+  if (!res.ok) { 
+  return (
+    <div className="flex items-center justify-center h-[60vh]">
+      <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-xl shadow-md text-center">
+        <h2 className="text-xl font-semibold mb-2">Article Not Found</h2>
+        <p className="text-sm">Sorry, the article you're looking for doesn't exist or may have been removed.</p>
+      </div>
+    </div>
+  );
+}
+
 
   const post = await res.json();
   const article = post.article;
