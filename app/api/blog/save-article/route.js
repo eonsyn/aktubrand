@@ -19,7 +19,7 @@ export async function GET(req) {
     await connectDB();
 
     // Only select specific fields 
-    const articles = await Article.find({ isPublished: true }).select('slug title thumbnailUrl author createdAt');
+    const articles = await Article.find({ isPublished: true }).select('slug title thumbnailUrl author createdAt').sort({ createdAt: -1 });;
 
     return NextResponse.json({ success: true, articles });
   } catch (error) {
