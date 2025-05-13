@@ -1,31 +1,39 @@
 import mongoose from 'mongoose';
 
-let isConnected = false;
+const mongoUri = process.env.MONGODB_URI;
+
+if (!mongoUri) {
+  throw new Error('MONGODB_URI not set in environment variables');
+}
+
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
 
 const connectDB = async () => {
-  if (isConnected) return;
+  if (cached.conn) {
+    return cached.conn;
+  }
 
-  const mongoUri = process.env.MONGODB_URI;
-  if (!mongoUri) throw new Error('MONGODB_URI not set in .env.local');
-
-  try {
-    await mongoose.connect(mongoUri, {
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(mongoUri, {
       dbName: 'aktudb',
       serverSelectionTimeoutMS: 10000,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+    }).then((mongoose) => {
+      console.log("✅ MongoDB connected");
+      return mongoose;
+    }).catch((err) => {
+      console.error("❌ MongoDB connection error:", err.message);
+      throw err;
     });
-
-    if (mongoose.connection.readyState === 1) {
-      isConnected = true;
-      console.log('✅ MongoDB connected and ready');
-    } else {
-      throw new Error('MongoDB connection not in ready state');
-    }
-  } catch (err) {
-    console.error('❌ MongoDB connection error:', err.message);
-    throw err;
   }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 };
 
 export default connectDB;
