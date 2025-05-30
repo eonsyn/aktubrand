@@ -1,4 +1,3 @@
-'use client';
 import GoogleBlogAds from '@/components/googleAds/GoogleBlogAds';
 export const revalidate = 60;
 
@@ -20,9 +19,8 @@ async function Page() {
   const data = await res.json();
   const articles = data.articles || [];
 
-  // 🧠 Insert the ad randomly
   const cardsWithAds = [];
-  const adIndex = Math.floor(Math.random() * (articles.length + 1)); // random index to insert ad
+  const adIndex = Math.floor(Math.random() * (articles.length + 1));
 
   articles.forEach((article, idx) => {
     if (idx === adIndex) {
