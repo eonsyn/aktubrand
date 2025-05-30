@@ -30,12 +30,7 @@ export default function RootLayout({ children }) {
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2404358914933411"
      crossorigin="anonymous"></script>
      
-        {/* Popunder script inserted before ads </head> */}
-        {/* <Script
-          src="//compassionunsuccessful.com/f0/55/3b/f0553bb8ac6b09b905707e3d635a8a1a.js"
-          strategy="beforeInteractive"
-          type="text/javascript"
-        /> */}
+         
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar />
@@ -57,7 +52,7 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-1W81KSW14R');
           `}
         </Script>
-        {/* <script type='text/javascript' src='//compassionunsuccessful.com/a1/3c/a3/a13ca34f5cd77bb10efab9952ec9a25a.js'></script> */}
+        
       </body>
     </html>
   );
