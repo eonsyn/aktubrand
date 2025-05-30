@@ -10,7 +10,7 @@ export default async function sitemap() {
 
   const articles = await Article.find({ isPublished: true }).select('slug');
 
-  const baseUrl = 'https://aktubrand.netlify.app';
+  const baseUrl = 'https://aktubrand.vercel.app';
 
   const staticRoutes = [
     {
