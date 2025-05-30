@@ -19,27 +19,20 @@ async function Page() {
   const data = await res.json();
   const articles = data.articles || [];
 
-  const numberOfAds = Math.min(3, Math.floor(articles.length / 2)); // Max 3 ads, 1 ad per 2 articles
-  const adIndexes = new Set();
-
-  while (adIndexes.size < numberOfAds) {
-    const randomIndex = Math.floor(Math.random() * (articles.length + 1));
-    adIndexes.add(randomIndex);
-  }
-
   const cardsWithAds = [];
+  const adIndex = Math.floor(Math.random() * (articles.length + 1));
 
   articles.forEach((article, idx) => {
-    if (adIndexes.has(idx)) {
+    if (idx === adIndex) {
       cardsWithAds.push(
-        <div key={`ad-${idx}`} className="col-span-1">
+        <div key="ad" className="col-span-1">
           <GoogleBlogAds />
         </div>
       );
     }
 
     cardsWithAds.push(
-      <ArticleCard key={`article-${idx}`} article={article} />
+      <ArticleCard key={idx} article={article} />
     );
   });
 
