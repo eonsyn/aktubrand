@@ -3,8 +3,9 @@ import Link from "next/link";
 import BlogSuggestions from '@/components/blog/BlogSuggestions';
 import UserBlogRender from "@/components/blog/UserBlogRender";
 import ImageComponent from "@/components/blog/ImageComponent";
+import BlockAi from "@/components/blog/ai/BlockAi";
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   try {
     const res = await fetch(`${process.env.HOST_URL}/api/blog/${slug}`, {
@@ -154,21 +155,43 @@ export default async function BlogPage({ params }) {
 
     return parts;
   }
+function extractPlainTextFromContent(contentArray) {
+  return contentArray
+    .filter(block => block.type === 'paragraph' || block.type === 'heading')
+    .map(block => {
+      if (block.type === 'heading') {
+        return `${'#'.repeat(block.level || 1)} ${block.value}`;
+      }
+      return block.value;
+    })
+    .join('\n\n');
+}
 
   return (
-    <main className="min-h-screen max-w-3xl mx-auto px-4 py-8 text-gray-800">
-      <UserBlogRender article={article} />
-       
+   <main className="min-h-screen w-full flex">
+  {/* Left Side - Red */}
+  <div className="hidden md:block w-1/6 "></div>
 
-      <div className="mt-8 text-sm text-gray-500">
-        Tags: {article.tags?.map((tag, i) => (
-          <span key={i} className="bg-gray-200 px-2 py-1 rounded mr-2">
-            #{tag}
-          </span>
-        ))}
-      </div>
+  {/* Center Content */}
+  <div className="w-4/6 max-w-4xl mx-auto px-4 py-8 text-gray-800">
+    <UserBlogRender article={article} />
+
+    <div className="mt-8 text-sm text-gray-500">
+      Tags: {article.tags?.map((tag, i) => (
+        <span key={i} className="bg-gray-200 px-2 py-1 rounded mr-2">
+          #{tag}
+        </span>
+      ))}
+    </div>
 
     <BlogSuggestions tags={article.tags} slug={article.slug} />
-    </main>
+  </div>
+
+  {/* Right Side - Black */}
+  <div className="w-1/6   hidden md:flex  flex-col p-2 overflow-y-auto">
+    <BlockAi article={extractPlainTextFromContent(article.content)} />
+  </div>
+</main>
+
   );
 }
