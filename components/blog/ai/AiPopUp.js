@@ -163,6 +163,7 @@ function AiPopUp({ isBotOpen, onClose, article }) {
                     }}
                 />
                 <button
+                type='submit'
                     onClick={sendMessage}
                     disabled={loading}
                     className="text-[#C8281D] font-bold text-xl disabled:opacity-40"
