@@ -188,7 +188,7 @@ function extractPlainTextFromContent(contentArray) {
   </div>
 
   {/* Right Side - Black */}
-  <div className="w-1/6   hidden md:flex  flex-col p-2 overflow-y-auto">
+  <div className="w-1/6   flex  flex-col p-2 overflow-y-auto">
     <BlockAi article={extractPlainTextFromContent(article.content)} />
   </div>
 </main>
