@@ -54,45 +54,46 @@ const CopyLinkButton = ({ url }) => {
 
       {/* Share Options */}
       {showOptions && (
-        <div className="absolute top-full mt-2 left-0 bg-white shadow-lg rounded p-2 flex space-x-3 z-50">
-          <a
-            href={`https://wa.me/?text=${encodeURIComponent(url)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-green-500 text-xl hover:scale-110 transition"
-            title="Share on WhatsApp"
-          >
-            <FaWhatsapp />
-          </a>
+        <div className="absolute top-full mt-2 left-0 bg-white shadow-lg rounded p-2 flex flex-col space-y-3 z-50">
+  <a
+    href={`https://wa.me/?text=${encodeURIComponent(url)}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-green-500 text-xl hover:scale-110 transition"
+    title="Share on WhatsApp"
+  >
+    <FaWhatsapp />
+  </a>
 
-          <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 text-xl hover:scale-110 transition"
-            title="Share on Facebook"
-          >
-            <FaFacebook />
-          </a>
+  <a
+    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-blue-600 text-xl hover:scale-110 transition"
+    title="Share on Facebook"
+  >
+    <FaFacebook />
+  </a>
 
-          <a
-            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sky-500 text-xl hover:scale-110 transition"
-            title="Share on Twitter"
-          >
-            <FaTwitter />
-          </a>
+  <a
+    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-sky-500 text-xl hover:scale-110 transition"
+    title="Share on Twitter"
+  >
+    <FaTwitter />
+  </a>
 
-          <button
-            onClick={handleCopy}
-            className="text-gray-600 text-xl hover:scale-110 transition"
-            title="Copy link"
-          >
-            <MdContentCopy />
-          </button>
-        </div>
+  <button
+    onClick={handleCopy}
+    className="text-gray-600 text-xl hover:scale-110 transition"
+    title="Copy link"
+  >
+    <MdContentCopy />
+  </button>
+</div>
+
       )}
     </div>
   );

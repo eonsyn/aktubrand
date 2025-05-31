@@ -76,7 +76,7 @@ function UserBlogRender({ article }) {
                         const HeadingTag = `h${block.level || 1}`;
                         return <HeadingTag key={index} className="text-2xl font-semibold mt-3 mb-1">{renderTextWithLinks(block.value)}</HeadingTag>;
                     case 'paragraph':
-                        return <p key={index} className="text-base leading-relaxed mb-4">{renderTextWithLinks(block.value)}</p>;
+                        return <p key={index} className="text-xl leading-relaxed mb-4">{renderTextWithLinks(block.value)}</p>;
                     case 'code':
                         return (
                             <pre key={index} className="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto mb-4">
@@ -93,9 +93,9 @@ function UserBlogRender({ article }) {
                         );
                     case 'list':
                         return (
-                            <ul key={index} className="list-disc list-inside mb-4">
+                            <ul key={index} className="list-disc list-inside text-xl mb-4">
                                 {block.value.split('\n').map((item, i) => (
-                                    <li key={i}>{item}</li>
+                                    <li key={i}>{renderTextWithLinks(item)}</li>
                                 ))}
                             </ul>
                         );

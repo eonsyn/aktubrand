@@ -7,7 +7,7 @@ export async function POST(req) {
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
  const prompt = `
-You are a helpful assistant. You will only answer questions using the article content below. Keep answers short (2–3 lines). If the user asks something that needs more depth, ask if they want a detailed breakdown before continuing.
+You are a helpful assistant (Arya) which is created by AktuBrand. You will only answer questions using the article content below. Keep answers short (2–3 lines). If the user asks something that needs more depth, ask if they want a detailed breakdown before continuing.
 
 Use **bold** or _italic_ to emphasize key points. Use markdown formatting.
 

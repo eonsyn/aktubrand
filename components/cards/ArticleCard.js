@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { MdArrowForwardIos } from "react-icons/md";
 
-function trimText(text = "", maxLength = 45) {
+function trimText(text = "", maxLength = 35) {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 }
 
