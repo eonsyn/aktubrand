@@ -51,7 +51,7 @@ function UserBlogRender({ article }) {
     }
     return (
         <>
-            <h1 className="text-4xl font-bold mb-4">{article.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{article.title}</h1>
             <div className='flex items-center justify-between '>
                 <span className="text-sm text-gray-500 mb-2 block">
                     {new Date(article.createdAt).toLocaleString('en-US', {
@@ -71,38 +71,69 @@ function UserBlogRender({ article }) {
             <hr />
 
             {article.content.map((block, index) => {
-                switch (block.type) {
-                    case 'heading':
-                        const HeadingTag = `h${block.level || 1}`;
-                        return <HeadingTag key={index} className="text-2xl font-semibold mt-3 mb-1">{renderTextWithLinks(block.value)}</HeadingTag>;
-                    case 'paragraph':
-                        return <p key={index} className="text-xl leading-relaxed mb-4">{renderTextWithLinks(block.value)}</p>;
-                    case 'code':
-                        return (
-                            <pre key={index} className="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto mb-4">
-                                <code>{block.value}</code>
-                            </pre>
-                        );
-                    case 'image':
-                        return (
-                            <div key={index} className="flex items-center flex-col py-3 h-[40vh]">
+               switch (block.type) {
+    case 'heading': {
+        const HeadingTag = `h${block.level || 1}`;
+        return (
+            <HeadingTag
+                key={index}
+                className="text-2xl md:text-3xl lg:text-4xl font-semibold mt-6 mb-2"
+            >
+                {renderTextWithLinks(block.value)}
+            </HeadingTag>
+        );
+    }
 
-                                <ImageComponent imageUrl={block.value} alt={block.alt} />
-                                <span className="italic">{block.alt}</span>
-                            </div>
-                        );
-                    case 'list':
-                        return (
-                            <ul key={index} className="list-disc list-inside text-xl mb-4">
-                                {block.value.split('\n').map((item, i) => (
-                                    <li key={i}>{renderTextWithLinks(item)}</li>
-                                ))}
-                            </ul>
-                        );
-                    default:
-                        return null;
-                }
+    case 'paragraph':
+        return (
+            <p
+                key={index}
+                className="text-base md:text-lg lg:text-xl leading-relaxed mb-4"
+            >
+                {renderTextWithLinks(block.value)}
+            </p>
+        );
+
+    case 'code':
+        return (
+            <pre
+                key={index}
+                className="bg-gray-100 p-4 rounded text-sm md:text-base font-mono overflow-x-auto mb-4"
+            >
+                <code>{block.value}</code>
+            </pre>
+        );
+
+    case 'image':
+        return (
+            <div
+                key={index}
+                className="flex items-center flex-col py-4 h-[40vh]"
+            >
+                <ImageComponent imageUrl={block.value} alt={block.alt} />
+                <span className="italic text-sm mt-2">{block.alt}</span>
+            </div>
+        );
+
+    case 'list':
+        return (
+            <ul
+                key={index}
+                className="list-disc list-inside text-base md:text-lg lg:text-xl mb-4 space-y-1"
+            >
+                {block.value.split('\n').map((item, i) => (
+                    <li key={i}>{renderTextWithLinks(item)}</li>
+                ))}
+            </ul>
+        );
+
+    default:
+        return null;
+}
+
             })}
+              
+
         </>
     )
 }

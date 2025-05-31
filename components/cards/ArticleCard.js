@@ -8,8 +8,8 @@ function trimText(text = "", maxLength = 35) {
 
 export default function ArticleCard({ article, id }) {
   return (
-    <Link   href={`/blog/${article.slug}`} className="bg-slate-100 group w-76 shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-      <div className="imagebox h-48 overflow-hidden">
+    <Link   href={`/blog/${article.slug}`} className="bg-slate-100 group w-full shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+      <div className="imagebox  h-48 overflow-hidden">
         <img
           src={
             article?.thumbnailUrl ||

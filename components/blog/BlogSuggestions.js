@@ -33,9 +33,9 @@ export default function BlogSuggestions({ tags, slug }) {
   if (!suggestions.length) return null;
 
   return (
-    <section className="mt-10">
-      <h2 className="text-2xl font-bold mb-4">You may also like</h2>
-      <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
+    <section className="mt-10 w-full">
+      <h2 className="text-4xl font-bold mb-4">You may also like:</h2>
+      <div className="grid gap-6  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  w-full ">
         {suggestions.map((article, index) => (
           <ArticleCard key={index} article={article} />
         ))}

@@ -13,7 +13,7 @@ function BlockAi({ article }) {
 
   return (
     <div className="w-full relative text-xl z-50">
-      {isBotOpen && <AiPopUp article={article} onClose={toggleBot} />}
+      {isBotOpen && <AiPopUp isBotOpen={isBotOpen} article={article} onClose={toggleBot} />}
 
       <div
         onClick={toggleBot}

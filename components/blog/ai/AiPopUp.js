@@ -4,16 +4,42 @@ import { IoMdClose } from 'react-icons/io';
 import ReactMarkdown from 'react-markdown';
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 
-function AiPopUp({ onClose, article }) {
+function AiPopUp({ isBotOpen, onClose, article }) {
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const [shouldRender, setShouldRender] = useState(false);
+
     const messagesEndRef = useRef(null);
+    const inputRef = useRef(null);
+
+    // Control show/hide animation
+    useEffect(() => {
+        if (isBotOpen) {
+            setShouldRender(true);
+            setTimeout(() => {
+                setVisible(true);
+                inputRef.current?.focus(); // Autofocus on open
+            }, 20);
+        } else {
+            setVisible(false);
+            setTimeout(() => setShouldRender(false), 300); // Unmount after animation
+        }
+    }, [isBotOpen]);
+
+    // Auto focus again after loading ends
+    useEffect(() => {
+        if (!loading) {
+            inputRef.current?.focus();
+        }
+    }, [loading]);
+
+    // Auto scroll to bottom when messages change
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, loading]);
-    
-    
+
     const sendMessage = async (question = input) => {
         if (!question.trim()) return;
 
@@ -48,16 +74,23 @@ function AiPopUp({ onClose, article }) {
         setLoading(false);
     };
 
+    if (!shouldRender) return null;
 
     return (
-        <div className="fixed bottom-20 right-4 w-[460px] bg-white shadow-2xl rounded-2xl border border-gray-200 flex flex-col max-h-[600px] text-base font-medium overflow-hidden">
+        <div
+            className={`fixed bottom-20 right-4 w-[calc(100%-30px)] md:w-[460px] bg-white shadow-[0_0_15px_rgba(0,0,0,0.15)] rounded-2xl border border-gray-200 flex flex-col max-h-[600px] text-base font-medium overflow-hidden transition-all duration-300 ease-in-out transform
+                ${visible ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}
+        >
             {/* Header */}
             <div className="bg-[#C8281D] text-white px-5 py-4 flex justify-between items-center">
                 <div>
                     <p className="font-semibold text-lg">Arya</p>
                     <p className="text-xs opacity-90">Hi! I’m Arya, AktuBrand AI expert</p>
                 </div>
-                <IoMdClose className="cursor-pointer text-xl hover:text-gray-200 transition" onClick={onClose} />
+                <IoMdClose
+                    className="cursor-pointer p-1 rounded-full bg-white text-red-500 text-2xl hover:text-3xl transition-all duration-300 ease-in-out hover:text-red-800 hover:-mr-1"
+                    onClick={onClose}
+                />
             </div>
 
             {/* Message Area */}
@@ -65,10 +98,11 @@ function AiPopUp({ onClose, article }) {
                 {messages.map((msg, i) => (
                     <div
                         key={i}
-                        className={`max-w-[85%] rounded-lg px-4 py-2 text-xl whitespace-pre-wrap leading-relaxed ${msg.role === 'user'
+                        className={`max-w-[85%] rounded-lg px-4 py-2 text-xl md:text-lg whitespace-pre-wrap leading-relaxed ${
+                            msg.role === 'user'
                                 ? 'bg-red-100 text-right ml-auto'
-                                : 'bg-gray-100 text-left mr-auto'
-                            }`}
+                                : 'bg-red-200 text-left mr-auto'
+                        }`}
                     >
                         <ReactMarkdown
                             components={{
@@ -86,7 +120,6 @@ function AiPopUp({ onClose, article }) {
                         >
                             {msg.text}
                         </ReactMarkdown>
-
                     </div>
                 ))}
                 {loading && (
@@ -97,7 +130,7 @@ function AiPopUp({ onClose, article }) {
 
             {/* Recommended Questions */}
             {messages.length === 0 && !loading && (
-                <div className="bg-red-50 px-4 py-3 space-y-2  ">
+                <div className="bg-red-50 px-4 py-3 space-y-2">
                     <p className="text-xl text-gray-500">Try asking one of these:</p>
                     {[
                         "Summarise this article in simple words",
@@ -106,7 +139,7 @@ function AiPopUp({ onClose, article }) {
                         <div
                             key={i}
                             onClick={() => sendMessage(question)}
-                            className="cursor-pointer flex items-center justify-between bg-white hover:bg-gray-100 px-3 py-2 rounded-lg text-sm text-gray-700 transition"
+                            className="cursor-pointer flex items-center justify-between bg-red-100 hover:bg-red-200 px-3 py-2 rounded-lg text-sm text-gray-700 transition"
                         >
                             {question}
                             <MdOutlineArrowForwardIos className="text-xs text-gray-500" />
@@ -116,8 +149,9 @@ function AiPopUp({ onClose, article }) {
             )}
 
             {/* Input */}
-            <div className="border-t border-[#C8281D] bg-white px-4 py-3 flex items-center gap-3">
+            <div className="border-t border-[#C8281D] bg-red-50 px-4 py-3 flex items-center gap-3">
                 <input
+                    ref={inputRef}
                     disabled={loading}
                     type="text"
                     value={input}
@@ -142,11 +176,10 @@ function AiPopUp({ onClose, article }) {
             </div>
 
             {/* Disclaimer */}
-            <p className="text-[10px] bg-white text-center text-gray-400 pb-2 px-4">
+            <p className="text-[15px] bg-red-50 text-center text-gray-400 pb-2 px-4">
                 AI may produce inaccurate information
             </p>
         </div>
-
     );
 }
 

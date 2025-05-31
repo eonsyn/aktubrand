@@ -168,12 +168,17 @@ function extractPlainTextFromContent(contentArray) {
 }
 
   return (
-   <main className="min-h-screen w-full flex">
+    <><main className="min-h-screen mb-4 w-full flex">
   {/* Left Side - Red */}
-  <div className="hidden md:block w-1/6 "></div>
+  <div className="hidden md:block  w-[20%] px-4 "> 
+  </div>
 
   {/* Center Content */}
-  <div className="w-4/6 max-w-4xl mx-auto px-4 py-8 text-gray-800">
+  <div className="w-full px-3 md:w-[60%]   md:mx-auto md:px-4 py-8 text-gray-800  ">
+    <div className="fixed bottom-4 right-4 h-6 w-6 z-50">
+    
+    </div>
+
     <UserBlogRender article={article} />
 
     <div className="mt-8 text-sm text-gray-500">
@@ -184,14 +189,21 @@ function extractPlainTextFromContent(contentArray) {
       ))}
     </div>
 
-    <BlogSuggestions tags={article.tags} slug={article.slug} />
   </div>
+    
 
   {/* Right Side - Black */}
-  <div className="w-1/6   flex  flex-col p-2 overflow-y-auto">
+  <div className="w-[20%] hidden   md:flex  flex-col p-2 overflow-y-auto">
     <BlockAi article={extractPlainTextFromContent(article.content)} />
   </div>
 </main>
+<hr />
+<div className=" rounded-2xl mx-5 px-2 pt-2 pb-3.5 transition-all ease-in-out duration-300">
+<BlogSuggestions  tags={article.tags} slug={article.slug} />
+
+</div>
+    </>
+   
 
   );
 }
