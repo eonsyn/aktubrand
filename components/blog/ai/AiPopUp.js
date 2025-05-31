@@ -78,109 +78,112 @@ function AiPopUp({ isBotOpen, onClose, article }) {
 
     return (
         <div
-            className={`fixed bottom-20 right-4 w-[calc(100%-30px)] md:w-[460px] bg-white shadow-[0_0_15px_rgba(0,0,0,0.15)] rounded-2xl border border-gray-200 flex flex-col max-h-[600px] text-base font-medium overflow-hidden transition-all duration-300 ease-in-out transform
-                ${visible ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}
+  className={`fixed bottom-20 right-4 w-[calc(100%-30px)] md:w-[460px] bg-white shadow-xl rounded-2xl border border-gray-200 flex flex-col max-h-[600px] overflow-hidden transition-all duration-300 ease-in-out transform ${
+    visible ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
+  }`}
+>
+  {/* Header */}
+  <div className="bg-[#C8281D] text-white px-5 py-4 flex justify-between items-center">
+    <div>
+      <p className="font-semibold text-lg">Arya</p>
+      <p className="text-xs opacity-90">Hi! I’m Arya, AktuBrand AI expert</p>
+    </div>
+    <IoMdClose
+      className="cursor-pointer p-1 rounded-full bg-white text-[#C8281D] text-2xl hover:scale-110 hover:text-red-800 transition"
+      onClick={onClose}
+    />
+  </div>
+
+  {/* Message Area */}
+  <div className="flex-1 bg-red-50 overflow-y-auto px-4 py-3 space-y-3 scroll-smooth">
+    {messages.map((msg, i) => (
+      <div
+        key={i}
+        className={`max-w-[85%] rounded-xl px-4 py-2 text-base md:text-lg leading-relaxed whitespace-pre-wrap ${
+          msg.role === 'user'
+            ? 'bg-red-100 text-right ml-auto'
+            : 'bg-red-200 text-left mr-auto'
+        }`}
+      >
+        <ReactMarkdown
+          components={{
+            a: ({ href, children }) => (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline hover:text-blue-800 transition"
+              >
+                {children}
+              </a>
+            ),
+          }}
         >
-            {/* Header */}
-            <div className="bg-[#C8281D] text-white px-5 py-4 flex justify-between items-center">
-                <div>
-                    <p className="font-semibold text-lg">Arya</p>
-                    <p className="text-xs opacity-90">Hi! I’m Arya, AktuBrand AI expert</p>
-                </div>
-                <IoMdClose
-                    className="cursor-pointer p-1 rounded-full bg-white text-red-500 text-2xl hover:text-3xl transition-all duration-300 ease-in-out hover:text-red-800 hover:-mr-1"
-                    onClick={onClose}
-                />
-            </div>
+          {msg.text}
+        </ReactMarkdown>
+      </div>
+    ))}
+    {loading && (
+      <p className="text-gray-500 text-xs animate-pulse">Thinking...</p>
+    )}
+    <div ref={messagesEndRef} />
+  </div>
 
-            {/* Message Area */}
-            <div className="flex-1 bg-red-50 overflow-y-auto px-4 py-3 space-y-3 text-sm scroll-smooth">
-                {messages.map((msg, i) => (
-                    <div
-                        key={i}
-                        className={`max-w-[85%] rounded-lg px-4 py-2 text-xl md:text-lg whitespace-pre-wrap leading-relaxed ${
-                            msg.role === 'user'
-                                ? 'bg-red-100 text-right ml-auto'
-                                : 'bg-red-200 text-left mr-auto'
-                        }`}
-                    >
-                        <ReactMarkdown
-                            components={{
-                                a: ({ href, children }) => (
-                                    <a
-                                        href={href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-blue-600 underline hover:text-blue-800 transition"
-                                    >
-                                        {children}
-                                    </a>
-                                ),
-                            }}
-                        >
-                            {msg.text}
-                        </ReactMarkdown>
-                    </div>
-                ))}
-                {loading && (
-                    <p className="text-gray-500 text-xs animate-pulse">Thinking...</p>
-                )}
-                <div ref={messagesEndRef} />
-            </div>
-
-            {/* Recommended Questions */}
-            {messages.length === 0 && !loading && (
-                <div className="bg-red-50 px-4 py-3 space-y-2">
-                    <p className="text-xl text-gray-500">Try asking one of these:</p>
-                    {[
-                        "Summarise this article in simple words",
-                        "Tell me in points",
-                    ].map((question, i) => (
-                        <div
-                            key={i}
-                            onClick={() => sendMessage(question)}
-                            className="cursor-pointer flex items-center justify-between bg-red-100 hover:bg-red-200 px-3 py-2 rounded-lg text-sm text-gray-700 transition"
-                        >
-                            {question}
-                            <MdOutlineArrowForwardIos className="text-xs text-gray-500" />
-                        </div>
-                    ))}
-                </div>
-            )}
-
-            {/* Input */}
-            <div className="border-t border-[#C8281D] bg-red-50 px-4 py-3 flex items-center gap-3">
-                <input
-                    ref={inputRef}
-                    disabled={loading}
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    className="flex-1 text-sm border border-[#C8281D] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#C8281D]/50"
-                    placeholder="Tell us how we can help..."
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') sendMessage();
-                    }}
-                />
-                <button
-                type='submit'
-                    onClick={sendMessage}
-                    disabled={loading}
-                    className="text-[#C8281D] font-bold text-xl disabled:opacity-40"
-                >
-                    {loading ? (
-                        <AiOutlineLoading3Quarters className="animate-spin" />
-                    ) : (
-                        "➤"
-                    )}
-                </button>
-            </div>
-
-            {/* Disclaimer */}
-            <p className="text-[15px] bg-red-50 text-center text-gray-400 pb-2 px-4">
-                AI may produce inaccurate information
-            </p>
+  {/* Recommended Questions */}
+  {messages.length === 0 && !loading && (
+    <div className="bg-red-50 px-4 py-3 space-y-2">
+      <p className="text-lg font-medium text-gray-700">Try asking one of these:</p>
+      {[
+        'Summarise this article in simple words',
+        'Tell me in points',
+      ].map((question, i) => (
+        <div
+          key={i}
+          onClick={() => sendMessage(question)}
+          className="cursor-pointer flex items-center justify-between bg-red-100 hover:bg-red-200 px-4 py-2 rounded-lg text-sm text-gray-800 transition"
+        >
+          {question}
+          <MdOutlineArrowForwardIos className="text-xs text-gray-500" />
         </div>
+      ))}
+    </div>
+  )}
+
+  {/* Input Area */}
+  <div className="border-t border-[#C8281D] bg-red-50 px-4 py-3 flex items-center gap-3">
+    <input
+      ref={inputRef}
+      disabled={loading}
+      type="text"
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+      className="flex-1 text-sm md:text-base border border-[#C8281D] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#C8281D]/50 bg-white disabled:bg-gray-100"
+      placeholder="Tell us how we can help..."
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') sendMessage();
+      }}
+    />
+    <button
+      type="submit"
+      onClick={() => sendMessage()}
+
+      disabled={loading}
+      className="text-[#C8281D] font-bold text-xl disabled:opacity-40 hover:scale-105 transition"
+    >
+      {loading ? (
+        <AiOutlineLoading3Quarters className="animate-spin" />
+      ) : (
+        '➤'
+      )}
+    </button>
+  </div>
+
+  {/* Disclaimer */}
+  <p className="text-sm bg-red-50 text-center text-gray-400 pb-3 px-4">
+    AI may produce inaccurate information
+  </p>
+</div>
+
     );
 }
 
