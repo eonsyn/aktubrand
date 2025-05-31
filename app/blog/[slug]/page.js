@@ -174,9 +174,9 @@ function extractPlainTextFromContent(contentArray) {
   </div>
 
   {/* Center Content */}
-  <div className="w-full px-3 md:w-[60%]   md:mx-auto md:px-4 py-8 text-gray-800  ">
+  <div className="w-full px-3 md:w-[60%]    md:mx-auto md:px-4 pt-2 pb-4 md:py-8 text-gray-800  ">
     <div className="fixed bottom-4 right-4 h-6 w-6 z-50">
-    
+    <BlockAi article={extractPlainTextFromContent(article.content)} />
     </div>
 
     <UserBlogRender article={article} />
