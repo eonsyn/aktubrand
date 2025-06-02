@@ -78,7 +78,7 @@ function AiPopUp({ isBotOpen, onClose, article }) {
 
     return (
         <div
-  className={`fixed bottom-20 right-4 w-[calc(100%-30px)] md:w-[400px] bg-white shadow-xl rounded-2xl border border-gray-200 flex flex-col max-h-[600px] md:max-h-[450] overflow-hidden transition-all duration-300 ease-in-out transform ${
+  className={`fixed bottom-20 right-4 w-[calc(100%-30px)] md:w-[400px] bg-white shadow-xl rounded-2xl border border-gray-200 flex flex-col max-h-[40vh] md:max-h-[450] overflow-hidden transition-all duration-300 ease-in-out transform ${
     visible ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
   }`}
 >
