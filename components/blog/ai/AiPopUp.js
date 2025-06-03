@@ -78,7 +78,7 @@ function AiPopUp({ isBotOpen, onClose, article }) {
 
     return (
         <div
-  className={`fixed bottom-20 right-4 w-[calc(100%-30px)] md:w-[400px] bg-white shadow-xl rounded-2xl border border-gray-200 flex flex-col max-h-[60vh] md:max-h-[450px] overflow-hidden transition-all duration-300 ease-in-out transform ${
+  className={`fixed bottom-20 right-4 w-[calc(100%-30px)] md:w-[400px] bg-white shadow-xl rounded-2xl border border-gray-200 flex flex-col max-h-[70vh] md:max-h-[450px] overflow-hidden transition-all duration-300 ease-in-out transform ${
     visible ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
   }`}
 >
@@ -99,7 +99,7 @@ function AiPopUp({ isBotOpen, onClose, article }) {
     {messages.map((msg, i) => (
       <div
         key={i}
-        className={`max-w-[85%] rounded-xl px-4 py-2 text-base md:text-xl  whitespace-pre-wrap ${
+        className={`max-w-[85%] rounded-xl px-4 py-2 text-base md:text-xl  whitespace-pre-wrap transition-all ease-in-out duration-300 ${
           msg.role === 'user'
             ? 'bg-red-100 text-right ml-auto'
             : 'bg-red-200 font-mono tracking-tighter text-left mr-auto'
