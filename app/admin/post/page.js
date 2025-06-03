@@ -77,7 +77,9 @@ const [isPublish, setIsPublish] = useState(false)
         // Preview mode (non-editing)
         return (
             <BlockRenderer
+             blocks={blocks}
                 block={block}
+                setBlocks={setBlocks}
                 index={index}
                 setEditIndex={setEditIndex}
             />

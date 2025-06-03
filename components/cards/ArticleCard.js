@@ -25,9 +25,12 @@ export default function ArticleCard({ article, id }) {
           {trimText(article.title)}
         </h2>
 
-        <p className="text-gray-600 text-sm mt-1 mb-2 line-clamp-2">
+        {/* <p className="text-gray-600 text-sm mt-1 mb-2 line-clamp-2">
           {article.tags?.slice(0, 3).join(", ")}
-        </p>
+        </p> */}
+        <div className='mt-3 mb-2'>
+
+        </div>
 
         <div className="lowerdiv flex items-center justify-between">
           <div className="left">

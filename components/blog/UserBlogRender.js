@@ -4,7 +4,7 @@ import { IoShareSocial } from "react-icons/io5";
 import CopyLinkButton from '../smallComponent/CopyLinkButton';
 import ImageComponent from "@/components/blog/ImageComponent";
 function UserBlogRender({ article }) {
-    
+
     function renderTextWithLinks(text) {
         if (!text || typeof text !== 'string') return null;
 
@@ -63,76 +63,113 @@ function UserBlogRender({ article }) {
                         hour12: true
                     })}
                 </span>
-                
-               <CopyLinkButton url={`https://aktubrand.vercel.app/blog/${article.slug}`} />
+
+                <CopyLinkButton url={`https://aktubrand.vercel.app/blog/${article.slug}`} />
 
             </div>
 
             <hr />
 
             {article.content.map((block, index) => {
-               switch (block.type) {
-    case 'heading': {
-        const HeadingTag = `h${block.level || 1}`;
-        return (
-            <HeadingTag
-                key={index}
-                className="text-2xl md:text-3xl lg:text-4xl font-semibold mt-6 mb-2"
-            >
-                {renderTextWithLinks(block.value)}
-            </HeadingTag>
-        );
-    }
+                switch (block.type) {
+                    case 'heading': {
+                        const HeadingTag = `h${block.level || 1}`;
+                        return (
+                            <HeadingTag
+                                key={index}
+                                className="text-2xl md:text-3xl lg:text-4xl font-semibold mt-6 mb-2"
+                            >
+                                {renderTextWithLinks(block.value)}
+                            </HeadingTag>
+                        );
+                    }
 
-    case 'paragraph':
-        return (
-            <p
-                key={index}
-                className="text-base md:text-lg lg:text-xl leading-relaxed mb-4"
-            >
-                {renderTextWithLinks(block.value)}
-            </p>
-        );
+                    case 'paragraph':
+                        return (
+                            <p
+                                key={index}
+                                className="text-base md:text-lg lg:text-xl leading-relaxed mb-4"
+                            >
+                                {renderTextWithLinks(block.value)}
+                            </p>
+                        );
 
-    case 'code':
-        return (
-            <pre
-                key={index}
-                className="bg-gray-100 p-4 rounded text-sm md:text-base font-mono overflow-x-auto mb-4"
-            >
-                <code>{block.value}</code>
-            </pre>
-        );
+                    case 'code':
+                        return (
+                            <pre
+                                key={index}
+                                className="bg-gray-100 p-4 rounded text-sm md:text-base font-mono overflow-x-auto mb-4"
+                            >
+                                <code>{block.value}</code>
+                            </pre>
+                        );
 
-    case 'image':
-        return (
-            <div
-                key={index}
-                className="flex items-center flex-col py-4 h-[40vh]"
-            >
-                <ImageComponent imageUrl={block.value} alt={block.alt} />
-                <span className="italic text-sm mt-2">{block.alt}</span>
-            </div>
-        );
+                    case 'image':
+                        return (
+                            <div
+                                key={index}
+                                className="flex items-center flex-col py-4 h-[40vh] md:h-[60vh] "
+                            >
+                                <ImageComponent imageUrl={block.value} alt={block.alt}  />
+                                <span className="italic text-sm mt-2">{block.alt}</span>
+                            </div>
+                        );
 
-    case 'list':
-        return (
-            <ul
-                key={index}
-                className="list-disc list-inside text-base md:text-lg lg:text-xl mb-4 space-y-1"
-            >
-                {block.value.split('\n').map((item, i) => (
-                    <li key={i}>{renderTextWithLinks(item)}</li>
-                ))}
-            </ul>
-        );
+                    case 'list':
+                        return (
+                            <ul
+                                key={index}
+                                className="list-disc list-inside text-base md:text-lg lg:text-xl mb-4 space-y-1"
+                            >
+                                {block.value.split('\n').map((item, i) => (
+                                    <li key={i}>{renderTextWithLinks(item)}</li>
+                                ))}
+                            </ul>
+                        );
+                    case 'blockquote':
+                        return (
+                            <blockquote
+                                className="border-l-4 border-gray-400 pl-4 italic text-gray-700 my-2 cursor-pointer"
 
-    default:
-        return null;
-}
+                            >
+                                {block.value || 'Blockquote'}
+                            </blockquote>
+                        );
+                    case 'table':
+                        return (
+                            <div className="my-4 overflow-auto border rounded shadow-md">
+                                <table className="min-w-full text-sm text-left border-collapse">
+                                    <tbody>
+                                        {(block.rows || []).map((row, rowIndex) => (
+                                            <tr
+                                                key={rowIndex}
+                                                className={
+                                                    rowIndex === 0
+                                                        ? 'bg-red-200 text-black text-center font-semibold'
+                                                        : rowIndex % 2 === 0
+                                                            ? 'bg-gray-100'
+                                                            : 'bg-white'
+                                                }
+                                            >
+                                                {row.map((cell, cellIndex) => (
+                                                    <td key={cellIndex} className="border px-4 py-3">
+                                                        {cell}
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        );
+
+
+                    default:
+                        return null;
+                }
 
             })}
-              
+
 
         </>
     )

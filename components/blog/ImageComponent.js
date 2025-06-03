@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
-
+import Image from "next/image";
+import { Fullscreen } from "lucide-react";
 function ImageComponent({ imageUrl, alt }) {
   const [isOpen, setIsOpen] = useState(false);
   const [animateZoom, setAnimateZoom] = useState(false);
@@ -23,13 +24,25 @@ function ImageComponent({ imageUrl, alt }) {
       {/* Thumbnail */}
       <div
         onClick={() => setIsOpen(true)}
-        className="cursor-zoom-in transition-transform duration-300 ease-in-out  inline-block"
+        className="cursor-zoom-in transition-transform duration-300 ease-in-out  inline-block h-full w-full relative"
       >
-        <img
-          src={imageUrl}
-          alt={alt}
-          className="h-48 w-auto  rounded-md shadow"
-        />
+        {imageUrl.startsWith("https://res.cloudinary") ? (
+          <Image
+            src={imageUrl}
+            alt={alt}
+            layout="fill"        // fills the parent div
+            objectFit="contain"  // maintain aspect ratio inside div
+            className="rounded-md  "
+          />
+        ) : (
+          <img
+            src={imageUrl}
+            alt={alt}
+            className="h-full w-full object-contain rounded-md shadow"
+          />
+        )}
+
+
       </div>
 
       {/* Fullscreen Modal with zoom-in animation */}
