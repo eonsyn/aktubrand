@@ -4,7 +4,7 @@ import { IoShareSocial } from "react-icons/io5";
 import CopyLinkButton from '../smallComponent/CopyLinkButton';
 import ImageComponent from "@/components/blog/ImageComponent";
 function UserBlogRender({ article }) {
-
+     
     function renderTextWithLinks(text) {
         if (!text || typeof text !== 'string') return null;
 
@@ -110,7 +110,7 @@ function UserBlogRender({ article }) {
                                 key={index}
                                 className="flex items-center flex-col py-4 h-[40vh] md:h-[60vh] "
                             >
-                                <ImageComponent imageUrl={block.value} alt={block.alt}  />
+                                <ImageComponent imageUrl={block.value} alt={block.alt} />
                                 <span className="italic text-sm mt-2">{block.alt}</span>
                             </div>
                         );
@@ -128,19 +128,34 @@ function UserBlogRender({ article }) {
                         );
                     case 'blockquote':
                         return (
-                            <blockquote
-                                className="border-l-4 border-gray-400 pl-4 italic text-gray-700 my-2 cursor-pointer"
+                          <blockquote
+    key={index}
+    className="relative bg-gray-50 text-gray-800 text-lg md:text-xl leading-relaxed italic px-6 py-4 my-6 rounded-md border-l-2 border-gray-300"
+>
+    {block.value?.split('\n').map((line, i) => (
+        <p key={i} className="mb-2 before:content-['“'] after:content-['”']">
+            {line}
+        </p>
+    ))}
+</blockquote>
 
-                            >
-                                {block.value || 'Blockquote'}
-                            </blockquote>
                         );
-                    case 'table':
+
+                    case 'table': {
+                        let rows = [];
+
+                        // Ensure value is a string and parse safely
+                        if (typeof block.value === 'string') {
+                            rows = block.value
+                                .split('\n') // Split by row
+                                .map(row => row.split(',')); // Split each row into columns
+                        }
+
                         return (
-                            <div className="my-4 overflow-auto border rounded shadow-md">
+                            <div key={index} className="my-4 overflow-auto border rounded shadow-md">
                                 <table className="min-w-full text-sm text-left border-collapse">
                                     <tbody>
-                                        {(block.rows || []).map((row, rowIndex) => (
+                                        {rows.map((row, rowIndex) => (
                                             <tr
                                                 key={rowIndex}
                                                 className={
@@ -162,7 +177,7 @@ function UserBlogRender({ article }) {
                                 </table>
                             </div>
                         );
-
+                    }
 
                     default:
                         return null;
