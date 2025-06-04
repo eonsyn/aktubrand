@@ -17,7 +17,7 @@ export default function Navbar() {
     { href: '/branch/mechanical', label: 'Mechanical Quantum & Notes' },
     { href: '/branch/cse', label: 'CSE Quantum & Notes' },
     { href: '/blog', label: 'Blogs' },
-    { href: '#privacy', label: 'Privacy Policy' },
+    { href: '#rivacy', label: 'Privacy Policy' },
     { href: '#contact', label: 'Contact' },
   ];
 
