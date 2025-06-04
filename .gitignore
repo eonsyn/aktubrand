@@ -42,3 +42,4 @@ next-env.d.ts
 
 
 #adding feature of request a quantum 
+lib/firebase-admin.json
