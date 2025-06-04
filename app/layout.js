@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import Script from "next/script";
+import PushNotifications from "@/components/PushNotifications"; // ✅ NEW
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
-        {/* Google AdSense */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2404358914933411"
@@ -61,6 +61,7 @@ export default function RootLayout({ children }) {
       <body>
         <Providers>
           <Navbar />
+          <PushNotifications /> {/* ✅ Add this component */}
           {children}
           <Footer />
         </Providers>
