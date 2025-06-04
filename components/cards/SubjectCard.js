@@ -28,7 +28,8 @@ function SubjectCard({ subject, index }) {
             }
         }, 1000);
     };
-
+const notesImage='https://res.cloudinary.com/dgp04dpun/image/upload/v1749043937/aktu%20brand/qxsut3frrxclshbkbr2g.png'
+const quantumImage='https://res.cloudinary.com/dgp04dpun/image/upload/v1749055762/aktu%20brand/bx7xuu0pqunphezawiue.png'
     return (
         <div
             key={index}
@@ -37,11 +38,11 @@ function SubjectCard({ subject, index }) {
         >
             <div className="flex flex-col items-center">
                 <img
-                    src={subject.cardImageUrl}
+                    src={subject.cardImageUrl || subject.type==='notes' ? notesImage : quantumImage }
                     alt={subject.subjectName}
                     className="w-full h-48 object-cover rounded-xl border-2 border-amber-400 mb-4"
                 />
-
+<p>{subject.type}</p>
                 <h2
                     title={subject.subjectName}
                     className="text-2xl font-bold text-primary w-full mb-2  hover:text-amber-600 transition-colors duration-300"

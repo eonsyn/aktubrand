@@ -50,16 +50,18 @@ export default async function BranchPage({ params }) {
   const { slug } = params;
   await connectDB();
 
-  const subjects = await Subject.find({ branch: new RegExp(`^${slug}$`, 'i') })
-    .limit(100) // Allow enough for client-side filtering
-    .lean();
+  const subjects = await Subject.find({
+  branch: { $in: [new RegExp(`^${slug}$`, 'i'), 'all'] }
+})
+.limit(100)
+.lean();
 
   return (
     <div className="px-2 md:px-6">
       <header className='flex flex-col md:flex-row pb-4'>
-        <div className='w-full md:w-1/2'>
+        <div className='w-full text-center md:text-left md:w-1/2'>
           <h1 className="text-4xl sm:text-5xl lg:text-7xl leading-tight md:leading-[5rem] font-bold capitalize">
-            Quantum Series for <span className="block text-highlight">AKTU</span> Student
+            Quantum Series for <span className="block text-highlight">AKTU</span>{slug} Student
           </h1>
           <div className='w-full my-4 md:hidden h-[45vh] overflow-hidden rounded-2xl'>
             <Image 
