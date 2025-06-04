@@ -93,7 +93,7 @@ export default async function BranchPage({ params }) {
       </div>
 
       <div className="mt-8">
-        <AdBanner300x250 />
+        {/* <AdBanner300x250 /> */}
         <ResourceInfo />
         <SecondYearQuantum />
       </div>
