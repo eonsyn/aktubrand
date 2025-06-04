@@ -38,11 +38,17 @@ const quantumImage='https://res.cloudinary.com/dgp04dpun/image/upload/v174905576
         >
             <div className="flex flex-col items-center">
                 <img
-                    src={subject.cardImageUrl || subject.type==='notes' ? notesImage : quantumImage }
+                   src={
+    subject.cardImageUrl
+      ? subject.cardImageUrl
+      : subject.type === 'notes'
+        ? notesImage
+        : quantumImage
+  }
                     alt={subject.subjectName}
                     className="w-full h-48 object-cover rounded-xl border-2 border-amber-400 mb-4"
                 />
-<p>{subject.type}</p>
+ 
                 <h2
                     title={subject.subjectName}
                     className="text-2xl font-bold text-primary w-full mb-2  hover:text-amber-600 transition-colors duration-300"
