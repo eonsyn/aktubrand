@@ -11,7 +11,7 @@ export default function PushNotifications() {
           console.log('Service Worker Registered');
 
           getToken(messaging, {
-            vapidKey: `${process.env.VAPID_KEY}`, // Replace with your Firebase VAPID key
+            vapidKey: process.env.VAPID_KEY, // Replace with your Firebase VAPID key
             serviceWorkerRegistration: registration,
           }).then((token) => {
             if (token) {
@@ -35,3 +35,5 @@ export default function PushNotifications() {
 
   return null;
 }
+
+// dBDHbiRQsmhisZfq96WjfE:APA91bENvnUaaA_z-NYR_lmbURvw7J0okt4zMpE6OFArKxuTdX51NEPS6s_r-GmEVeNZ30gnANXmn0XQcA_YVAFIge6o9gggqMCXV7M8tmSWG14xwTf7Ck4
