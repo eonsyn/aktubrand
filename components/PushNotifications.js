@@ -16,7 +16,7 @@ export default function PushNotifications() {
           }).then((token) => {
             if (token) {
               console.log("FCM Token:", token);
-              fetch('/api/save-token', {
+              fetch('/api/admin/notification/save-token', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token }),
@@ -36,4 +36,4 @@ export default function PushNotifications() {
   return null;
 }
 
-// dBDHbiRQsmhisZfq96WjfE:APA91bENvnUaaA_z-NYR_lmbURvw7J0okt4zMpE6OFArKxuTdX51NEPS6s_r-GmEVeNZ30gnANXmn0XQcA_YVAFIge6o9gggqMCXV7M8tmSWG14xwTf7Ck4
+ 

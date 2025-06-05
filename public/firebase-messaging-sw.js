@@ -17,6 +17,6 @@ messaging.onBackgroundMessage((payload) => {
   console.log('[firebase-messaging-sw.js] Received background message', payload);
   self.registration.showNotification(payload.notification.title, {
     body: payload.notification.body,
-    icon: "./assets/quantum/logo.png",
+    icon: "/assets/logo.png",
   });
 });
