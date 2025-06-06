@@ -21,6 +21,7 @@ function ImageComponent({ imageUrl, alt }) {
 
   return (
     <>
+
       {/* Thumbnail */}
       <div
         onClick={() => setIsOpen(true)}
@@ -30,10 +31,10 @@ function ImageComponent({ imageUrl, alt }) {
           <Image
             src={imageUrl}
             alt={alt}
-            layout="fill"        // fills the parent div
-            objectFit="contain"  // maintain aspect ratio inside div
-            className="rounded-md  "
+            fill // replaces layout="fill"
+            className="object-contain rounded-md"
           />
+
         ) : (
           <img
             src={imageUrl}

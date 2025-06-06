@@ -9,11 +9,11 @@ export async function generateMetadata({ params }) {
 
   try {
     const res = await fetch(`${process.env.HOST_URL}/api/blog/${slug}`, {
-      next: { revalidate: 60 * 60 },
+      next: { revalidate: 60 * 10 },
     });
 
     const { article } = await res.json();
-
+ 
     if (!article) {
       return {
         title: 'Blog Not Found | aktu brand',

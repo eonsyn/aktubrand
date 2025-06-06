@@ -4,7 +4,8 @@ import { IoShareSocial } from "react-icons/io5";
 import CopyLinkButton from '../smallComponent/CopyLinkButton';
 import ImageComponent from "@/components/blog/ImageComponent";
 function UserBlogRender({ article }) {
-     
+    //  console.log(article)
+    
     function renderTextWithLinks(text) {
         if (!text || typeof text !== 'string') return null;
 
@@ -34,6 +35,7 @@ function UserBlogRender({ article }) {
                 );
             } else if (match[4]) {
                 // Bold match (**text**)
+                console.log(match[5])
                 parts.push(<strong key={'b' + match.index}>{match[5]}</strong>);
             } else if (match[6]) {
                 // Italic match (*text*)
@@ -51,6 +53,7 @@ function UserBlogRender({ article }) {
     }
     return (
         <>
+
             <h1 className="text-4xl md:text-5xl font-bold mb-4">{article.title}</h1>
             <div className='flex items-center justify-between '>
                 <span className="text-sm text-gray-500 mb-2 block">
@@ -69,6 +72,7 @@ function UserBlogRender({ article }) {
             </div>
 
             <hr />
+             
 
             {article.content.map((block, index) => {
                 switch (block.type) {

@@ -4,12 +4,12 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req, context) {
   const { params } = context;
-  const { slug } = await params; // ✅ Proper way
+  const { slug } = await params;
 
   await connectDB();
-   
-  const article = await Article.findOne({ slug });
 
+  const article = await Article.findOne({ slug });
+  
   if (!article) {
     return NextResponse.json({ success: false, message: 'Not found' }, { status: 404 });
   }
