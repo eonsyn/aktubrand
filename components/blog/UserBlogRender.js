@@ -5,7 +5,7 @@ import CopyLinkButton from '../smallComponent/CopyLinkButton';
 import ImageComponent from "@/components/blog/ImageComponent";
 function UserBlogRender({ article }) {
     //  console.log(article)
-    
+
     function renderTextWithLinks(text) {
         if (!text || typeof text !== 'string') return null;
 
@@ -51,6 +51,21 @@ function UserBlogRender({ article }) {
 
         return parts;
     }
+    
+function parseMarkdownTable(text) {
+    const lines = text.trim().split('\n').filter(Boolean);
+    if (lines.length < 2 || !lines[0].includes('|')) return null;
+
+    const rows = lines.map(line => {
+        return line
+            .split('|')
+            .slice(1, -1) // remove empty splits from edges
+            .map(cell => cell.trim());
+    });
+
+    return rows.length > 0 ? rows : null;
+}
+
     return (
         <>
 
@@ -72,7 +87,7 @@ function UserBlogRender({ article }) {
             </div>
 
             <hr />
-             
+
 
             {article.content.map((block, index) => {
                 switch (block.type) {
@@ -132,56 +147,56 @@ function UserBlogRender({ article }) {
                         );
                     case 'blockquote':
                         return (
-                          <blockquote
-    key={index}
-    className="relative bg-gray-50 text-gray-800 text-lg md:text-xl leading-relaxed italic px-6 py-4 my-6 rounded-md border-l-2 border-gray-300"
->
-    {block.value?.split('\n').map((line, i) => (
-        <p key={i} className="mb-2 before:content-['“'] after:content-['”']">
-            {line}
-        </p>
-    ))}
-</blockquote>
+                            <blockquote
+                                key={index}
+                                className="relative bg-gray-50 text-gray-800 text-lg md:text-xl leading-relaxed italic px-6 py-4 my-6 rounded-md border-l-2 border-gray-300"
+                            >
+                                {block.value?.split('\n').map((line, i) => (
+                                    <p key={i} className="mb-2 before:content-['“'] after:content-['”']">
+                                        {line}
+                                    </p>
+                                ))}
+                            </blockquote>
 
                         );
 
                     case 'table': {
-                        let rows = [];
+    const maybeTable = parseMarkdownTable(block.value);
+    if (maybeTable) {
+        return (
+            <div onClick={() => setEditIndex(index)} className="my-4 overflow-auto border rounded shadow-md">
+                <table className="min-w-full text-sm text-left border-collapse">
+                    <tbody>
+                        {maybeTable.map((row, rowIndex) => (
+                            <tr
+                                key={rowIndex}
+                                className={
+                                    rowIndex === 0
+                                        ? 'bg-red-200 text-black text-center font-semibold'
+                                        : rowIndex % 2 === 0
+                                        ? 'bg-gray-100'
+                                        : 'bg-white'
+                                }
+                            >
+                                {row.map((cell, cellIndex) => (
+                                    <td key={cellIndex} className="border px-4 py-3">
+                                        {renderTextWithLinks(cell)}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
 
-                        // Ensure value is a string and parse safely
-                        if (typeof block.value === 'string') {
-                            rows = block.value
-                                .split('\n') // Split by row
-                                .map(row => row.split(',')); // Split each row into columns
-                        }
-
-                        return (
-                            <div key={index} className="my-4 overflow-auto border rounded shadow-md">
-                                <table className="min-w-full text-sm text-left border-collapse">
-                                    <tbody>
-                                        {rows.map((row, rowIndex) => (
-                                            <tr
-                                                key={rowIndex}
-                                                className={
-                                                    rowIndex === 0
-                                                        ? 'bg-red-200 text-black text-center font-semibold'
-                                                        : rowIndex % 2 === 0
-                                                            ? 'bg-gray-100'
-                                                            : 'bg-white'
-                                                }
-                                            >
-                                                {row.map((cell, cellIndex) => (
-                                                    <td key={cellIndex} className="border px-4 py-3">
-                                                        {cell}
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        );
-                    }
+    return (
+        <p className="text-lg my-2 cursor-pointer" onClick={() => setEditIndex(index)}>
+            {renderTextWithLinks(block.value) || 'Write a paragraph...'}
+        </p>
+    );
+}
 
                     default:
                         return null;

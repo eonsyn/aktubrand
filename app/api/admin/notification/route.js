@@ -1,5 +1,5 @@
 import { messaging } from '@/lib/firebaseAdmin';
-import User from '@/models/User';
+import User from '@/models/Users';
 import connectDB from '@/utils/db';
 
 export async function POST(req) {
@@ -30,19 +30,16 @@ export async function POST(req) {
           title,
           body,
         },
-        webpush: {
-          fcmOptions: {
-            link: link, // Link that opens when the notification is clicked
-          },
-        },
         data: {
-          click_action: link, // Also needed for service worker `data.click_action`
+          click_action: link, // this is needed for service worker
+          title,
+          body,
         },
       };
 
       // Send the notification
       const response = await messaging.send(message);
-      console.log(`✅ Notification sent to ${token}:`, response);
+      // console.log(`✅ Notification sent to ${token}:`, response);
     }
 
     return Response.json({ success: true });

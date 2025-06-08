@@ -1,3 +1,4 @@
+// public/firebase-messaging-sw.js
 importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js");
 
@@ -14,19 +15,20 @@ const messaging = firebase.messaging();
 
 // ✅ Background notification handler
 messaging.onBackgroundMessage((payload) => {
-  console.log('[firebase-messaging-sw.js] Received background message', payload);
+  console.log("✅ Payload received in SW:", payload);
 
-  const { title, body } = payload.notification;
-  const link = payload.data?.click_action || payload.data?.link || '/';
+  const { title, body } = payload.data;
+  const click_action = payload.data?.click_action || '/';
 
   self.registration.showNotification(title, {
-    body: body,
+    body,
     icon: "/assets/logo.png",
     data: {
-      click_action: link,
+      click_action,
     },
   });
 });
+
 
 // ✅ Handle click on notification
 self.addEventListener('notificationclick', function (event) {

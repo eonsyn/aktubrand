@@ -3,6 +3,19 @@ import Link from "next/link";
 export default function BlockRenderer({ block, index, setEditIndex, loading, }) {
 
 
+function parseMarkdownTable(text) {
+    const lines = text.trim().split('\n').filter(Boolean);
+    if (lines.length < 2 || !lines[0].includes('|')) return null;
+
+    const rows = lines.map(line => {
+        return line
+            .split('|')
+            .slice(1, -1) // remove empty splits from edges
+            .map(cell => cell.trim());
+    });
+
+    return rows.length > 0 ? rows : null;
+}
 
     function renderTextWithLinks(text) {
         if (!text || typeof text !== 'string') return null;
@@ -117,34 +130,43 @@ export default function BlockRenderer({ block, index, setEditIndex, loading, }) 
                     {block.value || 'Blockquote'}
                 </blockquote>
             );
-        case 'table':
-            return (
-                <div onClick={() => setEditIndex(index)} className="my-4 overflow-auto border rounded shadow-md">
-                    <table className="min-w-full text-sm text-left border-collapse">
-                        <tbody>
-                            {(block.rows || []).map((row, rowIndex) => (
-                                <tr
-                                    key={rowIndex}
-                                    className={
-                                        rowIndex === 0
-                                            ? 'bg-red-200 text-black text-center font-semibold'
-                                            : rowIndex % 2 === 0
-                                                ? 'bg-gray-100'
-                                                : 'bg-white'
-                                    }
-                                >
-                                    {row.map((cell, cellIndex) => (
-                                        <td key={cellIndex} className="border px-4 py-3">
-                                            {cell}
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            );
+       case 'table': {
+    const maybeTable = parseMarkdownTable(block.value);
+    if (maybeTable) {
+        return (
+            <div onClick={() => setEditIndex(index)} className="my-4 overflow-auto border rounded shadow-md">
+                <table className="min-w-full text-sm text-left border-collapse">
+                    <tbody>
+                        {maybeTable.map((row, rowIndex) => (
+                            <tr
+                                key={rowIndex}
+                                className={
+                                    rowIndex === 0
+                                        ? 'bg-red-200 text-black text-center font-semibold'
+                                        : rowIndex % 2 === 0
+                                        ? 'bg-gray-100'
+                                        : 'bg-white'
+                                }
+                            >
+                                {row.map((cell, cellIndex) => (
+                                    <td key={cellIndex} className="border px-4 py-3">
+                                        {renderTextWithLinks(cell)}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
 
+    return (
+        <p className="text-lg my-2 cursor-pointer" onClick={() => setEditIndex(index)}>
+            {renderTextWithLinks(block.value) || 'Write a paragraph...'}
+        </p>
+    );
+}
 
         default:
             return (
