@@ -151,7 +151,12 @@ function Page() {
 
     const payload = {
       title: title.trim(),
-      slug: title.trim().toLowerCase().replace(/ /g, '-'),
+     slug : title
+                .trim()
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '') // Remove all non-word characters (except space and dash)
+                .replace(/\s+/g, '-'),  // Replace spaces with dash
+
       author: 'Admin',
       tags,
       thumbnailUrl: thumbnailUrl,
