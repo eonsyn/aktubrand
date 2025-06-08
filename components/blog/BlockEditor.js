@@ -37,10 +37,10 @@ export default function BlockEditor({
         updated[index].type = newType;
         if (newType === 'heading') updated[index].level = 1;
         if (newType === 'list') updated[index].items = updated[index].value.split('\n');
-         if (newType === 'table') {
-        updated[index].value = 'Name,Age\nAlice,24\nBob,30';
-        updated[index].rows = [['Name', 'Age'], ['Alice', '24'], ['Bob', '30']];
-    }
+        if (newType === 'table') {
+            updated[index].value = 'Name,Age\nAlice,24\nBob,30';
+            updated[index].rows = [['Name', 'Age'], ['Alice', '24'], ['Bob', '30']];
+        }
         setBlocks(updated);
         setEditIndex(null); // force re-render
         setTimeout(() => setEditIndex(index), 0);
@@ -170,7 +170,7 @@ export default function BlockEditor({
                 {/* Custom Options Menu */}
                 {isopitonOpen && (
                     <div className="block ml-1.5 transition-all ease-in-out duration-100   rounded  p-2 space-y-2">
-                        {['paragraph','blockquote', 'heading', 'code', 'list', 'image', 'insert', 'table'].map((type, i) => (
+                        {['paragraph', 'blockquote', 'heading', 'code', 'list', 'image', 'insert', 'table'].map((type, i) => (
                             <span
                                 key={type}
                                 onClick={() => {
@@ -226,9 +226,9 @@ export default function BlockEditor({
                 )}
             </div>
 
-            {['paragraph','blockquote', 'heading', 'list', 'code', 'insert'].includes(block.type) && (
+            {['paragraph', 'blockquote', 'heading', 'list', 'code', 'insert'].includes(block.type) && (
                 <textarea
-                    className="w-full p-2 border   my-2"
+                    className="w-full p-2 border min:h-[30vh]   my-2"
                     placeholder={`Enter ${block.type} content`}
                     value={block.value}
                     {...(block.type === 'insert' && {
@@ -292,12 +292,12 @@ export default function BlockEditor({
                                 setloading(false);
                             }
                         }}
-                        
+
                         onDragOver={(e) => e.preventDefault()}
                         autoFocus={shouldAutoFocus}
                     />
 
-{loading && <p className="text-blue-500">Uploading image...</p>}
+                    {loading && <p className="text-blue-500">Uploading image...</p>}
 
                     {isUpload && !loading && (
                         <button
@@ -349,23 +349,23 @@ export default function BlockEditor({
                     )}
                 </>
             )}
-{block.type === 'table' && (
-    <textarea
-        className="w-full p-2 border my-2 font-mono"
-        placeholder="Enter table as CSV (comma-separated, new lines for rows)"
-        value={block.value}
-        onChange={(e) => {
-            const updated = [...blocks];
-            updated[index].value = e.target.value;
-            updated[index].rows = e.target.value
-                .split('\n')
-                .map(row => row.split(',').map(cell => cell.trim()));
-            setBlocks(updated);
-        }}
-        onKeyDown={(e) => handleEnter(index, e)}
-        autoFocus={shouldAutoFocus}
-    />
-)}
+            {block.type === 'table' && (
+                <textarea
+                    className="w-full min:h-[30vh] p-2 border my-2 font-mono"
+                    placeholder="Enter table as CSV (comma-separated, new lines for rows)"
+                    value={block.value}
+                    onChange={(e) => {
+                        const updated = [...blocks];
+                        updated[index].value = e.target.value;
+                        updated[index].rows = e.target.value
+                            .split('\n')
+                            .map(row => row.split(',').map(cell => cell.trim()));
+                        setBlocks(updated);
+                    }}
+                    onKeyDown={(e) => handleEnter(index, e)}
+                    autoFocus={shouldAutoFocus}
+                />
+            )}
 
         </div>
     );
