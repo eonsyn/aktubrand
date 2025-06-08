@@ -9,7 +9,7 @@ function Page() {
     const [showPopup, setShowPopup] = useState(false);
     const [thumbnailUrl, setThumbnailUrl] = useState('');
     const [tags, setTags] = useState([]);
-const [isPublish, setIsPublish] = useState(false)
+    const [isPublish, setIsPublish] = useState(false)
     const [title, setTitle] = useState('');
     const [blocks, setBlocks] = useState([...emptyBlock]);
     const [editIndex, setEditIndex] = useState(null);
@@ -77,7 +77,7 @@ const [isPublish, setIsPublish] = useState(false)
         // Preview mode (non-editing)
         return (
             <BlockRenderer
-             blocks={blocks}
+                blocks={blocks}
                 block={block}
                 setBlocks={setBlocks}
                 index={index}
@@ -118,7 +118,12 @@ const [isPublish, setIsPublish] = useState(false)
 
         const payload = {
             title,
-            slug: title.trim().toLowerCase().replace(/\s+/g, '-'),
+             slug : title
+                .trim()
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '') // Remove all non-word characters (except space and dash)
+                .replace(/\s+/g, '-'),  // Replace spaces with dash
+
             author: 'Admin',
             tags,
 
