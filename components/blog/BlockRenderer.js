@@ -5,13 +5,13 @@ export default function BlockRenderer({ block, index, setEditIndex, loading, }) 
 
 function parseMarkdownTable(text) {
     const lines = text.trim().split('\n').filter(Boolean);
-
+    
     if (lines.length < 2 || !lines[0].includes('|')) return null;
 
     const rows = lines.map(line => {
         return line
             .split('|')
-            .slice(1, -1)  
+            .slice(1, -1) // remove empty splits from edges
             .map(cell => cell.trim());
     });
 
