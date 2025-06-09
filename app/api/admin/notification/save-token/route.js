@@ -1,3 +1,4 @@
+// api/admin/notification/save-token/route.js
 import User from '@/models/Users';
 import connectDB from '@/utils/db';
 
