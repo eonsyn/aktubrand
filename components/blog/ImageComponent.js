@@ -28,12 +28,13 @@ function ImageComponent({ imageUrl, alt }) {
         className="cursor-zoom-in transition-transform duration-300 ease-in-out  inline-block h-full w-full relative"
       >
         {imageUrl.startsWith("https://res.cloudinary") ? (
-          <Image
-            src={imageUrl}
-            alt={alt}
-            fill // replaces layout="fill"
-            className="object-contain rounded-md"
-          />
+           <Image
+        src={imageUrl}
+        alt={alt}
+        fill
+        className="object-contain rounded-md"
+        style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }} // 👈 Shadow only on image
+      />
 
         ) : (
           <img
