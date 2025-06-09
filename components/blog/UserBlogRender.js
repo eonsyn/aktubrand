@@ -51,20 +51,20 @@ function UserBlogRender({ article }) {
 
         return parts;
     }
-    
-function parseMarkdownTable(text) {
-    const lines = text.trim().split('\n').filter(Boolean);
-    if (lines.length < 2 || !lines[0].includes('|')) return null;
 
-    const rows = lines.map(line => {
-        return line
-            .split('|')
-            .slice(1, -1) // remove empty splits from edges
-            .map(cell => cell.trim());
-    });
+    function parseMarkdownTable(text) {
+        const lines = text.trim().split('\n').filter(Boolean);
+        if (lines.length < 2 || !lines[0].includes('|')) return null;
 
-    return rows.length > 0 ? rows : null;
-}
+        const rows = lines.map(line => {
+            return line
+                .split('|')
+                .slice(1, -1) // remove empty splits from edges
+                .map(cell => cell.trim());
+        });
+
+        return rows.length > 0 ? rows : null;
+    }
 
     return (
         <>
@@ -117,7 +117,7 @@ function parseMarkdownTable(text) {
                         return (
                             <pre
                                 key={index}
-                                className="bg-gray-100 p-4 rounded text-sm md:text-base font-mono overflow-x-auto mb-4"
+                                className="bg-gray-500 p-4 rounded text-sm md:text-base font-mono overflow-x-auto mb-4"
                             >
                                 <code>{block.value}</code>
                             </pre>
@@ -161,42 +161,42 @@ function parseMarkdownTable(text) {
                         );
 
                     case 'table': {
-    const maybeTable = parseMarkdownTable(block.value);
-    if (maybeTable) {
-        return (
-            <div  className="my-4 overflow-auto border rounded shadow-md">
-                <table className="min-w-full text-sm text-left border-collapse">
-                    <tbody>
-                        {maybeTable.map((row, rowIndex) => (
-                            <tr
-                                key={rowIndex}
-                                className={
-                                    rowIndex === 0
-                                        ? 'bg-red-200 text-black text-center font-semibold'
-                                        : rowIndex % 2 === 0
-                                        ? 'bg-gray-100'
-                                        : 'bg-white'
-                                }
-                            >
-                                {row.map((cell, cellIndex) => (
-                                    <td key={cellIndex} className="border px-4 py-3">
-                                        {renderTextWithLinks(cell)}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        );
-    }
+                        const maybeTable = parseMarkdownTable(block.value);
+                        if (maybeTable) {
+                            return (
+                                <div className="my-4 overflow-auto border rounded shadow-md">
+                                    <table className="min-w-full text-sm text-left border-collapse">
+                                        <tbody>
+                                            {maybeTable.map((row, rowIndex) => (
+                                                <tr
+                                                    key={rowIndex}
+                                                    className={
+                                                        rowIndex === 0
+                                                            ? 'bg-red-200 text-black text-center font-semibold'
+                                                            : rowIndex % 2 === 0
+                                                                ? 'bg-gray-100'
+                                                                : 'bg-white'
+                                                    }
+                                                >
+                                                    {row.map((cell, cellIndex) => (
+                                                        <td key={cellIndex} className="border px-4 py-3">
+                                                            {renderTextWithLinks(cell)}
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            );
+                        }
 
-    return (
-        <p className="text-lg my-2 cursor-pointer">
-            {renderTextWithLinks(block.value) || 'Write a paragraph...'}
-        </p>
-    );
-}
+                        return (
+                            <p className="text-lg my-2 cursor-pointer">
+                                {renderTextWithLinks(block.value) || 'Write a paragraph...'}
+                            </p>
+                        );
+                    }
 
                     default:
                         return null;

@@ -32,7 +32,7 @@ function ImageComponent({ imageUrl, alt }) {
             src={imageUrl}
             alt={alt}
             fill // replaces layout="fill"
-            className="object-contain rounded-md"
+            className="object-contain rounded-md overflow-hidden shadow"
           />
 
         ) : (
