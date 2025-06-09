@@ -119,7 +119,7 @@ function UserBlogRender({ article }) {
                                 key={index}
                                 className="bg-gray-500 p-4 rounded text-sm md:text-base text-white font-mono overflow-x-auto mb-4"
                             >
-                                <code>{block.value}.</code>
+                                <code>{block.value}</code>
                             </pre>
                         );
 
