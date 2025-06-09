@@ -16,6 +16,10 @@ function Asidebar() {
     {
       title: 'Add Article',
       url: '/admin/post',
+    },
+    {
+      title:'Notification',
+      url:'/admin/notification',
     }
   ];
 
