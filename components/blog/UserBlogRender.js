@@ -164,7 +164,7 @@ function parseMarkdownTable(text) {
     const maybeTable = parseMarkdownTable(block.value);
     if (maybeTable) {
         return (
-            <div onClick={() => setEditIndex(index)} className="my-4 overflow-auto border rounded shadow-md">
+            <div  className="my-4 overflow-auto border rounded shadow-md">
                 <table className="min-w-full text-sm text-left border-collapse">
                     <tbody>
                         {maybeTable.map((row, rowIndex) => (
@@ -192,7 +192,7 @@ function parseMarkdownTable(text) {
     }
 
     return (
-        <p className="text-lg my-2 cursor-pointer" onClick={() => setEditIndex(index)}>
+        <p className="text-lg my-2 cursor-pointer">
             {renderTextWithLinks(block.value) || 'Write a paragraph...'}
         </p>
     );
