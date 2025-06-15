@@ -33,7 +33,7 @@ function ImageComponent({ imageUrl, alt }) {
         alt={alt}
         fill
         className="object-contain rounded-md"
-        style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' }} // 👈 Shadow only on image
+          
       />
 
         ) : (
