@@ -77,6 +77,15 @@ function UserBlogRender({ article }) {
                         {renderTextWithLinks(block.value)}
                     </HeadingTag>
                 );
+                paragraphCount++;
+                
+                if (paragraphCount % 2 === 0) {
+                    blocks.push(
+                        <div key={`ad-${index}`} className="my-6">
+                            <ArticleAd />
+                        </div>
+                    );
+                }
                 break;
             }
 
@@ -90,14 +99,7 @@ function UserBlogRender({ article }) {
                     </p>
                 );
 
-                paragraphCount++;
-                if (paragraphCount % 3 === 0) {
-                    blocks.push(
-                        <div key={`ad-${index}`} className="my-6">
-                            <ArticleAd />
-                        </div>
-                    );
-                }
+                
                 break;
             }
 
