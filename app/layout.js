@@ -70,6 +70,13 @@ export default function RootLayout({ children }) {
             })();
           `}
         </Script>
+        {/* in article ads */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2404358914933411"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </head>
       <body>
         <Providers>
