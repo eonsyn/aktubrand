@@ -68,6 +68,15 @@ function UserBlogRender({ article }) {
     article.content.forEach((block, index) => {
         switch (block.type) {
             case 'heading': {
+                 paragraphCount++;
+                
+                if (paragraphCount % 2 === 0) {
+                    blocks.push(
+                        <div key={`ad-${index}`} className="my-6">
+                            <ArticleAd />
+                        </div>
+                    );
+                }
                 const HeadingTag = `h${block.level || 1}`;
                 blocks.push(
                     <HeadingTag
@@ -77,15 +86,8 @@ function UserBlogRender({ article }) {
                         {renderTextWithLinks(block.value)}
                     </HeadingTag>
                 );
-                paragraphCount++;
+               
                 
-                if (paragraphCount % 2 === 0) {
-                    blocks.push(
-                        <div key={`ad-${index}`} className="my-6">
-                            <ArticleAd />
-                        </div>
-                    );
-                }
                 break;
             }
 
