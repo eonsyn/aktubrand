@@ -4,6 +4,7 @@ import BlogSuggestions from '@/components/blog/BlogSuggestions';
 import UserBlogRender from "@/components/blog/UserBlogRender";
 import ImageComponent from "@/components/blog/ImageComponent";
 import BlockAi from "@/components/blog/ai/BlockAi";
+import GoogleVerticleAd from "@/components/ads/GoogleVerticleAd";
 export async function generateMetadata({ params }) {
   const { slug } = await params;
 
@@ -170,7 +171,8 @@ function extractPlainTextFromContent(contentArray) {
   return (
     <><main className="min-h-screen mb-4 w-full flex">
   {/* Left Side - Red */}
-  <div className="hidden md:block  w-[20%] px-4 "> 
+  <div className="hidden md:block  w-[20%] px-4 ">
+     <GoogleVerticleAd/> 
   </div>
 
   {/* Center Content */}

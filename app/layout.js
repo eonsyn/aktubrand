@@ -77,6 +77,11 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2404358914933411"
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body>
         <Providers>
