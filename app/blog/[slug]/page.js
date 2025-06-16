@@ -172,7 +172,7 @@ function extractPlainTextFromContent(contentArray) {
     <><main className="min-h-screen mb-4 w-full flex">
   {/* Left Side - Red */}
   <div className="hidden md:block  w-[20%] px-4 ">
-     <GoogleVerticleAd/> 
+     <GoogleVerticleAd slot="6204322368"/> 
   </div>
 
   {/* Center Content */}

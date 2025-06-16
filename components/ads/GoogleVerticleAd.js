@@ -1,14 +1,15 @@
-// components/ads/GoogleAd.js
+"use client"; // This is important for ads to work in App Router
+
 import { useEffect } from "react";
 
 const GoogleVerticleAd = ({ slot, style = {}, className = "" }) => {
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      if (typeof window !== "undefined") {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
     } catch (e) {
-      console.error("AdsbyGoogle push error:", e);
+      console.error("AdSense error:", e);
     }
   }, []);
 
@@ -20,8 +21,9 @@ const GoogleVerticleAd = ({ slot, style = {}, className = "" }) => {
       data-ad-slot={slot}
       data-ad-format="auto"
       data-full-width-responsive="true"
-    ></ins>
+    />
   );
 };
+ 
 
 export default GoogleVerticleAd;
