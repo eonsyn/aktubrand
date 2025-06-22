@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 function Page() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [link, setLink] = useState(process.env.HOST_URL); // Default to HOST_URL from env
   const [responseMessage, setResponseMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -35,7 +36,7 @@ function Page() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title, body, link }),
+        body: JSON.stringify({ title, body, link, imageUrl }),
       });
 
       const data = await response.json();
@@ -116,15 +117,20 @@ function Page() {
               placeholder="e.g., https://aktubrand.vercel.app/"
             />
           </div>
+          <div>
+            <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700 mb-1">
+              Image URL
+            </label>
+            <input type="text" id="imageUrl" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm" />
+          </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-              isLoading
+            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isLoading
                 ? 'bg-indigo-400 cursor-not-allowed'
                 : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-            } transition duration-200 ease-in-out`}
+              } transition duration-200 ease-in-out`}
           >
             {isLoading ? 'Sending...' : 'Send Notifications'}
           </button>
@@ -132,9 +138,8 @@ function Page() {
 
         {responseMessage && (
           <div
-            className={`mt-6 p-4 rounded-md ${
-              isSuccess ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-            } border ${isSuccess ? 'border-green-300' : 'border-red-300'}`}
+            className={`mt-6 p-4 rounded-md ${isSuccess ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+              } border ${isSuccess ? 'border-green-300' : 'border-red-300'}`}
             role="alert"
           >
             <p className="font-medium">{responseMessage}</p>

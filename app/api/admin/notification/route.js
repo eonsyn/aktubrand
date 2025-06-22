@@ -6,10 +6,10 @@ import connectDB from '@/utils/db';
 export async function POST(req) {
   await connectDB();
 
-  const { title, body, link } = await req.json();
+  const { title,imageUrl, body, link } = await req.json();
 
   // Validate required fields early
-  if (!title || !body || !link) {
+  if (!title || !body || !link || !imageUrl) {
     return Response.json({ error: 'Missing fields: title, body, or link' }, { status: 400 });
   }
 
@@ -34,11 +34,13 @@ export async function POST(req) {
           notification: {
             title,
             body,
+             image: imageUrl, 
           },
           data: {
             click_action: link, // This is explicitly needed by your service worker
             title, // Good to include in data as well
             body,  // Good to include in data as well
+             image: imageUrl, 
           },
         });
       }
