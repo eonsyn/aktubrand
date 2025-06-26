@@ -26,8 +26,10 @@ export default function Navbar() {
     let lastScrollY = window.scrollY;
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setScrollDir(currentScrollY > lastScrollY ? 'down' : 'up');
-      lastScrollY = currentScrollY;
+      if (Math.abs(currentScrollY - lastScrollY) > 5) {
+        setScrollDir(currentScrollY > lastScrollY ? 'down' : 'up');
+        lastScrollY = currentScrollY;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -35,14 +37,13 @@ export default function Navbar() {
   }, []);
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const hideNavbar = scrollDir === 'down' && isMobile && !isOpen;
+  const shouldHide = scrollDir === 'down' && isMobile && !isOpen;
 
   return (
     <motion.nav
-      initial={{ y: 0 }}
-      animate={{ y: hideNavbar ? -80 : 0 }}
-      transition={{ duration: 0.25 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md border-b border-white/30 shadow-sm rounded-b-lg"
+      animate={{ y: shouldHide ? -100 : 0 }}
+      transition={{ duration: 0.2 }}
+      className="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-white/30 shadow-sm rounded-b-lg"
     >
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-4 md:px-8 py-3 h-16">
         {/* Logo */}
@@ -80,7 +81,6 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Overlay */}
             <div
               onClick={closeMenu}
               className="fixed inset-0 h-[100dvh] bg-black/30 backdrop-blur-sm z-40 md:hidden"
