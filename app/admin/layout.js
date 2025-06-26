@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
        className='flex px-1.5' 
       >
         
-          <div className="sd"> 
+          <div className=""> 
           <Asidebar />
         </div>
         
