@@ -15,17 +15,20 @@ export default function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   const navLinks = [
-    { href: '/branch/mechanical', label: 'Mechanical Quantum & Notes' },
-    { href: '/branch/cse', label: 'CSE Quantum & Notes' },
-    { href: '/blog', label: 'Blogs' },
-    { href: '#rivacy', label: 'Privacy Policy' },
-    { href: '#contact', label: 'Contact' },
-  ];
+  { href: '/branch/mechanical', label: 'Mechanical',title:'Mechanical Engineering' },
+  { href: '/branch/cse', label: 'CSE',title:'Computer Science' },
+  { href: '/pyqs', label: 'PYQs',title:'Previous Year Papers' },
+  { href: '/blog', label: 'Blog',title:'Blog' },
+  { href: '#Privacy', label: 'Privacy' },
+  { href: '#contact', label: 'Contact' },
+];
+
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      console.log(currentScrollY)
       if (Math.abs(currentScrollY - lastScrollY) > 5) {
         setScrollDir(currentScrollY > lastScrollY ? 'down' : 'up');
         lastScrollY = currentScrollY;
@@ -58,6 +61,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
+              title={link.title}
               className={`transition-colors hover:text-blue-600 ${
                 pathname === link.href ? 'text-blue-600 font-semibold' : ''
               }`}
@@ -111,6 +115,7 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
+                    title={link.title}
                     onClick={closeMenu}
                     className={`transition-colors hover:text-blue-600 ${
                       pathname === link.href ? 'text-blue-600 font-semibold' : ''

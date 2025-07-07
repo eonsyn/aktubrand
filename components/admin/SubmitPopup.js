@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Check, X } from 'lucide-react';
 
-const SubmitPopup = ({ show, isPublish, setIsPublish, onClose, onSubmit, thumbnailUrl, setThumbnailUrl, tags, setTags }) => {
+const SubmitPopup = ({ show, setexpiredAt, expiredAt, isPublish, setIsPublish, onClose, onSubmit, thumbnailUrl, setThumbnailUrl, tags, setTags }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (e) => {
@@ -39,6 +39,19 @@ const SubmitPopup = ({ show, isPublish, setIsPublish, onClose, onSubmit, thumbna
             value={thumbnailUrl}
             onChange={(e) => setThumbnailUrl(e.target.value)}
             placeholder="https://example.com/image.jpg"
+          />
+        </label>
+        <label htmlFor="
+        expiredAt">
+          Expired At:
+          <input
+            type="number"
+            placeholder='After how many minutes.'
+            className="mt-1 p-2 w-full border rounded"
+            id="expiredAt"
+            name="expiredAt"
+            value={expiredAt}
+            onChange={(e) => setexpiredAt(e.target.value)}
           />
         </label>
 

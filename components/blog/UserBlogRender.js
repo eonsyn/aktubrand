@@ -6,10 +6,13 @@ import ImageComponent from "@/components/blog/ImageComponent";
 import ArticleAd from "@/components/ads/ArticleAd";
 
 function UserBlogRender({ article }) {
+
     function renderTextWithLinks(text) {
         if (!text || typeof text !== 'string') return null;
 
-        const regex = /(\[([^\]]+)\]\((https?:\/\/[^\s)]+)\))|(\*\*([^*]+)\*\*)|(\*([^*]+)\*)/g;
+        // Updated regex:
+        const regex = /(\[([^\]]+)\]\(([^)]+)\))|(\*\*([^*]+)\*\*)|(\*([^*]+)\*)/g;
+
         const parts = [];
         let lastIndex = 0;
         let match;
@@ -19,34 +22,56 @@ function UserBlogRender({ article }) {
                 parts.push(text.slice(lastIndex, match.index));
             }
 
+            // Handle markdown links: [text](url)
             if (match[1]) {
-                parts.push(
-                    <Link
-                        key={match[3] + match.index}
-                        href={match[3]}
-                        className="text-blue-500 font-bold mx-1 hover:text-blue-600 underline"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {match[2]}
-                    </Link>
-                );
+                const url = match[3].trim();
+                const label = match[2];
+
+                const isExternal = url.startsWith('http://') || url.startsWith('https://');
+
+                if (isExternal) {
+                    // External links: open in new tab
+                    parts.push(
+                        <a
+                            key={url + match.index}
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 font-bold mx-1 hover:text-blue-600 underline"
+                        >
+                            {label}
+                        </a>
+                    );
+                } else {
+                    // Internal links: open in same tab using Next.js Link
+                    parts.push(
+                        <Link
+                            key={url + match.index}
+                            href={url}
+                            className="text-blue-500 font-bold mx-1 hover:text-blue-600 underline"
+                        >
+                            {label}
+                        </Link>
+                    );
+                }
             } else if (match[4]) {
+                // **bold**
                 parts.push(<strong key={'b' + match.index}>{match[5]}</strong>);
             } else if (match[6]) {
+                // *italic*
                 parts.push(<em key={'i' + match.index}>{match[7]}</em>);
             }
 
             lastIndex = regex.lastIndex;
         }
 
+        // Push any remaining text after the last match
         if (lastIndex < text.length) {
             parts.push(text.slice(lastIndex));
         }
 
         return parts;
     }
-
     function parseMarkdownTable(text) {
         const lines = text.trim().split('\n').filter(Boolean);
         if (lines.length < 2 || !lines[0].includes('|')) return null;
@@ -68,8 +93,8 @@ function UserBlogRender({ article }) {
     article.content.forEach((block, index) => {
         switch (block.type) {
             case 'heading': {
-                 paragraphCount++;
-                
+                paragraphCount++;
+
                 if (paragraphCount % 3 === 0) {
                     blocks.push(
                         <div key={`ad-${index}`} className="my-6">
@@ -86,8 +111,8 @@ function UserBlogRender({ article }) {
                         {renderTextWithLinks(block.value)}
                     </HeadingTag>
                 );
-               
-                
+
+
                 break;
             }
 
@@ -101,7 +126,7 @@ function UserBlogRender({ article }) {
                     </p>
                 );
 
-                
+
                 break;
             }
 

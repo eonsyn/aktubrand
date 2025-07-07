@@ -18,6 +18,8 @@ const articleSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   isPublished: Boolean,
+  expiredAt:{type:Date ,default: null ,index:{expired:0}},
+
 });
 
 export default mongoose.models.Article || mongoose.model('Article', articleSchema);

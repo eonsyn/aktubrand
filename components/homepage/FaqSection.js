@@ -28,30 +28,31 @@ function FaqSection() {
   };
 
   return (
-    <section className=" py-12 px-6 md:px-20">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-10">
-          Frequently Asked Questions
-        </h2>
+   <section className="py-12 px-6 md:px-20 bg-[var(--background)] text-[var(--text-primary)] dark:bg-[var(--background)] dark:text-[var(--text-primary)]">
+  <div className="max-w-4xl mx-auto">
+    <h2 className="text-3xl md:text-4xl font-bold text-center text-[var(--text-primary)] mb-10">
+      Frequently Asked Questions
+    </h2>
 
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg shadow-md p-6 cursor-pointer transition hover:shadow-lg"
-              onClick={() => toggleFAQ(index)}
-            >
-              <h3 className="text-lg font-semibold text-blue-700">
-                {faq.question}
-              </h3>
-              {openIndex === index && (
-                <p className="mt-2 text-gray-600">{faq.answer}</p>
-              )}
-            </div>
-          ))}
+    <div className="space-y-4">
+      {faqs.map((faq, index) => (
+        <div
+          key={index}
+          className="bg-[var(--surface)] rounded-lg shadow-md p-6 cursor-pointer transition hover:shadow-lg"
+          onClick={() => toggleFAQ(index)}
+        >
+          <h3 className="text-lg font-semibold text-[var(--link)]">
+            {faq.question}
+          </h3>
+          {openIndex === index && (
+            <p className="mt-2 text-[var(--text-secondary)]">{faq.answer}</p>
+          )}
         </div>
-      </div>
-    </section>
+      ))}
+    </div>
+  </div>
+</section>
+
   );
 }
 

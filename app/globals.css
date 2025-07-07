@@ -2,21 +2,22 @@
 
 :root {
   /* === 60%: Base === */
-  --background: #F5F5F5;           /* Soft Light Gray */
-  --surface: #FFFFFF;              /* Card/Section Background */
+  --background: #F9FAFB;             /* Very light gray for page */
+  --surface: #FFFFFF;                /* White for cards, sections */
 
   /* === 30%: Text === */
-  --text-primary: #212121;         /* For Headings & Main Text */
-  --text-secondary: #666666;       /* For Paragraphs, Labels, Subtext */
+  --text-primary: #1F2937;           /* Dark gray for headings, main text */
+  --text-secondary: #6B7280;         /* Medium gray for subtext */
 
   /* === 10%: Accent === */
-  --highlight: #B22222;            /* AKTU Red - For highlights, buttons, links */
+  --highlight: #B91C1C;              /* AKTU Red - primary red tone */
+  --highlight-hover: #991B1B;        /* Slightly darker red for hover */
 
-  /* === Feedback / Utility (Used minimally) === */
-  --link: #0056D2;                 /* Link/CTA */
-  --success: #4CAF50;
-  --warning: #FF9800;
-  --error: #F44336;
+  /* === Feedback / Utility === */
+  --link: #1D4ED8;                   /* Blue link/CTA */
+  --success: #10B981;                /* Green for success messages */
+  --warning: #F59E0B;                /* Amber warning */
+  --error: #EF4444;                  /* Red error */
 }
 
 
@@ -39,21 +40,22 @@
  @media (prefers-color-scheme: dark) {
   :root {
     /* === 60%: Base === */
-   /*--background: #121212;          /* True dark */
-    /*--surface: #1E1E1E;             /* Surface/cards */
+  --background: #0F172A;             /* Navy slate for dark background */
+  --surface: #1E293B;                /* Darker surface for cards/boxes */
 
-    /* === 30%: Text === */
-  /*  --text-primary: #F5F5F5;        /* Bright for headings */
-    /*--text-secondary: #B0B0B0;      /* Muted for paragraphs */
+  /* === 30%: Text === */
+  --text-primary: #F1F5F9;           /* Light gray text for readability */
+  --text-secondary: #94A3B8;         /* Subtle blue-gray for subtext */
 
-    /* === 10%: Accent === */
-   /* --highlight: #FF6B6B;           /* Soft red for highlights/CTA */
+  /* === 10%: Accent === */
+  --highlight: #F87171;              /* Soft red accent in dark mode */
+  --highlight-hover: #EF4444;        /* Stronger red on hover */
 
-    /* === Feedback / Utility === */
-   /* --link: #82B1FF;
-    --success: #81C784;
-    --warning: #FFB74D;
-    --error: #EF5350;*/
+  /* === Feedback / Utility === */
+  --link: #60A5FA;                   /* Lighter blue for links */
+  --success: #34D399;
+  --warning: #FBBF24;
+  --error: #F87171;
   }
 } 
 

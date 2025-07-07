@@ -8,6 +8,7 @@ const emptyBlock = [{ type: 'paragraph', value: '', level: 1, items: [] }];
 function Page() {
     const [showPopup, setShowPopup] = useState(false);
     const [thumbnailUrl, setThumbnailUrl] = useState('');
+    const [expiredAt, setexpiredAt] = useState('')
     const [tags, setTags] = useState([]);
     const [isPublish, setIsPublish] = useState(false)
     const [title, setTitle] = useState('');
@@ -133,6 +134,7 @@ function Page() {
             createdAt: new Date(),
             updatedAt: new Date(),
             isPublished: isPublish,
+            expiredAt: expiredAt ? new Date(Date.now() + 1000 * 60 * 60 * expiredAt) : null,
         };
 
         try {
@@ -164,6 +166,8 @@ function Page() {
             {showPopup && (
                 <SubmitPopup
                     show={showPopup}
+                    setexpiredAt={setexpiredAt}
+                    expiredAt={expiredAt}
                     onClose={() => setShowPopup(false)}
                     onSubmit={submitWithMetadata}
                     thumbnailUrl={thumbnailUrl}
