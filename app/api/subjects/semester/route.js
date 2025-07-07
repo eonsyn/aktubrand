@@ -11,7 +11,7 @@ export async function POST(req) {
     // ✅ Parse the JSON body
     const { semester } = await req.json();
 
-    // 🧠 Fetch from DB
+    // Fetch from DB
     const subject = await PyqSubject.find({ year : semester });
 
     return Response.json({ subject }, { status: 200 });
