@@ -22,7 +22,7 @@ async function getSubjects(id) {
 }
 
 export async function generateStaticParams() {
-  // Pre-render only for these ids
+ 
   return ['1', '2', '3', '4'].map(id => ({ id }));
 }
 
