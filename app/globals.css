@@ -40,22 +40,22 @@
  @media (prefers-color-scheme: dark) {
   :root {
     /* === 60%: Base === */
-  --background: #0F172A;             /* Navy slate for dark background */
-  --surface: #1E293B;                /* Darker surface for cards/boxes */
+  /* --background: #0F172A;             /* Navy slate for dark background */
+  /* --surface: #1E293B;                /* Darker surface for cards/boxes */
 
   /* === 30%: Text === */
-  --text-primary: #F1F5F9;           /* Light gray text for readability */
-  --text-secondary: #94A3B8;         /* Subtle blue-gray for subtext */
+  /* --text-primary: #F1F5F9;           /* Light gray text for readability */
+  /* --text-secondary: #94A3B8;         /* Subtle blue-gray for subtext */
 
   /* === 10%: Accent === */
-  --highlight: #F87171;              /* Soft red accent in dark mode */
-  --highlight-hover: #EF4444;        /* Stronger red on hover */
+   /*--highlight: #F87171;              /* Soft red accent in dark mode */
+   /*--highlight-hover: #EF4444;        /* Stronger red on hover */
 
   /* === Feedback / Utility === */
-  --link: #60A5FA;                   /* Lighter blue for links */
-  --success: #34D399;
+  /* --link: #60A5FA;                   /* Lighter blue for links */
+   /*--success: #34D399;
   --warning: #FBBF24;
-  --error: #F87171;
+  --error: #F87171; */
   }
 } 
 
