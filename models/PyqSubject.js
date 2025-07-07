@@ -5,7 +5,8 @@ const pyqSchema = new mongoose.Schema({
   subjectName: { type: String, required: true },
   subjectCode:{type:String},
   fullName: { type: String, required: true },
-  semester: { type: Number, required: true }, // ✅ Use Number not Integer
+  semester: { type: Number  },
+  year:{type:Number,require:true},
   goto: { type: String, required: true },
 });
 
