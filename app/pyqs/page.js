@@ -5,7 +5,7 @@ const years = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
 
 export default function Page() {
   return (
-    <div className="min-h-screen md:min-h-[80vh] bg-gradient-to-br from-yellow-50 to-orange-100 flex items-center justify-center px-4">
+    <div className="min-h-screen md:min-h-[80vh]  flex items-center justify-center px-4">
       <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-xl space-y-8">
         <h1 className="text-3xl font-bold text-center text-orange-800">
           Choose Your Year
