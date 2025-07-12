@@ -15,13 +15,13 @@ export default function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   const navLinks = [
-  { href: '/branch/mechanical', label: 'Mechanical',title:'Mechanical Engineering' },
-  { href: '/branch/cse', label: 'CSE',title:'Computer Science' },
-  { href: '/pyqs', label: 'PYQs',title:'Previous Year Papers' },
-  { href: '/blog', label: 'Blog',title:'Blog' },
-  { href: '#Privacy', label: 'Privacy' },
-  { href: '#contact', label: 'Contact' },
-];
+    { href: '/branch/mechanical', label: 'Mechanical', title: 'Mechanical Engineering' },
+    { href: '/branch/cse', label: 'CSE', title: 'Computer Science' },
+    { href: '/pyqs', label: 'PYQs', title: 'Previous Year Papers' },
+    { href: '/blog', label: 'Blog', title: 'Blog' },
+    { href: '#Privacy', label: 'Privacy' },
+    { href: '/request', label: 'Request', title: 'Request quantum and notes' },
+  ];
 
 
   useEffect(() => {
@@ -62,12 +62,14 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               title={link.title}
-              className={`transition-colors hover:text-blue-600 ${
-                pathname === link.href ? 'text-blue-600 font-semibold' : ''
-              }`}
+              className={`relative transition-colors duration-300 hover:text-blue-600 
+    ${pathname === link.href ? 'text-blue-600 font-bold before:w-full' : 'font-semibold'}
+    before:absolute before:bottom-0 before:left-0 before:w-0 before:h-[2px]
+    before:bg-blue-600 before:transition-all before:duration-300 hover:before:w-full`}
             >
               {link.label}
             </Link>
+
           ))}
         </div>
 
@@ -117,9 +119,8 @@ export default function Navbar() {
                     href={link.href}
                     title={link.title}
                     onClick={closeMenu}
-                    className={`transition-colors hover:text-blue-600 ${
-                      pathname === link.href ? 'text-blue-600 font-semibold' : ''
-                    }`}
+                    className={`transition-colors hover:text-blue-600 ${pathname === link.href ? 'text-blue-600 font-semibold' : ''
+                      }`}
                   >
                     {link.label}
                   </Link>
