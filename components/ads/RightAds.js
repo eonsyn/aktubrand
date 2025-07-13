@@ -1,30 +1,39 @@
-'use client'
-// components/RightAds.js
+'use client';
+
 import { useEffect } from 'react';
- 
+import Script from 'next/script';
+
 const RightAds = () => {
   useEffect(() => {
-    try {
-      // Push the ad to the adsbygoogle array after the component mounts
-      if (window.adsbygoogle) {
-        (window.adsbygoogle || []).push({});
+    const timeout = setTimeout(() => {
+      try {
+        if (typeof window !== 'undefined' && window.adsbygoogle) {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      } catch (error) {
+        console.error('Adsense error:', error);
       }
-    } catch (error) {
-      console.error("Adsense error:", error);
-    }
+    }, 1000); // delay helps if script hasn't initialized
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
     <>
-      {/* Load the AdSense script globally */}
-      <amp-ad width="100%" height="100%"
-     type="adsense"
-     data-ad-client="ca-pub-2404358914933411"
-     data-ad-slot="4391646852"
-     data-auto-format="mcrspv"
-     data-full-width="">
-  <div overflow=""></div>
-</amp-ad>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2404358914933411"
+        crossOrigin="anonymous"
+        strategy="lazyOnload"
+      />
+
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block', width: '100%', height: '100%' }}
+        data-ad-client="ca-pub-2404358914933411"
+        data-ad-slot="4391646852"
+        data-ad-format="autorelaxed"
+      />
     </>
   );
 };

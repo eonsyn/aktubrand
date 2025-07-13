@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
-        <Script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></Script>
+        
          <Script
   src="https://www.googletagmanager.com/gtag/js?id=G-1W81KSW14R"
   strategy="afterInteractive"
