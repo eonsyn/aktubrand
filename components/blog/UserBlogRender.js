@@ -95,7 +95,7 @@ function UserBlogRender({ article }) {
             case 'heading': {
                 paragraphCount++;
 
-                if (paragraphCount % 3 === 0) {
+                if (paragraphCount % 2 === 0) {
                     blocks.push(
                         <div key={`ad-${index}`} className="my-6">
                             <ArticleAd />
