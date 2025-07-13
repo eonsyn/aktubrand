@@ -14,7 +14,7 @@ export async function generateMetadata({ params }) {
     });
 
     const { article } = await res.json();
- 
+
     if (!article) {
       return {
         title: 'Blog Not Found | aktu brand',
@@ -92,16 +92,16 @@ export default async function BlogPage({ params }) {
 
   const res = await fetch(`${host}/api/blog/${slug}`, { next: { revalidate: 3600 } });
 
-  if (!res.ok) { 
-  return (
-    <div className="flex items-center justify-center h-[60vh]">
-      <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-xl shadow-md text-center">
-        <h2 className="text-xl font-semibold mb-2">Article Not Found</h2>
-        <p className="text-sm">Sorry, the article you're looking for doesn't exist or may have been removed.</p>
+  if (!res.ok) {
+    return (
+      <div className="flex items-center justify-center h-[60vh]">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-xl shadow-md text-center">
+          <h2 className="text-xl font-semibold mb-2">Article Not Found</h2>
+          <p className="text-sm">Sorry, the article you're looking for doesn't exist or may have been removed.</p>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
 
   const post = await res.json();
@@ -110,7 +110,7 @@ export default async function BlogPage({ params }) {
   if (!article) {
     return <div className="min-h-screen">Article not found</div>;
   }
- 
+
 
   function renderTextWithLinks(text) {
     if (!text || typeof text !== 'string') return null;
@@ -156,56 +156,56 @@ export default async function BlogPage({ params }) {
 
     return parts;
   }
-function extractPlainTextFromContent(contentArray) {
-  return contentArray
-    .filter(block => block.type === 'paragraph' || block.type === 'heading')
-    .map(block => {
-      if (block.type === 'heading') {
-        return `${'#'.repeat(block.level || 1)} ${block.value}`;
-      }
-      return block.value;
-    })
-    .join('\n\n');
-}
+  function extractPlainTextFromContent(contentArray) {
+    return contentArray
+      .filter(block => block.type === 'paragraph' || block.type === 'heading')
+      .map(block => {
+        if (block.type === 'heading') {
+          return `${'#'.repeat(block.level || 1)} ${block.value}`;
+        }
+        return block.value;
+      })
+      .join('\n\n');
+  }
 
   return (
     <><main className="min-h-screen mb-4 w-full flex">
-  {/* Left Side - Red */}
-  <div className="hidden md:block  w-[20%] px-4 ">
-     <GoogleVerticleAd slot="6204322368"/> 
-  </div>
+      {/* Left Side - Red */}
+      <div className="hidden md:block  w-[20%] px-4 ">
+        <GoogleVerticleAd slot="6204322368" />
+      </div>
 
-  {/* Center Content */}
-  <div className="w-full px-3 md:w-[60%]    md:mx-auto md:px-4 pt-2 pb-4 md:py-8 text-gray-800  ">
-    <div className="fixed bottom-4 right-4 h-6 w-6 z-50">
-    <BlockAi article={extractPlainTextFromContent(article.content)} />
-    </div>
+      {/* Center Content */}
+      <div className="w-full px-3 md:w-[60%]    md:mx-auto md:px-4 pt-2 pb-4 md:py-8 text-gray-800  ">
+        <div className="fixed bottom-4 right-4 h-6 w-6 z-50">
+          <BlockAi article={extractPlainTextFromContent(article)} />
+        </div>
 
-    <UserBlogRender article={article} />
+        <UserBlogRender article={article} />
 
-    <div className="mt-8 text-sm text-gray-500">
-      Tags: {article.tags?.map((tag, i) => (
-        <span key={i} className="bg-gray-200 px-2 py-1 rounded mr-2">
-          #{tag}
-        </span>
-      ))}
-    </div>
+        <div className="mt-8 text-sm text-gray-500">
+          Tags: {article.tags?.map((tag, i) => (
+            <span key={i} className="bg-gray-200 px-2 py-1 rounded mr-2">
+              #{tag}
+            </span>
+          ))}
+        </div>
 
-  </div>
-    
+      </div>
 
-  {/* Right Side - Black */}
-  <div className="w-[20%] hidden   md:flex  flex-col p-2 overflow-y-auto">
-    <BlockAi article={extractPlainTextFromContent(article.content)} />
-  </div>
-</main>
-<hr />
-<div className=" rounded-2xl mx-5 px-2 pt-2 pb-3.5 transition-all ease-in-out duration-300">
-<BlogSuggestions  tags={article.tags} slug={article.slug} />
 
-</div>
+      {/* Right Side - Black */}
+      <div className="w-[20%] hidden   md:flex  flex-col p-2 overflow-y-auto">
+        <BlockAi article={extractPlainTextFromContent(article)} />
+      </div>
+    </main>
+      <hr />
+      <div className=" rounded-2xl mx-5 px-2 pt-2 pb-3.5 transition-all ease-in-out duration-300">
+        <BlogSuggestions tags={article.tags} slug={article.slug} />
+
+      </div>
     </>
-   
+
 
   );
 }
