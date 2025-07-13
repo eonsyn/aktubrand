@@ -4,6 +4,7 @@ import BlogSuggestions from '@/components/blog/BlogSuggestions';
 import UserBlogRender from "@/components/blog/UserBlogRender";
 import ImageComponent from "@/components/blog/ImageComponent";
 import BlockAi from "@/components/blog/ai/BlockAi";
+import RightAds from "@/components/ads/RightAds";
 import GoogleVerticleAd from "@/components/ads/GoogleVerticleAd";
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -196,6 +197,7 @@ export default async function BlogPage({ params }) {
 
       {/* Right Side - Black */}
       <div className="w-[20%] hidden   md:flex  flex-col p-2 overflow-y-auto">
+        <RightAds/>
         <BlockAi article={extractPlainTextFromContent(article)} />
       </div>
     </main>
