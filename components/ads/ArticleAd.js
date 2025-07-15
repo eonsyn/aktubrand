@@ -20,14 +20,14 @@ export default function ArticleAd() {
     <div className="my-8 p-4 bg-amber-600 border border-gray-200 rounded-2xl shadow-sm text-center">
       <p className="text-xs text-gray-400 italic mb-3">Sponsored Content</p>
 
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block', textAlign: 'center' }}
-        data-ad-layout="in-article"
-        data-ad-format="fluid"
-        data-ad-client="ca-pub-2404358914933411"
-        data-ad-slot="9883427512"
-      />
+      
+      <ins className="adsbygoogle"
+     style={{ display: "block", width: "100%", textAlign: 'center' }}
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-layout-key="-6t+ed+2i-1n-4w"
+     data-ad-client="ca-pub-2404358914933411"
+     data-ad-slot="5314448923"></ins>
 
       {!adLoaded && (
         <div className="text-gray-300 text-sm mt-3 italic">
