@@ -198,8 +198,7 @@ export default async function BlogPage({ params }) {
 
       {/* Right Side - Black */}
       <div className="w-[20%] hidden   md:flex  flex-col p-2 ">
-        {/* <RightAds/> */}
-         <GoogleVerticleAd slot="6204322368" />
+         <RightAds/>  
         <BlockAi article={extractPlainTextFromContent(article.content)} />
 
       </div>
