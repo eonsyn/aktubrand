@@ -1,19 +1,24 @@
 // components/ads/ArticleAd.js
 'use client'
-import { useEffect } from 'react';
+
+import { useEffect, useState } from 'react';
 
 export default function ArticleAd() {
+  const [adLoaded, setAdLoaded] = useState(false);
+
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
+      setAdLoaded(true);
     } catch (e) {
       console.error("Adsbygoogle error:", e);
+      setAdLoaded(false);
     }
   }, []);
 
   return (
-    <div className="my-6 p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm text-center">
-      <p className="text-sm text-gray-500 italic mb-2">Advertisement</p>
+    <div className="my-8 p-4 border border-gray-200 rounded-2xl bg-white shadow-sm text-center">
+      <p className="text-xs text-gray-400 italic mb-3">Sponsored Content</p>
 
       <ins
         className="adsbygoogle"
@@ -23,7 +28,12 @@ export default function ArticleAd() {
         data-ad-client="ca-pub-2404358914933411"
         data-ad-slot="9883427512"
       />
-    </div>
 
+      {!adLoaded && (
+        <div className="text-gray-300 text-sm mt-3 italic">
+          Ad space (may be blocked or unavailable)
+        </div>
+      )}
+    </div>
   );
 }

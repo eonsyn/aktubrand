@@ -28,19 +28,20 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
-        
-         <Script
-  src="https://www.googletagmanager.com/gtag/js?id=G-1W81KSW14R"
-  strategy="afterInteractive"
-/>
-<Script id="ga-init" strategy="afterInteractive">
-  {`
+
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-1W81KSW14R"
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">
+          {`
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-1W81KSW14R');
   `}
-</Script>
+        </Script>
+ 
 
         <Script
           async
