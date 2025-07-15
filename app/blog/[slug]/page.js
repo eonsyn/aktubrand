@@ -172,7 +172,7 @@ export default async function BlogPage({ params }) {
   return (
     <><main className="min-h-screen mb-4 w-full flex">
       {/* Left Side - Red */}
-      <div className="hidden md:block  w-[20%] px-4 ">
+      <div className="hidden md:block p-2 w-[20%]  ">
         <GoogleVerticleAd slot="6204322368" />
       </div>
 

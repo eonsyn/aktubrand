@@ -29,7 +29,7 @@ export default function ArticleAd() {
   return (
     <div
       ref={adRef}
-      className="w-full my-6 py-4 px-2 bg-gray-50 border border-gray-200 rounded-xl shadow-md text-center"
+      className="w-full my-6 py-4 px-2  border border-gray-900 rounded-xl shadow-md text-center"
     >
       <p className="text-xs text-gray-400 italic mb-2">Sponsored content</p>
 
