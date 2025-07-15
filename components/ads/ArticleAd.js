@@ -17,7 +17,7 @@ export default function ArticleAd() {
   }, []);
 
   return (
-    <div className="my-8 p-4 border border-gray-200 rounded-2xl bg-white shadow-sm text-center">
+    <div className="my-8 p-4 bg-amber-600 border border-gray-200 rounded-2xl shadow-sm text-center">
       <p className="text-xs text-gray-400 italic mb-3">Sponsored Content</p>
 
       <ins

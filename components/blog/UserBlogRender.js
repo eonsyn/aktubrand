@@ -93,7 +93,7 @@ function UserBlogRender({ article }) {
     article.content.forEach((block, index) => {
         switch (block.type) {
             case 'heading': {
-                paragraphCount++;
+                
 
                 if (paragraphCount % 2 === 0) {
                     blocks.push(
@@ -117,6 +117,14 @@ function UserBlogRender({ article }) {
             }
 
             case 'paragraph': {
+                paragraphCount++;
+                if (paragraphCount % 2 === 0) {
+                    blocks.push(
+                        <div key={`ad-${index}`} className="my-6">
+                            <ArticleAd />
+                        </div>
+                    );
+                }
                 blocks.push(
                     <p
                         key={index}
