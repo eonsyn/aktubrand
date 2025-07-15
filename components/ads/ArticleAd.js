@@ -31,7 +31,7 @@ export default function ArticleAd() {
 
       {!adLoaded && (
         <div className="text-gray-300 text-sm mt-3 italic">
-          Ad space (may be blocked or unavailable)
+          Ad space (may _ be blocked or unavailable)
         </div>
       )}
     </div>
