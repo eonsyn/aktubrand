@@ -9,10 +9,13 @@ const RightAds = () => {
   useEffect(() => {
     const tryRenderAd = () => {
       const width = adRef.current?.offsetWidth || 0;
+
       if (width === 0) {
+        // Retry until ad container has a visible width
         setTimeout(tryRenderAd, 300);
         return;
       }
+
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
         setAdLoaded(true);
@@ -22,7 +25,9 @@ const RightAds = () => {
       }
     };
 
-    tryRenderAd();
+    if (typeof window !== 'undefined') {
+      tryRenderAd();
+    }
   }, []);
 
   return (
@@ -30,12 +35,15 @@ const RightAds = () => {
       <p className="text-xs text-gray-500 italic mb-2 text-center">
         Sponsored Ad
       </p>
+
       <ins
+        ref={adRef}
         className="adsbygoogle"
-        style={{ display: 'block' }}
+        style={{ display: 'block', width: '100%' }}
         data-ad-client="ca-pub-2404358914933411"
         data-ad-slot="4391646852"
-        data-ad-format="autorelaxed"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
       ></ins>
 
       {!adLoaded && (
