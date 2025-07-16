@@ -7,12 +7,14 @@ const RightAds = () => {
   const [adLoaded, setAdLoaded] = useState(false);
 
   useEffect(() => {
-    const tryRenderAd = () => {
-      const width = adRef.current?.offsetWidth || 0;
+    const renderAd = () => {
+      if (!adRef.current) return;
+
+      const width = adRef.current.offsetWidth;
 
       if (width === 0) {
-        // Retry until ad container has a visible width
-        setTimeout(tryRenderAd, 300);
+        // Retry until the container has a visible width
+        setTimeout(renderAd, 300);
         return;
       }
 
@@ -26,15 +28,13 @@ const RightAds = () => {
     };
 
     if (typeof window !== 'undefined') {
-      tryRenderAd();
+      renderAd();
     }
   }, []);
 
   return (
     <div className="sticky top-4 z-40 w-full p-2 rounded-xl bg-white border shadow-md">
-      <p className="text-xs text-gray-500 italic mb-2 text-center">
-        Sponsored Ad
-      </p>
+      <p className="text-xs text-gray-500 italic mb-2 text-center">Sponsored Ad</p>
 
       <ins
         ref={adRef}
