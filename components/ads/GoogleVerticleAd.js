@@ -7,15 +7,26 @@ const GoogleVerticleAd = ({ slot, style = {}, className = "" }) => {
   const [adLoaded, setAdLoaded] = useState(false);
 
   useEffect(() => {
-    try {
-      if (typeof window !== "undefined" && adRef.current) {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-        // Set adLoaded to true after a short delay to simulate load detection
-        const timer = setTimeout(() => setAdLoaded(true), 2000); // Or use IntersectionObserver, etc.
-        return () => clearTimeout(timer);
+    const tryRenderAd = () => {
+      const width = adRef.current?.offsetWidth || 0;
+
+      if (width === 0) {
+        // Wait until the container has a non-zero width
+        setTimeout(tryRenderAd, 300);
+        return;
       }
-    } catch (e) {
-      console.error("AdSense error:", e);
+
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        setAdLoaded(true);
+      } catch (e) {
+        console.error("AdSense error:", e);
+        setAdLoaded(false);
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      tryRenderAd();
     }
   }, []);
 
@@ -24,6 +35,7 @@ const GoogleVerticleAd = ({ slot, style = {}, className = "" }) => {
       <p className="text-xs text-gray-500 italic mb-2 text-center">
         Sponsored Ad
       </p>
+
       <ins
         ref={adRef}
         className={`adsbygoogle ${className}`}
@@ -33,6 +45,7 @@ const GoogleVerticleAd = ({ slot, style = {}, className = "" }) => {
         data-ad-format="auto"
         data-full-width-responsive="true"
       ></ins>
+
       {!adLoaded && (
         <p className="text-center text-gray-300 text-xs mt-2 italic">
           Ad loading or blocked
