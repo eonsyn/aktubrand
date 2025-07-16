@@ -42,7 +42,7 @@ const RightAds = () => {
         style={{ display: 'block', width: '100%' }}
         data-ad-client="ca-pub-2404358914933411"
         data-ad-slot="4391646852"
-        data-ad-format="auto"
+        data-ad-format="autorelaxed"
         data-full-width-responsive="true"
       ></ins>
 
