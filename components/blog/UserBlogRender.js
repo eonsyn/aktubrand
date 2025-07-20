@@ -37,7 +37,7 @@ function UserBlogRender({ article }) {
                             href={url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-500 font-bold mx-1 hover:text-blue-600 underline"
+                            className="text-red-500 font-bold mx-1 hover:text-red-600 underline"
                         >
                             {label}
                         </a>
@@ -48,7 +48,7 @@ function UserBlogRender({ article }) {
                         <Link
                             key={url + match.index}
                             href={url}
-                            className="text-blue-500 font-bold mx-1 hover:text-blue-600 underline"
+                            className="text-red-500 font-bold mx-1 hover:text-red-600 underline"
                         >
                             {label}
                         </Link>
@@ -118,7 +118,7 @@ function UserBlogRender({ article }) {
 
             case 'paragraph': {
                 paragraphCount++;
-                if (paragraphCount % 2 === 0) {
+                if (paragraphCount % 3 === 0) {
                     blocks.push(
                         <div key={`ad-${index}`} className="my-6">
                             <ArticleAd />
@@ -177,15 +177,19 @@ function UserBlogRender({ article }) {
             case 'blockquote':
                 blocks.push(
                     <blockquote
-                        key={index}
-                        className="relative bg-gray-50 text-gray-800 text-lg md:text-xl leading-relaxed italic px-6 py-4 my-6 rounded-md border-l-2 border-gray-300"
-                    >
-                        {block.value?.split('\n').map((line, i) => (
-                            <p key={i} className="mb-2 before:content-['“'] after:content-['”']">
-                                {line}
-                            </p>
-                        ))}
-                    </blockquote>
+  key={index}
+  className="relative bg-[var(--card-background)] text-[var(--text-primary)] text-lg md:text-xl leading-relaxed italic px-6 py-4 my-6 rounded-md border-l-4 border-[var(--border)] shadow-sm"
+>
+  {block.value?.split("\n").map((line, i) => (
+    <p
+      key={i}
+      className="mb-2 before:content-['“'] after:content-['”'] before:mr-1 after:ml-1 block"
+    >
+      {line}
+    </p>
+  ))}
+</blockquote>
+
                 );
                 break;
 

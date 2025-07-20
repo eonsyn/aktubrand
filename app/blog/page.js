@@ -37,17 +37,22 @@ async function Page() {
   });
 
   return (
-    <div className="min-h-screen px-6 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Explore Our Latest Blogs</h1>
+   <div className="min-h-screen px-6 py-8 bg-[var(--background)] text-[var(--text-primary)]">
+  <h1 className="text-3xl font-bold mb-8 text-center text-[var(--text-primary)] drop-shadow-md">
+    Explore Our Latest Blogs
+  </h1>
 
-      {cardsWithAds.length > 0 ? (
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {cardsWithAds}
-        </div>
-      ) : (
-        <p className="text-center text-gray-600">No blog posts found.</p>
-      )}
+  {cardsWithAds.length > 0 ? (
+    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {cardsWithAds}
     </div>
+  ) : (
+    <p className="text-center text-[var(--text-secondary)]">
+      No blog posts found.
+    </p>
+  )}
+</div>
+
   );
 }
 

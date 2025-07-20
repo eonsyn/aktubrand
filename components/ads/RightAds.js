@@ -31,27 +31,28 @@ const RightAds = () => {
   }, []);
 
   return (
-    <div className="sticky top-4 z-40 w-full p-2 rounded-xl bg-white border shadow-md">
-      <p className="text-xs text-gray-500 italic mb-2 text-center">
-        Sponsored Ad
-      </p>
+   <div className="sticky top-4 z-40 w-full p-3 rounded-xl bg-[var(--card-background)] border border-[var(--border)] shadow-md">
+  <p className="text-xs text-[var(--text-secondary)] italic mb-2 text-center">
+    Sponsored Ad
+  </p>
 
-      <ins
-        ref={adRef}
-        className="adsbygoogle"
-        style={{ display: 'block', width: '100%' }}
-        data-ad-client="ca-pub-2404358914933411"
-        data-ad-slot="4391646852"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      ></ins>
+  <ins
+    ref={adRef}
+    className="adsbygoogle"
+    style={{ display: 'block', width: '100%' }}
+    data-ad-client="ca-pub-2404358914933411"
+    data-ad-slot="4391646852"
+    data-ad-format="auto"
+    data-full-width-responsive="true"
+  ></ins>
 
-      {!adLoaded && (
-        <p className="text-center text-gray-300 text-xs mt-2 italic">
-          Ad loading or blocked
-        </p>
-      )}
-    </div>
+  {!adLoaded && (
+    <p className="text-center text-[var(--text-secondary)] text-xs mt-2 italic">
+      Ad loading or blocked
+    </p>
+  )}
+</div>
+
   );
 };
 

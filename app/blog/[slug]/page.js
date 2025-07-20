@@ -170,45 +170,55 @@ export default async function BlogPage({ params }) {
   }
 
   return (
-    <><main className="min-h-screen mb-4 w-full flex">
-      {/* Left Side - Red */}
-      <div className="hidden md:block p-2 w-[20%]  ">
-        <GoogleVerticleAd slot="6204322368" />
-      </div>
+    <>
+  <main className="min-h-screen mb-4 w-full flex bg-[var(--background)] text-[var(--text-primary)]">
+    {/* Left Side Ad */}
+    <div className="hidden md:block p-2 w-[20%]">
+      <GoogleVerticleAd slot="6204322368" />
+    </div>
 
-      {/* Center Content */}
-      <div className="w-full px-3 md:w-[60%]    md:mx-auto md:px-4 pt-2 pb-4 md:py-8 text-gray-800  ">
-        <div className="fixed bottom-4 right-4 h-6 w-6 z-50">
-          <BlockAi article={extractPlainTextFromContent(article.content)} />
-
-        </div>
-
-        <UserBlogRender article={article} />
-
-        <div className="mt-8 text-sm text-gray-500">
-          Tags: {article.tags?.map((tag, i) => (
-            <span key={i} className="bg-gray-200 px-2 py-1 rounded mr-2">
-              #{tag}
-            </span>
-          ))}
-        </div>
-
-      </div>
-
-
-      {/* Right Side - Black */}
-      <div className="w-[20%] hidden relative  md:flex  flex-col p-2 ">
-         <RightAds/>  
+    {/* Center Content */}
+    <div className="w-full px-3 md:w-[60%] md:mx-auto md:px-4  pb-4 md:py-2">
+      {/* Floating AI Button */}
+      <div className="fixed bottom-4 right-4 z-50">
         <BlockAi article={extractPlainTextFromContent(article.content)} />
-
       </div>
-    </main>
-      <hr />
-      <div className=" rounded-2xl mx-5 px-2 pt-2 pb-3.5 transition-all ease-in-out duration-300">
-        <BlogSuggestions tags={article.tags} slug={article.slug} />
 
+      {/* Main Blog Content */}
+      <div className="bg-[var(--card-background)] border border-[var(--border)] rounded-2xl p-4 shadow-md">
+        <UserBlogRender article={article} />
       </div>
-    </>
+
+      {/* Tags Section */}
+      <div className="mt-8 text-sm text-[var(--text-secondary)]">
+        Tags:{" "}
+        {article.tags?.map((tag, i) => (
+          <span
+            key={i}
+            className="inline-block bg-[var(--border)] text-[var(--text-primary)] px-2 py-1 rounded-lg mr-2 mb-2 shadow-sm"
+          >
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    {/* Right Side Ad + AI */}
+    <div className="w-[20%] hidden relative md:flex flex-col p-2">
+      <RightAds />
+      <div className="mt-4">
+        <BlockAi article={extractPlainTextFromContent(article.content)} />
+      </div>
+    </div>
+  </main>
+
+  {/* Suggestions */}
+  <hr className="border-[var(--border)] mx-4" />
+  <div className="bg-[var(--card-background)] border border-[var(--border)] shadow-md rounded-2xl mx-5 px-4 pt-4 pb-6 mb-2 mt-6">
+    <BlogSuggestions tags={article.tags} slug={article.slug} />
+  </div>
+</>
+
 
 
   );
