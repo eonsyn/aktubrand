@@ -10,6 +10,7 @@
   --border: #e0e0e0;                 /* Borders or separators */
   --warning: #e65100;                /* Alert or warning text */
   --shadow-dark: rgba(0, 0, 0, 0.08); /* Soft box shadows */
+  --highlight:rgb(213, 6, 6);
 }
 
 
@@ -70,4 +71,13 @@ body {
 
 .animate-fade-in {
   animation: fade-in 0.2s ease-out forwards;
+}
+::-moz-selection { /* Code for Firefox */
+ /* color: rgba(250, 59, 26, 0.957);
+  background: rgba(255, 255, 48, 0.781);*/
+}
+
+::selection {
+ /* color: rgba(250, 59, 26, 0.957);
+  background: rgba(255, 255, 48, 0.781);*/
 }
