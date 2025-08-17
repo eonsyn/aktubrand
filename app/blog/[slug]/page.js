@@ -178,9 +178,9 @@ export default async function BlogPage({ params }) {
     </div>
 
     {/* Center Content */}
-    <div className="w-full px-3 md:w-[60%] md:mx-auto md:px-4  pb-4 md:py-2">
+    <div className="w-full   md:w-[60%] md:mx-auto md:px-4  pb-4 md:py-2">
       {/* Floating AI Button */}
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="fixed bottom-4  right-4 z-50">
         <BlockAi article={extractPlainTextFromContent(article.content)} />
       </div>
 

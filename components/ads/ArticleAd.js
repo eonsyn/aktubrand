@@ -7,16 +7,20 @@ export default function ArticleAd() {
   const [adLoaded, setAdLoaded] = useState(false);
 
   useEffect(() => {
+    const node = adRef.current;
+
     const tryPushAd = () => {
-      const width = adRef.current?.offsetWidth || 0;
+      const width = node?.offsetWidth || 0;
       if (width === 0) {
-        // Retry if container not visible yet
         setTimeout(tryPushAd, 300);
         return;
       }
       try {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-        setAdLoaded(true);
+        if (node && !node.getAttribute('data-ad-status')) {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+          node.setAttribute('data-ad-status', 'filled'); // ✅ mark initialized
+          setAdLoaded(true);
+        }
       } catch (e) {
         console.error('Adsbygoogle error:', e);
         setAdLoaded(false);
@@ -28,16 +32,16 @@ export default function ArticleAd() {
 
   return (
     <div
-      ref={adRef}
-      className="w-full my-6 py-4 px-2  border border-gray-900 rounded-xl shadow-md text-center"
+      className="w-full my-6 py-4 px-2 border border-gray-900 rounded-xl shadow-md text-center"
     >
       <p className="text-xs text-gray-400 italic mb-2">Sponsored content</p>
 
       <ins
+        ref={adRef}
         className="adsbygoogle"
-        style={{ display: 'block' }}
+        style={{ display: 'block', textAlign: 'center' }}
         data-ad-format="fluid"
-        data-ad-layout-key="-gw-3+1f-3d+2z" // ✅ Your custom layout key
+        data-ad-layout-key="-gw-3+1f-3d+2z" // ✅ your layout key
         data-ad-client="ca-pub-2404358914933411"
         data-ad-slot="3305560812"
       />
