@@ -28,7 +28,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
-
+        {/* ahref script below */}
+ <Script
+        src="https://analytics.ahrefs.com/analytics.js"
+        data-key="9PDM9lq4ufJs+pBH9NLZGA"
+        strategy="afterInteractive"
+      />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-1W81KSW14R"
           strategy="afterInteractive"
@@ -41,7 +46,7 @@ export default function RootLayout({ children }) {
     gtag('config', 'G-1W81KSW14R');
   `}
         </Script>
- 
+
 
         <Script
           async
