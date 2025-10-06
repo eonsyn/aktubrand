@@ -89,7 +89,9 @@ export default async function BranchPage({ params }) {
       </header>
 
       <div id='quantum' className='pt-2'>
+        <Suspense fallback={<div>Loading...</div>}>
         <ClientFilterBar subjects={subjects} branchSlug={slug} />
+      </Suspense>
       </div>
 
       <div className="mt-8">
