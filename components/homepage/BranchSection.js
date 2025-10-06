@@ -11,7 +11,7 @@ const branches = [
     name: 'Mechanical Engg.',
     image: 'https://mitkannur.ac.in/wp-content/uploads/2024/01/MECHANICAL-ENGINEERING-COVER-IMAGE.jpg',
     description: 'Dive into the world of machines, design, thermodynamics, and manufacturing.',
-    link: '/branch/me'
+    link: '/branch/mechanical'
   }
 ];
 
