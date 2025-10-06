@@ -1,12 +1,21 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import SubjectCard from '@/components/cards/SubjectCard';
 import MobileBar from '@/components/branch/MobileBar';
 import AktuBlogCardInFeed from '@/components/googleAds/AktuBlogCardInFeed';
 
-export default function ClientFilterBar({ subjects, branchSlug }) {
+// Wrap the client component in Suspense internally
+export default function ClientFilterBarWrapper(props) {
+  return (
+    <Suspense fallback={<div className="text-center py-10">Loading Subjects...</div>}>
+      <ClientFilterBar {...props} />
+    </Suspense>
+  );
+}
+
+function ClientFilterBar({ subjects, branchSlug }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -30,9 +39,7 @@ export default function ClientFilterBar({ subjects, branchSlug }) {
   const suggestions = useMemo(() => {
     if (!search) return [];
     return subjects
-      .filter((s) =>
-        s.subjectName.toLowerCase().includes(search.toLowerCase())
-      )
+      .filter((s) => s.subjectName.toLowerCase().includes(search.toLowerCase()))
       .slice(0, 5);
   }, [search, subjects]);
 
