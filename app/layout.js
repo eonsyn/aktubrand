@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import Script from "next/script";
 import PushNotifications from "@/components/PushNotifications"; // ✅ NEW
-
+import Telegram from "@/components/socialmedia/Telegram"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -94,6 +94,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Navbar />
           <PushNotifications />  
+          <Telegram/>
           {children}
           <Footer />
         </Providers>

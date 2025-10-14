@@ -4,6 +4,7 @@ import BlogSuggestions from '@/components/blog/BlogSuggestions';
 import UserBlogRender from "@/components/blog/UserBlogRender";
 import ImageComponent from "@/components/blog/ImageComponent";
 import BlockAi from "@/components/blog/ai/BlockAi";
+
 import RightAds from "@/components/ads/RightAds";
 import GoogleVerticleAd from "@/components/ads/GoogleVerticleAd";
 export async function generateMetadata({ params }) {
