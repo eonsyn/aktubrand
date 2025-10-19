@@ -5,6 +5,7 @@ import Image from 'next/image';
 import logo from "@/public/assets/logo.png";
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import AuthButton from "./AuthButton";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,6 +68,7 @@ export default function Navbar() {
           {link.label}
         </Link>
       ))}
+      <AuthButton/>
     </div>
 
     {/* Hamburger */}
