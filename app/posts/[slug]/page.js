@@ -5,13 +5,29 @@ import ReplyBox from "@/components/post/ReplyBox";
 export const revalidate = 60;
 
 // ✅ Generate all post paths at build time
+// ✅ Safe version of generateStaticParams
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
-    cache: "no-store",
-  });
-  const posts = await res.json();
-  return posts.map((post) => ({ slug: post.slug }));
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+  try {
+    const res = await fetch(`${baseUrl}/api/posts`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      console.warn("⚠️ Failed to fetch posts:");
+      return [];
+    }
+
+    const posts = await res.json();
+    return posts.map((post) => ({ slug: post.slug }));
+  } catch (err) {
+    console.warn("⚠️ generateStaticParams error:", err);
+    return [];
+  }
 }
+
 
 // ✅ Fetch a single post by slug
 async function getPost(slug) {
