@@ -1,14 +1,14 @@
-// app/api/auth/[...nextauth]/route.js 
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import connectDB from "@/utils/db";
 import Admin from "@/models/Admin";
+import AktuUser from "@/models/AktuUser"; // ✅ correct model
 import bcrypt from "bcryptjs";
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
-    // Admin login
+    // ✅ Admin login (credentials)
     CredentialsProvider({
       name: "Admin Login",
       credentials: {
@@ -27,7 +27,7 @@ const handler = NextAuth({
       },
     }),
 
-    // Google login for regular users
+    // ✅ Google login (regular users)
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -35,11 +35,40 @@ const handler = NextAuth({
   ],
 
   callbacks: {
-    async session({ session, token, user }) {
+    // ✅ Save Google user to DB if not already
+    async signIn({ user, account }) {
+      if (account.provider === "google") {
+        try {
+          await connectDB();
+          const existingUser = await AktuUser.findOne({ email: user.email });
+          if (!existingUser) {
+            await AktuUser.create({
+              name: user.name,
+              email: user.email,
+              image: user.image,
+              role: "user",
+            });
+          }
+        } catch (err) {
+          console.error("Error saving Google user:", err);
+          return false;
+        }
+      }
+      return true;
+    },
+
+    // ✅ Add DB user ID to session
+    async session({ session, token }) {
+      await connectDB();
+      const dbUser = await AktuUser.findOne({ email: session.user.email });
+      if (dbUser) {
+        session.user._id = dbUser._id.toString();
+      }
       session.user.id = token.sub;
-      session.user.role = token.role || "user"; // default role = user
+      session.user.role = token.role || "user";
       return session;
     },
+
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role || "user";
@@ -52,11 +81,9 @@ const handler = NextAuth({
     strategy: "jwt",
   },
 
-  pages: {
-    signIn: "/admin/login", // Admin login page
-  },
-
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
 
-export { handler as GET, handler as POST };
+// ✅ Export for usage in getServerSession()
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST, authOptions };

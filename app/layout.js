@@ -6,16 +6,7 @@ import Providers from "@/components/Providers";
 import Script from "next/script";
 import PushNotifications from "@/components/PushNotifications"; // ✅ NEW
 import Telegram from "@/components/socialmedia/Telegram"
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
+ 
 export const metadata = {
   title: "Aktu Brand",
   description: "Get free quantum for the AKTU exam - Quantum Series - Aktu Brand",
@@ -26,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" >
       <head>
         {/* ahref script below */}
         <Script

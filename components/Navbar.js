@@ -20,9 +20,7 @@ export default function Navbar() {
     { href: '/branch/cse', label: 'CSE', title: 'Computer Science' },
     { href: '/pyqs', label: 'PYQs', title: 'Previous Year Papers' },
     { href: '/blog', label: 'Blog', title: 'Blog' },
-    { href: '#Privacy', label: 'Privacy' },
-    { href: '/request', label: 'Request', title: 'Request quantum and notes' },
-  ];
+    ];
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -54,7 +52,7 @@ export default function Navbar() {
     </Link>
 
     {/* Desktop Nav */}
-    <div className="hidden md:flex gap-6 font-medium text-[var(--text-secondary)]">
+    <div className="hidden md:flex gap-6 font-medium text-[var(--text-secondary)] items-center">
       {navLinks.map((link) => (
         <Link
           key={link.href}
@@ -72,13 +70,19 @@ export default function Navbar() {
     </div>
 
     {/* Hamburger */}
-    <button
+    
+    <div className='h-full flex items-center gap-2 md:hidden '>
+       <AuthButton/>
+     
+      <button
       aria-label="Toggle Menu"
       onClick={toggleMenu}
       className="md:hidden text-2xl text-[var(--text-secondary)] focus:outline-none"
     >
       {isOpen ? '✕' : '☰'}
     </button>
+    
+      </div>
   </div>
 
   {/* Mobile Menu Slide-in */}
