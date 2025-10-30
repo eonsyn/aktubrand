@@ -3,12 +3,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import connectDB from "@/utils/db";
 import Admin from "@/models/Admin";
-import AktuUser from "@/models/AktuUser"; // ✅ correct model
+import AktuUser from "@/models/AktuUser";
 import bcrypt from "bcryptjs";
 
-export const authOptions = {
+const authOptions = {
   providers: [
-    // ✅ Admin login (credentials)
     CredentialsProvider({
       name: "Admin Login",
       credentials: {
@@ -27,7 +26,6 @@ export const authOptions = {
       },
     }),
 
-    // ✅ Google login (regular users)
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -35,7 +33,6 @@ export const authOptions = {
   ],
 
   callbacks: {
-    // ✅ Save Google user to DB if not already
     async signIn({ user, account }) {
       if (account.provider === "google") {
         try {
@@ -57,7 +54,6 @@ export const authOptions = {
       return true;
     },
 
-    // ✅ Add DB user ID to session
     async session({ session, token }) {
       await connectDB();
       const dbUser = await AktuUser.findOne({ email: session.user.email });
@@ -70,9 +66,7 @@ export const authOptions = {
     },
 
     async jwt({ token, user }) {
-      if (user) {
-        token.role = user.role || "user";
-      }
+      if (user) token.role = user.role || "user";
       return token;
     },
   },
@@ -84,6 +78,6 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// ✅ Export for usage in getServerSession()
-const handler = NextAuth(authOptions);
+// ✅ Correct exports for App Router
+const handler = NextAuth(authOptions); 
 export { handler as GET, handler as POST, authOptions };
