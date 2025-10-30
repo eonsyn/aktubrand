@@ -6,7 +6,7 @@ export const revalidate = 60;
 
 // ✅ Generate all post paths at build time
 export async function generateStaticParams() {
-  const res = await fetch(`/api/posts`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
     cache: "no-store",
   });
   const posts = await res.json();
@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 
 // ✅ Fetch a single post by slug
 async function getPost(slug) {
-  const res = await fetch(`/api/posts/${slug}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${slug}`, {
     next: { revalidate: 60 }, // 🔄 ISR: Revalidate every 60s
   });
 
@@ -24,7 +24,7 @@ async function getPost(slug) {
 }
 
 async function getReplies(slug) {
-  const res = await fetch(`/api/posts/${slug}/replies`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${slug}/replies`, {
     next: { revalidate: 60 },
   });
 
