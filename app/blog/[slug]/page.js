@@ -206,7 +206,7 @@ export default async function BlogPage({ params }) {
 
     {/* Right Side Ad + AI */}
     <div className="w-[20%] hidden relative md:flex flex-col p-2">
-      <RightAds />
+     
       <div className="mt-4">
         <BlockAi article={extractPlainTextFromContent(article.content)} />
       </div>

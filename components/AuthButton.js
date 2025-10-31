@@ -3,7 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Loader2, LogOut } from "lucide-react";
-
+import { FcGoogle } from "react-icons/fc";
 export default function AuthButton() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
@@ -78,7 +78,7 @@ export default function AuthButton() {
     <button
       onClick={handleGoogleLogin}
       disabled={loading}
-      className="flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-red-500 to-rose-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.03] active:scale-95 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+      className="flex items-center gap-2 px-5 py-2 rounded-full cursor-pointer border-red-200 border-1 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.03] active:scale-95 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
     >
       {loading ? (
         <>
@@ -86,7 +86,7 @@ export default function AuthButton() {
           Logging in...
         </>
       ) : (
-        "Login with Google"
+        <div ><FcGoogle /></div>
       )}
     </button>
   );

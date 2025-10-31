@@ -250,7 +250,9 @@ function UserBlogRender({ article }) {
                         minute: '2-digit',
                         hour12: true
                     })}
+                     <span className="mr-2 "> -{article.author === "admin"? "Aktu Brand Team" : article.author}</span>
                 </span>
+               
 
                 <CopyLinkButton url={`https://aktubrand.vercel.app/blog/${article.slug}`} />
             </div>

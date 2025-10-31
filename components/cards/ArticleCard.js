@@ -14,7 +14,7 @@ export default function ArticleCard({ article }) {
   return (
     <Link
       href={`/blog/${article.slug}`}
-      className="bg-[var(--card-background)] group w-full shadow-md rounded-2xl overflow-hidden hover:shadow-lg hover:border-[var(--accent)] border border-[var(--border)] transition-shadow duration-300 cursor-pointer h-[370px] flex flex-col"
+      className="bg-[var(--card-background)] group w-full shadow-md rounded-2xl overflow-hidden hover:shadow-lg hover:border-[var(--accent)] border border-[var(--border)] transition-shadow duration-300 cursor-pointer h-[300px] flex flex-col"
     >
       <div className="relative h-48 w-full overflow-hidden">
         {isCloudinary ? (
@@ -34,9 +34,12 @@ export default function ArticleCard({ article }) {
       </div>
 
       <div className="p-4 flex-1 flex flex-col justify-between">
-        <h2 className="text-xl h-14 font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-all ease-in-out duration-300">
-          {trimText(article.title)}
-        </h2>
+        <h2
+  className="text-xl line-clamp-2 h-14 font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-all ease-in-out duration-300"
+>
+  {article.title}
+</h2>
+
 
         <div className="mt-3 mb-2">
           {/* Optional tags or description */}

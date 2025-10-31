@@ -31,8 +31,8 @@ export default function ArticleAd() {
   }, []);
 
   return (
-    <div
-      className="w-full my-6 py-4 px-2 border border-gray-900 rounded-xl shadow-md text-center"
+    <aside
+      className="w-full my-6 border border-gray-900 rounded-xl shadow-md text-center" role="complementary" aria-label="Advertisement"
     >
       <p className="text-xs text-gray-400 italic mb-2">Sponsored content</p>
 
@@ -51,6 +51,6 @@ export default function ArticleAd() {
           Ad loading... (may be blocked)
         </p>
       )}
-    </div>
+    </aside>
   );
 }
